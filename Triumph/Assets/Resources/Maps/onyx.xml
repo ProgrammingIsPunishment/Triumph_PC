@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map name="onyx">
+	<components>
+		<component guid="log" displayname="log" stacklimit="20" componenttype="harvested">
+			<components>
+			</components>
+		</component>
+		<component guid="meat" displayname="meat" stacklimit="20" componenttype="harvested">
+			<components>
+			</components>
+		</component>
+		<component guid="forest" displayname="forest" stacklimit="10" componenttype="foliage">
+			<components>
+				<component componentguid="log" amount="2">
+			</components>
+		</component>
+		<component guid="deer" displayname="deer" stacklimit="10" componenttype="fauna">
+			<components>
+				<component componentguid="meat" amount="5">
+			</components>
+		</component>
+	</components>
+	<holdings>
+		<holding name="greenwood" xposition="0" zposition="0" terrain="grassland">
+			<components>
+				<component name="oak tree" amount="10"></component>
+			</components>
+		</holding>
+		<holding name="flatwood" xposition="0" zposition="1" terrain="grassland">
+			<components>
+			</components>
+			<!-- <unit name="abraham" unittype='nationalleader' statsid='triballeader' displayoptionId='triballeader'>
+				<nationalleader name='abraham'></nationalleader>
+			</unit> -->
+		</holding>
+		<holding name="rudolph" xposition="1" zposition="0" terrain="ocean">
+			<components>
+				<component name="ocean" amount="100"></component>
+			</components>
+		</holding>
+		<holding name="antigo" xposition="1" zposition="1" terrain="hills">
+			<components>
+			</components>
+		</holding>
+		<holding name="wausau" xposition="1" zposition="2" terrain="mountain">
+			<components>
+			</components>
+		</holding>
+		<holding name="crystal palace" xposition="0" zposition="2" terrain="mountain">
+			<components>
+			</components>
+		</holding>
+		<holding name="bryant" xposition="1" zposition="3" terrain="grassland">
+			<components>
+			</components>
+		</holding>
+		<holding name="wisconsin rapids" xposition="2" zposition="1" terrain="grassland">
+			<components>
+			</components>
+		</holding>
+		<holding name="lublin" xposition="2" zposition="0" terrain="grassland">
+			<components>
+			</components>
+		</holding>
+		<holding name="merrill" xposition="3" zposition="0" terrain="grassland">
+			<components>
+				<component name="wheat" amount="10"></component>
+			</components>
+		</holding>
+	</holdings>
+</map>
