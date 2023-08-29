@@ -10,24 +10,23 @@ public class PrefabController : MonoBehaviour
 {
     public void InstantiateHoldingPrefab(Holding holding)
     {
-        Debug.Log("HELLO");
         GameObject tempHolding = Instantiate(Resources.Load<GameObject>("Prefabs/Holding"), new Vector3((holding.XPosition * 10), 0f, (holding.ZPosition * 10)), Quaternion.identity);
         tempHolding.GetComponent<HoldingManager>().UpdateFromHolding(holding);
         tempHolding.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
-        //this.InstantiateTerrainPrefab(holding.HoldingManager);
 
         tempHolding.SetActive(true);
     }
 
-    //private void InstantiateTerrainPrefab(HoldingManager holdingManager)
-    //{
-    //    GameObject tempTerrain = Instantiate(Resources.Load<GameObject>($"Voxel Models/Terrain/{holdingManager.Holding.Terrain.DisplayOption.VoxelModelName}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-    //    tempTerrain.transform.SetParent(holdingManager.gameObject.transform);
-    //    tempTerrain.transform.localPosition = new Vector3(0f, 0f, 0f);
-    //    holdingManager.SetTerrainObject(tempTerrain);
+    public void InstantiateTerrainModel(Holding holding)
+    {
+        GameObject tempTerrain = Instantiate(Resources.Load<GameObject>($"Models/Terrain/{holding.TerrainType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempTerrain.transform.SetParent(holding.HoldingManager.gameObject.transform);
+        tempTerrain.transform.localPosition = new Vector3(0f, 0f, 0f);
+        Destroy(holding.HoldingManager.terrain);
+        holding.HoldingManager.terrain = tempTerrain;
 
-    //    tempTerrain.SetActive(true);
-    //}
+        tempTerrain.SetActive(true);
+    }
 
     //public void InstantiateHoldingResourcePrefab(GameObject parent, AssemblyComponent component)
     //{

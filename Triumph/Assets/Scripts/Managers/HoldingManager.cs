@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoldingManager : MonoBehaviour
 {
-    [SerializeField] private MeshFilter meshFilter;
+    [SerializeField] public GameObject terrain;
 
     public void UpdateFromHolding(Holding holding)
     {

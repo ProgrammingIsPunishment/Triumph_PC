@@ -17,6 +17,7 @@ public class InitializationController : MonoBehaviour
         foreach (Holding h in allHoldings)
         {
             Oberkommando.PREFAB_CONTROLLER.InstantiateHoldingPrefab(h);
+            Oberkommando.PREFAB_CONTROLLER.InstantiateTerrainModel(h);
         }
     }
 
