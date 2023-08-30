@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,11 +10,39 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class SaveController : MonoBehaviour
 {
-    public Save NewGame()
+    public Save NewGame(string mapName, List<Civilization> civilizations)
     {
-        string mapName = "onyx";
         Tuple<List<ResourceItem>, List<Holding>> mapData = this.LoadMapFile(mapName);
-        return new Save("New Game",mapName,mapData.Item2, mapData.Item1);
+        return new Save("New Game",mapName,mapData.Item2, mapData.Item1, civilizations);
+    }
+
+    public void Save(Save save)
+    {
+        using (Stream stream = File.Open(Application.persistentDataPath + "/" + save.FileName(), FileMode.Create))
+        {
+            var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            binaryFormatter.Serialize(stream, save);
+        }
+    }
+
+    public Save Load(string saveFileName)
+    {
+        string path = Application.persistentDataPath + "/" + saveFileName + ".save";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            Save save = formatter.Deserialize(stream) as Save;
+            stream.Close();
+
+            return save;
+        }
+        else
+        {
+            Debug.Log($"{saveFileName} not Found in {Application.persistentDataPath}");
+            return null;
+        }
     }
 
     private Tuple<List<ResourceItem>,List<Holding>> LoadMapFile(string mapName)

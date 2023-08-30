@@ -25,7 +25,7 @@ public class PrefabController : MonoBehaviour
         Destroy(holding.HoldingManager.terrain);
         holding.HoldingManager.terrain = tempTerrain;
 
-        tempTerrain.SetActive(true);
+        tempTerrain.SetActive(false);
     }
 
     //public void InstantiateHoldingResourcePrefab(GameObject parent, AssemblyComponent component)

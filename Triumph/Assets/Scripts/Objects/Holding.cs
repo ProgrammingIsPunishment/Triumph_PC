@@ -12,7 +12,8 @@ public class Holding
     public int ZPosition { get; set; }
     public TerrainType TerrainType { get; set; }
     public List<ResourceItem> ResourceItems { get; set; }
-    public HoldingManager HoldingManager { get; set; }
+
+    [NonSerialized] public HoldingManager HoldingManager;
 
     public Holding(string displayName, int xPosition, int ZPosition, TerrainType terrainType, List<ResourceItem> resourceItems)
     {
