@@ -28,23 +28,14 @@ public class PrefabController : MonoBehaviour
         tempTerrain.SetActive(false);
     }
 
-    //public void InstantiateHoldingResourcePrefab(GameObject parent, AssemblyComponent component)
-    //{
-    //    GameObject tempResourceObject = Instantiate(Resources.Load<GameObject>($"Voxel Models/Natural Resources/{component.AssemblyComponentBase.DisplayOption.PrefabName}"));
-    //    tempResourceObject.transform.SetParent(parent.transform);
-    //    Vector3 tempLocalPosition = tempResourceObject.transform.localPosition;
-    //    tempResourceObject.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+    public void InstantiateUnitModel(Holding holding)
+    {
+        GameObject tempUnit = Instantiate(Resources.Load<GameObject>($"Models/Units/{holding.Unit.UnitType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempUnit.transform.SetParent(holding.HoldingManager.gameObject.transform);
+        tempUnit.transform.localPosition = new Vector3(0f, 0f, 0f);
+        Destroy(holding.HoldingManager.unit);
+        holding.HoldingManager.unit = tempUnit;
 
-    //    tempResourceObject.SetActive(true);
-    //}
-
-    //public void InstantiateHoldingUnitVoxelModel(GameObject parent, Unit unit)
-    //{
-    //    GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>($"Voxel Models/Units/{unit.DisplayOption.PrefabName}"));
-    //    tempUnitObject.transform.SetParent(parent.transform);
-    //    tempUnitObject.transform.localPosition = new Vector3(0f, 0f, 0f);
-    //    parent.GetComponent<HoldingManager>().unitObject = tempUnitObject;
-
-    //    tempUnitObject.SetActive(true);
-    //}
+        tempUnit.SetActive(true);
+    }
 }

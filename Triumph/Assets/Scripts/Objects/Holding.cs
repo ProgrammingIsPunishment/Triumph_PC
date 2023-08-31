@@ -12,6 +12,7 @@ public class Holding
     public int ZPosition { get; set; }
     public TerrainType TerrainType { get; set; }
     public List<ResourceItem> ResourceItems { get; set; }
+    public Unit Unit { get; set; }
 
     [NonSerialized] public HoldingManager HoldingManager;
 

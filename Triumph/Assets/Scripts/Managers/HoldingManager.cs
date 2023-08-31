@@ -7,6 +7,7 @@ public class HoldingManager : MonoBehaviour
 {
     public GameObject terrain;
     public GameObject FogOfWar;
+    public GameObject unit;
 
     public void UpdateFromHolding(Holding holding)
     {

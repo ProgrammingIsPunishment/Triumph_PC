@@ -20,46 +20,49 @@
 			</resourceitemcomponents>
 		</resourceitem>
 	</resourceitems>
+	<influentialpeople>
+		<influentialperson guid="abraham" displayname="abraham"></influentialperson>
+	</influentialpeople>
 	<holdings>
-		<holding name="greenwood" xposition="0" zposition="0" terrain="Grassland">
+		<holding name="greenwood" xposition="0" zposition="0" terrain="Grassland" originspawn="true">
 			<resourceitems>
 				<resourceitem guid="forest" amount="10"></resourceitem>
 			</resourceitems>
 		</holding>
-		<holding name="flatwood" xposition="0" zposition="1" terrain="Grassland">
+		<holding name="flatwood" xposition="0" zposition="1" terrain="Grassland" originspawn="false">
 			<resourceitems>
 				<resourceitem guid="forest" amount="10"></resourceitem>
 			</resourceitems>
 		</holding>
-		<holding name="rudolph" xposition="1" zposition="0" terrain="Ocean">
+		<holding name="rudolph" xposition="1" zposition="0" terrain="Ocean" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="antigo" xposition="1" zposition="1" terrain="Hills">
+		<holding name="antigo" xposition="1" zposition="1" terrain="Hills" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="wausau" xposition="1" zposition="2" terrain="Mountain">
+		<holding name="wausau" xposition="1" zposition="2" terrain="Mountain" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="crystal palace" xposition="0" zposition="2" terrain="Mountain">
+		<holding name="crystal palace" xposition="0" zposition="2" terrain="Mountain" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="bryant" xposition="1" zposition="3" terrain="Grassland">
+		<holding name="bryant" xposition="1" zposition="3" terrain="Grassland" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="wisconsin rapids" xposition="2" zposition="1" terrain="Grassland">
+		<holding name="wisconsin rapids" xposition="2" zposition="1" terrain="Grassland" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="lublin" xposition="2" zposition="0" terrain="Grassland">
+		<holding name="lublin" xposition="2" zposition="0" terrain="Grassland" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding name="merrill" xposition="3" zposition="0" terrain="Grassland">
+		<holding name="merrill" xposition="3" zposition="0" terrain="Grassland" originspawn="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>

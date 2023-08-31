@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,16 @@ public class InitializationController : MonoBehaviour
         Oberkommando.SAVE_CONTROLLER = this.gameObject.GetComponent<SaveController>();
     }
 
-    private void GenerateHoldingModels(List<Holding> allHoldings)
+    private void InitializeHoldings(List<Holding> allHoldings)
     {
         foreach (Holding h in allHoldings)
         {
             Oberkommando.PREFAB_CONTROLLER.InstantiateHoldingPrefab(h);
             Oberkommando.PREFAB_CONTROLLER.InstantiateTerrainModel(h);
+            if (h.Unit != null)
+            {
+                Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
+            }
         }
     }
 
@@ -34,14 +39,29 @@ public class InitializationController : MonoBehaviour
         Save testingSave = null;
 
         ////NEW GAME
-        //List<Civilization> tempCivilizations = new List<Civilization>();
-        //tempCivilizations.Add(new Civilization("America",new List<string>()));
-        //testingSave = Oberkommando.SAVE_CONTROLLER.NewGame("onyx",tempCivilizations);
-        //Oberkommando.SAVE_CONTROLLER.Save(testingSave);
+        testingSave = Oberkommando.SAVE_CONTROLLER.NewGame("onyx");
+        List<Civilization> tempCivilizations = new List<Civilization>
+        {
+            new Civilization("America", new List<string>(), new List<string>(), new List<string>())
+        };
+        testingSave.AllCivilizations = tempCivilizations;
+        testingSave.AllCivilizations[0].DiscoveredHoldingGUIDs.Add(testingSave.AllHoldings.Find(h => h.DisplayName == "greenwood").GUID);
+        testingSave.AllCivilizations[0].InfluentialPeopleGUIDs.Add("abraham");
+        testingSave.AllCivilizations[0].LeaderGUIDs.Add("abraham");
+        List<Unit> tempUnits = new List<Unit>
+        {
+            new Unit(Guid.NewGuid().ToString().ToLower(),"Abraham",UnitType.Leader,"abraham",testingSave.AllHoldings.Find(h => h.DisplayName == "greenwood").GUID)
+        };
+        testingSave.AllUnits = tempUnits;
+        foreach (Unit u in testingSave.AllUnits)
+        {
+            testingSave.AllHoldings.Find(h=>h.GUID == u.HoldingGUID).Unit = u;
+        }
+        Oberkommando.SAVE_CONTROLLER.Save(testingSave);
+
 
         //LOADING SAVE GAME
-        testingSave = Oberkommando.SAVE_CONTROLLER.Load("New Game");
-        testingSave.AllCivilizations[0].DiscoveredHoldingGUIDs.Add("047ed24a-ba4e-47a1-9be2-d8fed3c41fb0");
+        //testingSave = Oberkommando.SAVE_CONTROLLER.Load("New Game");
 
         Oberkommando.SAVE = testingSave;
     }
@@ -51,7 +71,7 @@ public class InitializationController : MonoBehaviour
     {
         this.AssignControllers();
         this.ForTesting();
-        this.GenerateHoldingModels(Oberkommando.SAVE.AllHoldings);
+        this.InitializeHoldings(Oberkommando.SAVE.AllHoldings);
         this.ShowDiscoveredHoldings(Oberkommando.SAVE, Oberkommando.SAVE.AllCivilizations[0]);
     }
 }

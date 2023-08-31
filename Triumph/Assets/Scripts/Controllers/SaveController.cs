@@ -10,10 +10,10 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class SaveController : MonoBehaviour
 {
-    public Save NewGame(string mapName, List<Civilization> civilizations)
+    public Save NewGame(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>> mapData = this.LoadMapFile(mapName);
-        return new Save("New Game",mapName,mapData.Item2, mapData.Item1, civilizations);
+        Tuple<List<ResourceItem>, List<Holding>, List<InfluentialPerson>> mapData = this.LoadMapFile(mapName);
+        return new Save("New Game",mapName,mapData.Item2, mapData.Item1, mapData.Item3);
     }
 
     public void Save(Save save)
@@ -45,15 +45,17 @@ public class SaveController : MonoBehaviour
         }
     }
 
-    private Tuple<List<ResourceItem>,List<Holding>> LoadMapFile(string mapName)
+    private Tuple<List<ResourceItem>,List<Holding>, List<InfluentialPerson>> LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>> result = null;
+        Tuple<List<ResourceItem>, List<Holding>, List<InfluentialPerson>> result = null;
         XDocument doc = this.GetXMLFile("Maps/" + mapName);
 
         var allResourceItems = doc.Element("map").Elements("resourceitems").Elements("resourceitem");
+        var allInfluentialPeople = doc.Element("map").Elements("influentialpeople").Elements("influentialperson");
         var allHoldings = doc.Element("map").Elements("holdings").Elements("holding");
 
         List<ResourceItem> workingResourceItems = new List<ResourceItem>();
+        List<InfluentialPerson> workingInfluentialPeople = new List<InfluentialPerson>();
         List<Holding> workingHoldings = new List<Holding>();
 
         //Loop through all the resource items
@@ -76,6 +78,15 @@ public class SaveController : MonoBehaviour
             }
 
             workingResourceItems.Add(new ResourceItem(guid,displayName,resourceItemType,stackLimit,resourceItemComponents));
+        }
+
+        //Loop through all influential people
+        foreach (var ip in allInfluentialPeople)
+        {
+            string guid = (string)ip.Attribute("guid").Value.ToLower();
+            string displayName = (string)ip.Attribute("displayname").Value;
+
+            workingInfluentialPeople.Add(new InfluentialPerson(guid, displayName));
         }
 
         //Loop through all the holdings
@@ -107,7 +118,7 @@ public class SaveController : MonoBehaviour
             workingHoldings.Add(tempHolding);
         }
 
-        result = new Tuple<List<ResourceItem>, List<Holding>>(workingResourceItems,workingHoldings);
+        result = new Tuple<List<ResourceItem>, List<Holding>, List<InfluentialPerson>>(workingResourceItems,workingHoldings,workingInfluentialPeople);
 
         return result;
     }
