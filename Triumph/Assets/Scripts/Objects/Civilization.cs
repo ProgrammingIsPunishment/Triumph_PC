@@ -6,16 +6,16 @@ using UnityEngine;
 [Serializable]
 public class Civilization
 {
+    public string GUID { get; set; }
     public string Name { get; set; }
     public List<string> DiscoveredHoldingGUIDs { get; set; }
-    public List<string> InfluentialPeopleGUIDs { get; set; }
-    public List<string> LeaderGUIDs { get; set; }
+    public List<InfluentialPerson> InfluentialPeople { get; set; }
 
-    public Civilization(string name, List<string> discoveredHoldingGUIDs,List<string> influentialPeopleGUIDs, List<string> leaderGUIDs)
+    public Civilization(string guid, string name)
     {
+        this.GUID = guid;
         this.Name = name;
-        this.DiscoveredHoldingGUIDs = discoveredHoldingGUIDs;
-        this.InfluentialPeopleGUIDs = influentialPeopleGUIDs;
-        this.LeaderGUIDs = leaderGUIDs;
+        this.DiscoveredHoldingGUIDs = new List<string>();
+        this.InfluentialPeople = new List<InfluentialPerson>();
     }
 }
