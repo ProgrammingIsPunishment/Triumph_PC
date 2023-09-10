@@ -27,45 +27,45 @@
 		<civilization guid="america" displayname="america"></civilization>
 	</civilizations>
 	<holdings>
-		<holding guid="greenwood" name="greenwood" xposition="0" zposition="0" terrain="Grassland" originspawn="true">
+		<holding guid="greenwood" name="greenwood" xposition="0" zposition="0" terrain="Grassland" startinglocation="true">
 			<resourceitems>
 				<resourceitem guid="forest" amount="10"></resourceitem>
 			</resourceitems>
 		</holding>
-		<holding guid="flatwood" name="flatwood" xposition="0" zposition="1" terrain="Grassland" originspawn="false">
+		<holding guid="flatwood" name="flatwood" xposition="0" zposition="1" terrain="Grassland" startinglocation="false">
 			<resourceitems>
 				<resourceitem guid="forest" amount="10"></resourceitem>
 			</resourceitems>
 		</holding>
-		<holding guid="rudolph" name="rudolph" xposition="1" zposition="0" terrain="Ocean" originspawn="false">
+		<holding guid="rudolph" name="rudolph" xposition="1" zposition="0" terrain="Ocean" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="antigo" name="antigo" xposition="1" zposition="1" terrain="Hills" originspawn="false">
+		<holding guid="antigo" name="antigo" xposition="1" zposition="1" terrain="Hills" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="wausau" name="wausau" xposition="1" zposition="2" terrain="Mountain" originspawn="false">
+		<holding guid="wausau" name="wausau" xposition="1" zposition="2" terrain="Mountain" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="crystalpalace" name="crystal palace" xposition="0" zposition="2" terrain="Mountain" originspawn="false">
+		<holding guid="crystalpalace" name="crystal palace" xposition="0" zposition="2" terrain="Mountain" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="bryant" name="bryant" xposition="1" zposition="3" terrain="Grassland" originspawn="false">
+		<holding guid="bryant" name="bryant" xposition="1" zposition="3" terrain="Grassland" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="wisconsinrapids" name="wisconsin rapids" xposition="2" zposition="1" terrain="Grassland" originspawn="false">
+		<holding guid="wisconsinrapids" name="wisconsin rapids" xposition="2" zposition="1" terrain="Grassland" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="lublin" name="lublin" xposition="2" zposition="0" terrain="Grassland" originspawn="false">
+		<holding guid="lublin" name="lublin" xposition="2" zposition="0" terrain="Grassland" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>
-		<holding guid="merrill" name="merrill" xposition="3" zposition="0" terrain="Grassland" originspawn="false">
+		<holding guid="merrill" name="merrill" xposition="3" zposition="0" terrain="Grassland" startinglocation="false">
 			<resourceitems>
 			</resourceitems>
 		</holding>

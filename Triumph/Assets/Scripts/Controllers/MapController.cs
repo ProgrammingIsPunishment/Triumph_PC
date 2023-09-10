@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class MapController
 {
+    private List<Holding> startingLocations = new List<Holding>();
     public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> LoadMapFile(string mapName)
     {
         Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> result = null;
@@ -24,25 +25,27 @@ public class MapController
         List<InfluentialPerson> tempInfluentialPeople = new List<InfluentialPerson>();
 
         //Loop through all the resource items
-        workingResourceItems.AddRange(this.ConvertResourceItems(allResourceItemElements));
+        workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
 
         //Loop through all influential people
-        tempInfluentialPeople.AddRange(this.ConvertInfluentialPeople(allInfluentialPeopleElements));
+        tempInfluentialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
         //Loop through all the holdings
-        workingHoldings.AddRange(this.ConvertHoldings(allHoldingsElements,workingResourceItems));
+        workingHoldings.AddRange(this.ConvertToHoldings(allHoldingsElements,workingResourceItems));
 
         //Loop through all the civilizations
-        workingCivilizations.AddRange(this.ConvertCivilizations(allCivilizationsElements));
+        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements));
 
-        this.AssignLeaders(ref workingCivilizations, ref tempInfluentialPeople);
+        this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
+
+        this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings);
 
         result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>>(workingResourceItems, workingHoldings, workingCivilizations);
 
         return result;
     }
 
-    private List<ResourceItem> ConvertResourceItems(IEnumerable<XElement> resourceItemElements)
+    private List<ResourceItem> ConvertToResourceItems(IEnumerable<XElement> resourceItemElements)
     {
         List<ResourceItem> result = new List<ResourceItem>();
 
@@ -70,7 +73,7 @@ public class MapController
         return result;
     }
 
-    private List<InfluentialPerson> ConvertInfluentialPeople(IEnumerable<XElement> influentialPeopleElements)
+    private List<InfluentialPerson> ConvertToInfluentialPeople(IEnumerable<XElement> influentialPeopleElements)
     {
         List<InfluentialPerson> result = new List<InfluentialPerson>();
 
@@ -86,7 +89,7 @@ public class MapController
         return result;
     }
 
-    private List<Holding> ConvertHoldings(IEnumerable<XElement> holdingElements, List<ResourceItem> allResourceItems)
+    private List<Holding> ConvertToHoldings(IEnumerable<XElement> holdingElements, List<ResourceItem> allResourceItems)
     {
         List<Holding> result = new List<Holding>();
 
@@ -117,12 +120,15 @@ public class MapController
             Holding tempHolding = new Holding(name, xPosition, zPosition, terrainType, resourceItems);
             tempHolding.GUID = guid;
             result.Add(tempHolding);
+
+            bool isStartingLocation = bool.Parse(h.Attribute("startinglocation").Value);
+            if (isStartingLocation) { this.startingLocations.Add(tempHolding); }
         }
 
         return result;
     }
 
-    private List<Civilization> ConvertCivilizations(IEnumerable<XElement> civilizationElements)
+    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements)
     {
         List<Civilization> result = new List<Civilization>();
 
@@ -138,7 +144,7 @@ public class MapController
         return result;
     }
 
-    private void AssignLeaders(ref List<Civilization> civilizations, ref List<InfluentialPerson> influentialPeople)
+    private void AssignLeadersToCivilizations(ref List<Civilization> civilizations, ref List<InfluentialPerson> influentialPeople)
     {
         foreach (Civilization c in civilizations)
         {
@@ -148,6 +154,29 @@ public class MapController
             influentialPeople.RemoveAt(0);
             c.InfluentialPeople.Add(influentialPerson);
         }
+    }
+
+    private void GenerateLeaderUnits(ref List<Civilization> civilizations, ref List<Holding> holdings)
+    {
+        foreach (Civilization c in civilizations)
+        {
+            foreach (InfluentialPerson ip in c.InfluentialPeople)
+            {
+                if (ip.IsLeader)
+                {
+                    Unit unit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip);
+                    this.AssignRandomStartingLocation(unit, c);
+                }
+            }
+        }
+    }
+
+    private void AssignRandomStartingLocation(Unit unit, ref Civilization civlization)
+    {
+        Holding tempHolding = this.startingLocations[0];
+        tempHolding.Unit = unit;
+        civlization.DiscoveredHoldingGUIDs.Add(tempHolding.GUID);
+        this.startingLocations.RemoveAt(0);
     }
 
     private XDocument GetXMLFile(string filePath)

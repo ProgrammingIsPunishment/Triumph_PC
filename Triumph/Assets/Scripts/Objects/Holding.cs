@@ -23,5 +23,6 @@ public class Holding
         this.ZPosition = ZPosition;
         this.TerrainType = terrainType;
         this.ResourceItems = resourceItems;
+        this.Unit = null;
     }
 }
