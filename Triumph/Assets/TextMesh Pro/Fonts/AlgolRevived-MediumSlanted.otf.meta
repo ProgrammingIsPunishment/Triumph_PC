@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: b65502a8a1939e84a80eb4d57ef32b75
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - AlgolRevived
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6148ad1687024fb4786d640900d1b36d, type: 3}
+  - {fileID: 12800000, guid: 43b5a8ec233e8a44496e537e85a2f105, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

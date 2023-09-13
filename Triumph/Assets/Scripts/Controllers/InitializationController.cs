@@ -10,7 +10,6 @@ public class InitializationController : MonoBehaviour
         Oberkommando.INITIALIZATION_CONTROLLER = this.gameObject.GetComponent<InitializationController>();
         Oberkommando.PREFAB_CONTROLLER = this.gameObject.GetComponent<PrefabController>();
         Oberkommando.GAME_CONTROLLER = this.gameObject.GetComponent<GameController>();
-        Oberkommando.SAVE_CONTROLLER = this.gameObject.GetComponent<SaveController>();
     }
 
     private void InitializeHoldings(List<Holding> allHoldings)

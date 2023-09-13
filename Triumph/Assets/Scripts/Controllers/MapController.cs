@@ -8,6 +8,7 @@ using UnityEngine;
 public class MapController
 {
     private List<Holding> startingLocations = new List<Holding>();
+
     public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> LoadMapFile(string mapName)
     {
         Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> result = null;
@@ -171,7 +172,7 @@ public class MapController
         }
     }
 
-    private void AssignRandomStartingLocation(Unit unit, ref Civilization civlization)
+    private void AssignRandomStartingLocation(Unit unit, Civilization civlization)
     {
         Holding tempHolding = this.startingLocations[0];
         tempHolding.Unit = unit;
