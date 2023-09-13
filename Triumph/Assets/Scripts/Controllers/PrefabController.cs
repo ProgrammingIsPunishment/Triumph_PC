@@ -38,4 +38,26 @@ public class PrefabController : MonoBehaviour
 
         tempUnit.SetActive(true);
     }
+
+    public Sprite GetTerrainLandscapeSpriteByTerrainType(TerrainType terrainType)
+    {
+        Sprite result = null;
+
+        switch (terrainType)
+        {
+            case TerrainType.Grassland:
+                Resources.Load<Sprite>($"Sprites/Units");
+                break;
+            case TerrainType.Mountain:
+                break;
+            case TerrainType.Hills:
+                break;
+            case TerrainType.Ocean:
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
 }
