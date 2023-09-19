@@ -14,11 +14,11 @@ public class HoldingDetailsManager : MonoBehaviour
 
     public void UpdateDisplay(Holding holding)
     {
-        this.holdingNameInput.textComponent.text = holding.DisplayName;
+        this.holdingNameInput.text = holding.DisplayName;
 
         if (holding.Unit != null)
         {
-            this.unitNameInput.textComponent.text = holding.Unit.DisplayName;
+            this.unitNameInput.text = holding.Unit.DisplayName;
             this.unitContainer.SetActive(true);
         }
         else

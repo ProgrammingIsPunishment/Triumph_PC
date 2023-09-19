@@ -24,7 +24,7 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        Oberkommando.UI_CONTROLLER.holdingdetailsManager.UpdateDisplay(this.holding);
-        Oberkommando.UI_CONTROLLER.holdingdetailsManager.Show();
+        Oberkommando.UI_CONTROLLER.UpdateDisplay(UIType.HoldingDetails, this.holding);
+        Oberkommando.UI_CONTROLLER.Show(UIType.HoldingDetails);
     }
 }

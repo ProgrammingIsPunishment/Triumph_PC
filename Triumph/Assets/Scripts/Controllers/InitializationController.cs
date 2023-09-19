@@ -70,7 +70,7 @@ public class InitializationController : MonoBehaviour
     void Start()
     {
         this.AssignControllers();
-        Oberkommando.UI_CONTROLLER.holdingdetailsManager.Hide();
+        Oberkommando.UI_CONTROLLER.HideAll();
         //this.ForTesting();
         this.InitializeHoldings(Oberkommando.SAVE.AllHoldings);
         this.ShowDiscoveredHoldings(Oberkommando.SAVE, Oberkommando.SAVE.AllCivilizations[0]);

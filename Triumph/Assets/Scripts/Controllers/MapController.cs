@@ -98,7 +98,7 @@ public class MapController
         foreach (var h in holdingElements)
         {
             string guid = (string)h.Attribute("guid").Value.ToLower();
-            string name = (string)h.Attribute("name").Value;
+            string name = (string)h.Attribute("displayname").Value;
             int xPosition = int.Parse(h.Attribute("xposition").Value);
             int zPosition = int.Parse(h.Attribute("zposition").Value);
             TerrainType terrainType = Enum.Parse<TerrainType>(h.Attribute("terrain").Value);
