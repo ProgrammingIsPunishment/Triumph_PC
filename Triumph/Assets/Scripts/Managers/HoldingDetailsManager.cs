@@ -26,20 +26,7 @@ public class HoldingDetailsManager : MonoBehaviour
             this.unitContainer.SetActive(false);
         }
 
-        switch (holding.TerrainType)
-        {
-            case TerrainType.Grassland:
-                this.terrainLandscape.sprite = 
-                break;
-            case TerrainType.Mountain:
-                break;
-            case TerrainType.Hills:
-                break;
-            case TerrainType.Ocean:
-                break;
-            default:
-                break;
-        }
+        this.terrainLandscape.sprite = Resources.Load<Sprite>($"Sprites/Terrain Landscapes/{holding.TerrainType}TerrainLandscape");
     }
 
     public void Show()

@@ -11,6 +11,7 @@ public static class Oberkommando
     public static InitializationController INITIALIZATION_CONTROLLER;
     public static PrefabController PREFAB_CONTROLLER;
     public static GameController GAME_CONTROLLER;
+    public static UIController UI_CONTROLLER;
 
     public static Save SAVE;
 }

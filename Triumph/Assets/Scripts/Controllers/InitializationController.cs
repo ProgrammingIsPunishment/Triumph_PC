@@ -10,6 +10,7 @@ public class InitializationController : MonoBehaviour
         Oberkommando.INITIALIZATION_CONTROLLER = this.gameObject.GetComponent<InitializationController>();
         Oberkommando.PREFAB_CONTROLLER = this.gameObject.GetComponent<PrefabController>();
         Oberkommando.GAME_CONTROLLER = this.gameObject.GetComponent<GameController>();
+        Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
     }
 
     private void InitializeHoldings(List<Holding> allHoldings)
@@ -69,6 +70,7 @@ public class InitializationController : MonoBehaviour
     void Start()
     {
         this.AssignControllers();
+        Oberkommando.UI_CONTROLLER.holdingdetailsManager.Hide();
         //this.ForTesting();
         this.InitializeHoldings(Oberkommando.SAVE.AllHoldings);
         this.ShowDiscoveredHoldings(Oberkommando.SAVE, Oberkommando.SAVE.AllCivilizations[0]);
