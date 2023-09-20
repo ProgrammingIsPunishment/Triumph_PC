@@ -7,6 +7,7 @@ public static class Oberkommando
     public static SaveController SAVE_CONTROLLER = new SaveController();
     public static MainMenuController MAINMENU_CONTROLLER = new MainMenuController();
     public static MapController MAP_CONTROLLER = new MapController();
+    public static TurnController TURN_CONTROLLER = new TurnController();
 
     public static InitializationController INITIALIZATION_CONTROLLER;
     public static PrefabController PREFAB_CONTROLLER;

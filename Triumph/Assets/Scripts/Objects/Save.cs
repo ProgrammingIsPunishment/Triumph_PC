@@ -8,10 +8,10 @@ public class Save
 {
     public string Name { get; set; }
     public string MapName { get; set; }
+    public int Turn { get; set; }
     public List<Holding> AllHoldings { get; set; }
     public List<ResourceItem> AllResourceItems { get; set; }
     public List<Civilization> AllCivilizations { get; set; }
-    public List<Unit> AllUnits { get; set; }
 
     public Save(string name)
     {

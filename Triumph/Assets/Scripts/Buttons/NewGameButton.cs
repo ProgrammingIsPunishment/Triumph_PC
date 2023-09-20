@@ -13,6 +13,7 @@ public class NewGameButton : MonoBehaviour
     private void ForTesting()
     {
         Save result = new Save("New Game");
+        result.Turn = 1;
         result.MapName = "onyx";
         Oberkommando.SAVE = Oberkommando.SAVE_CONTROLLER.NewGame(result);
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
