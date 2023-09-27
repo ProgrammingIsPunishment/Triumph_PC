@@ -13,6 +13,8 @@ public class Holding
     public TerrainType TerrainType { get; set; }
     public List<ResourceItem> ResourceItems { get; set; }
     public Unit Unit { get; set; }
+    public List<string> DiscoveredCivilizationGUIDs { get; set; }
+    public List<string> AdjacentHoldingGUIDs { get; set; }
 
     [NonSerialized] public HoldingManager HoldingManager;
 
@@ -24,5 +26,7 @@ public class Holding
         this.TerrainType = terrainType;
         this.ResourceItems = resourceItems;
         this.Unit = null;
+        this.DiscoveredCivilizationGUIDs = new List<string>();
+        this.AdjacentHoldingGUIDs = new List<string>();
     }
 }

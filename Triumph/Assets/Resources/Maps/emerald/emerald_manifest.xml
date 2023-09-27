@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map name="emerald">
+	<spawns>
+		<spawn hexcode="FF0000" group="all"></spawn>
+	</spawns>
 	<heats>
 		<heat amount="5" hexcode="FFFF00"></heat>
 		<heat amount="10" hexcode="FFB400"></heat>
@@ -24,7 +27,7 @@
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>
 		</resourceitem>
-		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" hexcode="783C14">
+		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" hexcode="F77C2A">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="meat" amount="5"></resourceitemcomponent>
 			</resourceitemcomponents>
@@ -37,15 +40,105 @@
 		<civilization guid="america" displayname="America"></civilization>
 	</civilizations>
 	<holdings>
-		<holding guid="greenwood" displayname="Greenwood" xposition="0" zposition="0" terrain="Grassland"></holding>
-		<holding guid="flatwood" displayname="Flatwoods" xposition="0" zposition="1" terrain="Grassland"></holding>
-		<holding guid="rudolph" displayname="Rudolph" xposition="1" zposition="0" terrain="Ocean"></holding>
-		<holding guid="antigo" displayname="Antigo" xposition="1" zposition="1" terrain="Hills"></holding>
-		<holding guid="wausau" displayname="Wausau" xposition="1" zposition="2" terrain="Mountain"></holding>
-		<holding guid="crystalpalace" displayname="Crystal Palace" xposition="0" zposition="2" terrain="Mountain"></holding>
-		<holding guid="bryant" displayname="Bryant" xposition="1" zposition="3" terrain="Grassland"></holding>
-		<holding guid="wisconsinrapids" displayname="Wisconsin Rapids" xposition="2" zposition="1" terrain="Grassland"></holding>
-		<holding guid="lublin" displayname="Lublin" xposition="2" zposition="0" terrain="Grassland"></holding>
-		<holding guid="merrill" displayname="Merrill" xposition="3" zposition="0" terrain="Grassland"></holding>
+		<holding guid="paris" displayname="Paris" xposition="0" zposition="0"></holding>
+		<holding guid="london" displayname="London" xposition="0" zposition="1"></holding>
+		<holding guid="tokyo" displayname="Tokyo" xposition="0" zposition="2"></holding>
+		<holding guid="sydney" displayname="Sydney" xposition="0" zposition="3"></holding>
+		<holding guid="newyork" displayname="NewYork" xposition="0" zposition="4"></holding>
+		<holding guid="chicago" displayname="Chicago" xposition="0" zposition="5"></holding>
+		<holding guid="losangeles" displayname="LosAngeles" xposition="0" zposition="6"></holding>
+		<holding guid="mumbai" displayname="Mumbai" xposition="0" zposition="7"></holding>
+		<holding guid="beijing" displayname="Beijing" xposition="0" zposition="8"></holding>
+		<holding guid="moscow" displayname="Moscow" xposition="0" zposition="9"></holding>
+		<holding guid="athens" displayname="Athens" xposition="1" zposition="0"></holding>
+		<holding guid="berlin" displayname="Berlin" xposition="1" zposition="1"></holding>
+		<holding guid="cairo" displayname="Cairo" xposition="1" zposition="2"></holding>
+		<holding guid="dubai" displayname="Dubai" xposition="1" zposition="3"></holding>
+		<holding guid="istanbul" displayname="Istanbul" xposition="1" zposition="4"></holding>
+		<holding guid="jakarta" displayname="Jakarta" xposition="1" zposition="5"></holding>
+		<holding guid="kolkata" displayname="Kolkata" xposition="1" zposition="6"></holding>
+		<holding guid="madrid" displayname="Madrid" xposition="1" zposition="7"></holding>
+		<holding guid="nairobi" displayname="Nairobi" xposition="1" zposition="8"></holding>
+		<holding guid="oslo" displayname="Oslo" xposition="1" zposition="9"></holding>
+		<holding guid="paris1" displayname="Paris1" xposition="2" zposition="0"></holding>
+		<holding guid="london1" displayname="London1" xposition="2" zposition="1"></holding>
+		<holding guid="tokyo1" displayname="Tokyo1" xposition="2" zposition="2"></holding>
+		<holding guid="sydney1" displayname="Sydney1" xposition="2" zposition="3"></holding>
+		<holding guid="newyork1" displayname="NewYork1" xposition="2" zposition="4"></holding>
+		<holding guid="chicago1" displayname="Chicago1" xposition="2" zposition="5"></holding>
+		<holding guid="losangeles1" displayname="LosAngeles1" xposition="2" zposition="6"></holding>
+		<holding guid="mumbai1" displayname="Mumbai1" xposition="2" zposition="7"></holding>
+		<holding guid="beijing1" displayname="Beijing1" xposition="2" zposition="8"></holding>
+		<holding guid="moscow1" displayname="Moscow1" xposition="2" zposition="9"></holding>
+		<holding guid="athens1" displayname="Athens1" xposition="3" zposition="0"></holding>
+		<holding guid="berlin1" displayname="Berlin1" xposition="3" zposition="1"></holding>
+		<holding guid="cairo1" displayname="Cairo1" xposition="3" zposition="2"></holding>
+		<holding guid="dubai1" displayname="Dubai1" xposition="3" zposition="3"></holding>
+		<holding guid="istanbul1" displayname="Istanbul1" xposition="3" zposition="4"></holding>
+		<holding guid="jakarta1" displayname="Jakarta1" xposition="3" zposition="5"></holding>
+		<holding guid="kolkata1" displayname="Kolkata1" xposition="3" zposition="6"></holding>
+		<holding guid="madrid1" displayname="Madrid1" xposition="3" zposition="7"></holding>
+		<holding guid="nairobi1" displayname="Nairobi1" xposition="3" zposition="8"></holding>
+		<holding guid="oslo1" displayname="Oslo1" xposition="3" zposition="9"></holding>
+		<holding guid="paris2" displayname="Paris2" xposition="4" zposition="0"></holding>
+		<holding guid="london2" displayname="London2" xposition="4" zposition="1"></holding>
+		<holding guid="tokyo2" displayname="Tokyo2" xposition="4" zposition="2"></holding>
+		<holding guid="sydney2" displayname="Sydney2" xposition="4" zposition="3"></holding>
+		<holding guid="newyork2" displayname="NewYork2" xposition="4" zposition="4"></holding>
+		<holding guid="chicago2" displayname="Chicago2" xposition="4" zposition="5"></holding>
+		<holding guid="losangeles2" displayname="LosAngeles2" xposition="4" zposition="6"></holding>
+		<holding guid="mumbai2" displayname="Mumbai2" xposition="4" zposition="7"></holding>
+		<holding guid="beijing2" displayname="Beijing2" xposition="4" zposition="8"></holding>
+		<holding guid="moscow2" displayname="Moscow2" xposition="4" zposition="9"></holding>
+		<holding guid="athens2" displayname="Athens2" xposition="5" zposition="0"></holding>
+		<holding guid="berlin2" displayname="Berlin2" xposition="5" zposition="1"></holding>
+		<holding guid="cairo2" displayname="Cairo2" xposition="5" zposition="2"></holding>
+		<holding guid="dubai2" displayname="Dubai2" xposition="5" zposition="3"></holding>
+		<holding guid="istanbul2" displayname="Istanbul2" xposition="5" zposition="4"></holding>
+		<holding guid="jakarta2" displayname="Jakarta2" xposition="5" zposition="5"></holding>
+		<holding guid="kolkata2" displayname="Kolkata2" xposition="5" zposition="6"></holding>
+		<holding guid="madrid2" displayname="Madrid2" xposition="5" zposition="7"></holding>
+		<holding guid="nairobi2" displayname="Nairobi2" xposition="5" zposition="8"></holding>
+		<holding guid="oslo2" displayname="Oslo2" xposition="5" zposition="9"></holding>
+		<holding guid="paris3" displayname="Paris3" xposition="6" zposition="0"></holding>
+		<holding guid="london3" displayname="London3" xposition="6" zposition="1"></holding>
+		<holding guid="tokyo3" displayname="Tokyo3" xposition="6" zposition="2"></holding>
+		<holding guid="sydney3" displayname="Sydney3" xposition="6" zposition="3"></holding>
+		<holding guid="newyork3" displayname="NewYork3" xposition="6" zposition="4"></holding>
+		<holding guid="chicago3" displayname="Chicago3" xposition="6" zposition="5"></holding>
+		<holding guid="losangeles3" displayname="LosAngeles3" xposition="6" zposition="6"></holding>
+		<holding guid="mumbai3" displayname="Mumbai3" xposition="6" zposition="7"></holding>
+		<holding guid="beijing3" displayname="Beijing3" xposition="6" zposition="8"></holding>
+		<holding guid="moscow3" displayname="Moscow3" xposition="6" zposition="9"></holding>
+		<holding guid="athens3" displayname="Athens3" xposition="7" zposition="0"></holding>
+		<holding guid="berlin3" displayname="Berlin3" xposition="7" zposition="1"></holding>
+		<holding guid="cairo3" displayname="Cairo3" xposition="7" zposition="2"></holding>
+		<holding guid="dubai3" displayname="Dubai3" xposition="7" zposition="3"></holding>
+		<holding guid="istanbul3" displayname="Istanbul3" xposition="7" zposition="4"></holding>
+		<holding guid="jakarta3" displayname="Jakarta3" xposition="7" zposition="5"></holding>
+		<holding guid="kolkata3" displayname="Kolkata3" xposition="7" zposition="6"></holding>
+		<holding guid="madrid3" displayname="Madrid3" xposition="7" zposition="7"></holding>
+		<holding guid="nairobi3" displayname="Nairobi3" xposition="7" zposition="8"></holding>
+		<holding guid="oslo3" displayname="Oslo3" xposition="7" zposition="9"></holding>
+		<holding guid="paris4" displayname="Paris4" xposition="8" zposition="0"></holding>
+		<holding guid="london4" displayname="London4" xposition="8" zposition="1"></holding>
+		<holding guid="tokyo4" displayname="Tokyo4" xposition="8" zposition="2"></holding>
+		<holding guid="sydney4" displayname="Sydney4" xposition="8" zposition="3"></holding>
+		<holding guid="newyork4" displayname="NewYork4" xposition="8" zposition="4"></holding>
+		<holding guid="chicago4" displayname="Chicago4" xposition="8" zposition="5"></holding>
+		<holding guid="losangeles4" displayname="LosAngeles4" xposition="8" zposition="6"></holding>
+		<holding guid="mumbai4" displayname="Mumbai4" xposition="8" zposition="7"></holding>
+		<holding guid="beijing4" displayname="Beijing4" xposition="8" zposition="8"></holding>
+		<holding guid="moscow4" displayname="Moscow4" xposition="8" zposition="9"></holding>
+		<holding guid="athens4" displayname="Athens4" xposition="9" zposition="0"></holding>
+		<holding guid="berlin4" displayname="Berlin4" xposition="9" zposition="1"></holding>
+		<holding guid="cairo4" displayname="Cairo4" xposition="9" zposition="2"></holding>
+		<holding guid="dubai4" displayname="Dubai4" xposition="9" zposition="3"></holding>
+		<holding guid="istanbul4" displayname="Istanbul4" xposition="9" zposition="4"></holding>
+		<holding guid="jakarta4" displayname="Jakarta4" xposition="9" zposition="5"></holding>
+		<holding guid="kolkata4" displayname="Kolkata4" xposition="9" zposition="6"></holding>
+		<holding guid="madrid4" displayname="Madrid4" xposition="9" zposition="7"></holding>
+		<holding guid="nairobi4" displayname="Nairobi4" xposition="9" zposition="8"></holding>
+		<holding guid="oslo4" displayname="Oslo4" xposition="9" zposition="9"></holding>
 	</holdings>
 </map>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,16 +9,19 @@ using UnityEngine.UI;
 
 public class MapController
 {
-    private List<Holding> startingLocations = new List<Holding>();
+    private List<Holding> spawnHoldings = new List<Holding>();
     private Dictionary<string, TerrainType> terrainDictionary = new Dictionary<string, TerrainType>();
     private Dictionary<string, int> heatDictionary = new Dictionary<string, int>();
     private Dictionary<string, string> resourceDictionary = new Dictionary<string, string>();
+    private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
+    private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
     public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> LoadMapFile(string mapName)
     {
         Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> result = null;
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
+        var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
         var allHeatDefinitionElements = doc.Element("map").Elements("heats").Elements("heat");
         var allTerrainDefinitionElements = doc.Element("map").Elements("terrains").Elements("terrain");
 
@@ -35,8 +39,8 @@ public class MapController
         //Generate independent definition dictionaries
         this.heatDictionary = this.ConvertToHeatDictionary(allHeatDefinitionElements);
         this.terrainDictionary = this.ConvertToTerrainDictionary(allTerrainDefinitionElements);
-
-        //this.ReadMapTextures(terrainTexture);
+        this.holdingDictionary = this.ConvertToHoldingDictionary(allHoldingsElements);
+        this.spawnDictionary = this.ConvertToSpawnDictionary(allSpawnDefinitionElements);
 
         //Loop through all the resource items
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
@@ -45,7 +49,7 @@ public class MapController
         tempInfluentialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
         //Loop through all the holdings
-        workingHoldings.AddRange(this.ConvertToHoldings(allHoldingsElements,workingResourceItems));
+        workingHoldings.AddRange(this.ReadMapTextures(mapName, workingResourceItems));
 
         //Loop through all the civilizations
         workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements));
@@ -53,6 +57,7 @@ public class MapController
         this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
 
         this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings);
+        this.AssignAdjacentHoldings(workingHoldings);
 
         result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>>(workingResourceItems, workingHoldings, workingCivilizations);
 
@@ -75,6 +80,24 @@ public class MapController
         return result;
     }
 
+    private Dictionary<Tuple<int, int>, Tuple<string, string>> ConvertToHoldingDictionary(IEnumerable<XElement> holdingDefinitionElements)
+    {
+        Dictionary<Tuple<int, int>, Tuple<string, string>> result = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
+
+        //Loop through all the terrains
+        foreach (var hd in holdingDefinitionElements)
+        {
+            string guid = (string)hd.Attribute("guid").Value.ToLower();
+            string name = (string)hd.Attribute("displayname").Value;
+            int xPosition = int.Parse(hd.Attribute("xposition").Value);
+            int zPosition = int.Parse(hd.Attribute("zposition").Value);
+
+            result.Add(new Tuple<int,int>(xPosition,zPosition), new Tuple<string, string>(guid, name));
+        }
+
+        return result;
+    }
+
     private Dictionary<string, int> ConvertToHeatDictionary(IEnumerable<XElement> heatDefinitionElements)
     {
         Dictionary<string, int> result = new Dictionary<string, int>();
@@ -91,13 +114,30 @@ public class MapController
         return result;
     }
 
-    private void ReadMapTextures(string mapName, List<ResourceItem> allResourceItems)
+    private Dictionary<string, string> ConvertToSpawnDictionary(IEnumerable<XElement> spawnDefinitionElements)
+    {
+        Dictionary<string, string> result = new Dictionary<string, string>();
+
+        //Loop through all the terrains
+        foreach (var sd in spawnDefinitionElements)
+        {
+            string colorHexCode = (string)sd.Attribute("hexcode").Value;
+            string group = (string)sd.Attribute("group").Value;
+
+            result.Add(colorHexCode, group);
+        }
+
+        return result;
+    }
+
+    private List<Holding> ReadMapTextures(string mapName, List<ResourceItem> allResourceItems)
     {
         Texture2D terrainTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_terrain");
         Texture2D resources1Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1");
         Texture2D resources1HeatTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1_heat");
+        Texture2D spawnsTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_spawns");
 
-        List<Holding> holdings = new List<Holding>();
+        List<Holding> result = new List<Holding>();
         int width = terrainTexture.width;
         int height = terrainTexture.height;;
 
@@ -110,21 +150,39 @@ public class MapController
                 string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
                 string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
                 string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
+                string spawnColorHex = ColorUtility.ToHtmlStringRGB(spawnsTexture.GetPixel(x, z));
 
+                bool foundHolding = this.holdingDictionary.TryGetValue(new Tuple<int,int>(x,z), out Tuple<string,string> guidAndDisplayName);
                 bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
-                bool foundResource = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resourceGUID);
-                bool foundHeat = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount);
+                bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
+                bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
+                bool foundSpawn = this.spawnDictionary.TryGetValue(spawnColorHex, out string spawnGroup);
 
-                if (foundResource)
+                if (foundResource1)
                 {
-                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceGUID.ToLower()).CreateInstance();
+                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == resource1GUID.ToLower()).CreateInstance();
+
+                    if (foundHeat1)
+                    {
+                        tempResourceItem.AddToStack(amount1);
+                    }
+
                     resourceItems.Add(tempResourceItem);
                 }
 
-                Holding tempHolding = new Holding($"{x}{z}",x,z,terrainType, resourceItems);
-                holdings.Add(tempHolding);
+                Holding tempHolding = new Holding(guidAndDisplayName.Item2,x,z,terrainType, resourceItems);
+                tempHolding.GUID = guidAndDisplayName.Item1;
+
+                if (foundSpawn)
+                {
+                    this.spawnHoldings.Add(tempHolding);
+                }
+
+                result.Add(tempHolding);
             }
         }
+
+        return result;
     }
 
     private List<ResourceItem> ConvertToResourceItems(IEnumerable<XElement> resourceItemElements)
@@ -169,45 +227,6 @@ public class MapController
             string displayName = (string)ip.Attribute("displayname").Value;
 
             result.Add(new InfluentialPerson(guid, displayName));
-        }
-
-        return result;
-    }
-
-    private List<Holding> ConvertToHoldings(IEnumerable<XElement> holdingElements, List<ResourceItem> allResourceItems)
-    {
-        List<Holding> result = new List<Holding>();
-
-        //Loop through all the holdings
-        foreach (var h in holdingElements)
-        {
-            string guid = (string)h.Attribute("guid").Value.ToLower();
-            string name = (string)h.Attribute("displayname").Value;
-            int xPosition = int.Parse(h.Attribute("xposition").Value);
-            int zPosition = int.Parse(h.Attribute("zposition").Value);
-            TerrainType terrainType = Enum.Parse<TerrainType>(h.Attribute("terrain").Value);
-            List<ResourceItem> resourceItems = new List<ResourceItem>();
-
-            var tempResourceItems = h.Elements("resourceitems").Elements("resourceitem");
-
-            //Load Components
-            foreach (var ri in tempResourceItems)
-            {
-                string riGuid = (string)ri.Attribute("guid").Value;
-                int amount = int.Parse(ri.Attribute("amount").Value);
-
-                ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == riGuid.ToLower()).CreateInstance();
-                tempResourceItem.AddToStack(amount);
-
-                resourceItems.Add(tempResourceItem);
-            }
-
-            Holding tempHolding = new Holding(name, xPosition, zPosition, terrainType, resourceItems);
-            tempHolding.GUID = guid;
-            result.Add(tempHolding);
-
-            bool isStartingLocation = bool.Parse(h.Attribute("startinglocation").Value);
-            if (isStartingLocation) { this.startingLocations.Add(tempHolding); }
         }
 
         return result;
@@ -258,10 +277,24 @@ public class MapController
 
     private void AssignRandomStartingLocation(Unit unit, Civilization civlization)
     {
-        Holding tempHolding = this.startingLocations[0];
+        Holding tempHolding = this.spawnHoldings[0];
         tempHolding.Unit = unit;
-        civlization.DiscoveredHoldingGUIDs.Add(tempHolding.GUID);
-        this.startingLocations.RemoveAt(0);
+        tempHolding.DiscoveredCivilizationGUIDs.Add(civlization.GUID);
+        //civlization.DiscoveredHoldingGUIDs.Add(tempHolding.GUID);
+        this.spawnHoldings.RemoveAt(0);
+    }
+
+    private void AssignAdjacentHoldings(List<Holding> allHoldings)
+    {
+        foreach (Holding h in allHoldings)
+        {
+            h.AdjacentHoldingGUIDs.AddRange(allHoldings.Where(ah=>
+                (ah.XPosition == (h.XPosition + 1) && ah.ZPosition == h.ZPosition) ||
+                (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition + 1)) ||
+                (ah.XPosition == (h.XPosition - 1) && ah.ZPosition == h.ZPosition) ||
+                (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition - 1))
+            ).Select(x=>x.GUID).ToList());
+        }
     }
 
     private XDocument GetXMLFile(string filePath)

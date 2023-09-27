@@ -14,7 +14,7 @@ public class PrefabController : MonoBehaviour
         tempHolding.GetComponent<HoldingManager>().UpdateFromHolding(holding);
         tempHolding.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
 
-        tempHolding.SetActive(true);
+        tempHolding.SetActive(false);
     }
 
     public void InstantiateTerrainModel(Holding holding)

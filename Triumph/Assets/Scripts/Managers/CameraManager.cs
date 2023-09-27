@@ -25,6 +25,7 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Oberkommando.CAMERA_MANAGER = this;
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
@@ -35,6 +36,13 @@ public class CameraManager : MonoBehaviour
     {
         //HandleMouseInput();
         HandleMovementInput();
+    }
+
+    public void CenterCameraOnHolding(HoldingManager holdingManager)
+    {
+        float newXPosition = holdingManager.gameObject.transform.position.x;
+        float newZPositon = holdingManager.gameObject.transform.position.z;
+        newPosition = new Vector3(newXPosition, 0f,newZPositon);
     }
 
     void HandleMovementInput()
@@ -74,14 +82,14 @@ public class CameraManager : MonoBehaviour
             newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
         }
 
-        if (Input.GetKey(KeyCode.R))
-        {
-            newZoom += zoomAmount;
-        }
-        if (Input.GetKey(KeyCode.F))
-        {
-            newZoom -= zoomAmount;
-        }
+        //if (Input.GetKey(KeyCode.R))
+        //{
+        //    newZoom += zoomAmount;
+        //}
+        //if (Input.GetKey(KeyCode.F))
+        //{
+        //    newZoom -= zoomAmount;
+        //}
 
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
