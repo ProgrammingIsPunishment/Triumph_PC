@@ -4,15 +4,22 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapController
 {
     private List<Holding> startingLocations = new List<Holding>();
+    private Dictionary<string, TerrainType> terrainDictionary = new Dictionary<string, TerrainType>();
+    private Dictionary<string, int> heatDictionary = new Dictionary<string, int>();
+    private Dictionary<string, string> resourceDictionary = new Dictionary<string, string>();
 
     public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> LoadMapFile(string mapName)
     {
         Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> result = null;
-        XDocument doc = this.GetXMLFile("Maps/" + mapName);
+        XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
+
+        var allHeatDefinitionElements = doc.Element("map").Elements("heats").Elements("heat");
+        var allTerrainDefinitionElements = doc.Element("map").Elements("terrains").Elements("terrain");
 
         var allResourceItemElements = doc.Element("map").Elements("resourceitems").Elements("resourceitem");
         var allInfluentialPeopleElements = doc.Element("map").Elements("influentialpeople").Elements("influentialperson");
@@ -24,6 +31,12 @@ public class MapController
         List<Civilization> workingCivilizations = new List<Civilization>();
 
         List<InfluentialPerson> tempInfluentialPeople = new List<InfluentialPerson>();
+
+        //Generate independent definition dictionaries
+        this.heatDictionary = this.ConvertToHeatDictionary(allHeatDefinitionElements);
+        this.terrainDictionary = this.ConvertToTerrainDictionary(allTerrainDefinitionElements);
+
+        //this.ReadMapTextures(terrainTexture);
 
         //Loop through all the resource items
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
@@ -46,6 +59,74 @@ public class MapController
         return result;
     }
 
+    private Dictionary<string, TerrainType> ConvertToTerrainDictionary(IEnumerable<XElement> terrainDefinitionElements)
+    {
+        Dictionary<string, TerrainType> result = new Dictionary<string, TerrainType>();
+
+        //Loop through all the terrains
+        foreach (var td in terrainDefinitionElements)
+        {
+            TerrainType terrainType = Enum.Parse<TerrainType>(td.Attribute("terrain").Value);
+            string colorHexCode = (string)td.Attribute("hexcode").Value;
+
+            result.Add(colorHexCode, terrainType);
+        }
+
+        return result;
+    }
+
+    private Dictionary<string, int> ConvertToHeatDictionary(IEnumerable<XElement> heatDefinitionElements)
+    {
+        Dictionary<string, int> result = new Dictionary<string, int>();
+
+        //Loop through all the terrains
+        foreach (var hd in heatDefinitionElements)
+        {
+            int amount = int.Parse(hd.Attribute("amount").Value);
+            string colorHexCode = (string)hd.Attribute("hexcode").Value;
+
+            result.Add(colorHexCode, amount);
+        }
+
+        return result;
+    }
+
+    private void ReadMapTextures(string mapName, List<ResourceItem> allResourceItems)
+    {
+        Texture2D terrainTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_terrain");
+        Texture2D resources1Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1");
+        Texture2D resources1HeatTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1_heat");
+
+        List<Holding> holdings = new List<Holding>();
+        int width = terrainTexture.width;
+        int height = terrainTexture.height;;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                List<ResourceItem> resourceItems = new List<ResourceItem>();
+
+                string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
+                string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
+                string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
+
+                bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
+                bool foundResource = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resourceGUID);
+                bool foundHeat = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount);
+
+                if (foundResource)
+                {
+                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceGUID.ToLower()).CreateInstance();
+                    resourceItems.Add(tempResourceItem);
+                }
+
+                Holding tempHolding = new Holding($"{x}{z}",x,z,terrainType, resourceItems);
+                holdings.Add(tempHolding);
+            }
+        }
+    }
+
     private List<ResourceItem> ConvertToResourceItems(IEnumerable<XElement> resourceItemElements)
     {
         List<ResourceItem> result = new List<ResourceItem>();
@@ -58,6 +139,9 @@ public class MapController
             ResourceItemType resourceItemType = Enum.Parse<ResourceItemType>(ri.Attribute("resourceitemtype").Value);
             int stackLimit = int.Parse(ri.Attribute("stacklimit").Value);
             List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
+
+            string hexcode = (string)ri.Attribute("hexcode").Value;
+            if (hexcode != "null") { this.resourceDictionary.Add(hexcode, guid); }
 
             //loop through resource item components
             var allComponents = ri.Elements("resourceitemcomponents").Elements("resourceitemcomponent");

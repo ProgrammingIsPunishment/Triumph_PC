@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map name="emerald">
+	<heats>
+		<heat amount="5" hexcode="FFFF00"></heat>
+		<heat amount="10" hexcode="FFB400"></heat>
+	</heats>
+	<terrains>
+		<terrain terrain="Grassland" hexcode="00FF00"></terrain>
+		<terrain terrain="Ocean" hexcode="0000FF"></terrain>
+		<terrain terrain="Hills" hexcode="007800"></terrain>
+		<terrain terrain="Mountain" hexcode="808080"></terrain>
+	</terrains>
+	<resourceitems>
+		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested" hexcode="null">
+			<resourceitemcomponents>
+			</resourceitemcomponents>
+		</resourceitem>
+		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested" hexcode="null">
+			<resourceitemcomponents>
+			</resourceitemcomponents>
+		</resourceitem>
+		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage" hexcode="783C14">
+			<resourceitemcomponents>
+				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
+			</resourceitemcomponents>
+		</resourceitem>
+		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" hexcode="783C14">
+			<resourceitemcomponents>
+				<resourceitemcomponent guid="meat" amount="5"></resourceitemcomponent>
+			</resourceitemcomponents>
+		</resourceitem>
+	</resourceitems>
+	<influentialpeople>
+		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
+	</influentialpeople>
+	<civilizations>
+		<civilization guid="america" displayname="America"></civilization>
+	</civilizations>
+	<holdings>
+		<holding guid="greenwood" displayname="Greenwood" xposition="0" zposition="0" terrain="Grassland"></holding>
+		<holding guid="flatwood" displayname="Flatwoods" xposition="0" zposition="1" terrain="Grassland"></holding>
+		<holding guid="rudolph" displayname="Rudolph" xposition="1" zposition="0" terrain="Ocean"></holding>
+		<holding guid="antigo" displayname="Antigo" xposition="1" zposition="1" terrain="Hills"></holding>
+		<holding guid="wausau" displayname="Wausau" xposition="1" zposition="2" terrain="Mountain"></holding>
+		<holding guid="crystalpalace" displayname="Crystal Palace" xposition="0" zposition="2" terrain="Mountain"></holding>
+		<holding guid="bryant" displayname="Bryant" xposition="1" zposition="3" terrain="Grassland"></holding>
+		<holding guid="wisconsinrapids" displayname="Wisconsin Rapids" xposition="2" zposition="1" terrain="Grassland"></holding>
+		<holding guid="lublin" displayname="Lublin" xposition="2" zposition="0" terrain="Grassland"></holding>
+		<holding guid="merrill" displayname="Merrill" xposition="3" zposition="0" terrain="Grassland"></holding>
+	</holdings>
+</map>

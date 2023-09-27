@@ -14,7 +14,7 @@ public class NewGameButton : MonoBehaviour
     {
         Save result = new Save("New Game");
         result.Turn = 1;
-        result.MapName = "onyx";
+        result.MapName = "emerald";
         Oberkommando.SAVE = Oberkommando.SAVE_CONTROLLER.NewGame(result);
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
