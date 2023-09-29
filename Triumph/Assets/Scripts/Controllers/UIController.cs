@@ -5,41 +5,42 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] private SelectionTargetManager SelectionTargetManger;
     [SerializeField] private HoldingDetailsManager HoldingDetailsManager;
-    [SerializeField] private GameObject SelectionTarget;
-    private Holding SelectedHolding;
 
     public void SetUIState(UIState uiState)
     {
-        //Make changes based on the current uiState
-        switch (Oberkommando.UISTATE)
-        {
-            case UIState.Default:
-                //Dont have to do anything?...
-                break;
-            case UIState.HoldingDetails:
-                break;
-            case UIState.MoveLeader:
-                this.ShowSelectableHoldings();
-                break;
-            default:
-                break;
-        }
         Oberkommando.UISTATE = uiState;
     }
 
-    public void UpdateDisplay(UIType uiType, Holding holding)
+    public void UpdateHoldingDetails(Holding holding)
     {
-        switch (uiType)
+        this.HoldingDetailsManager.UpdateDisplay(holding);
+    }
+
+    public void UpdateSelectionTarget(HoldingManager holdingMangager, bool isBeingShown)
+    {
+        switch (isBeingShown)
         {
-            case UIType.HoldingDetails:
-                if (this.SelectedHolding != null) { this.SelectedHolding.HoldingManager.HideSelected(); }
-                this.SelectedHolding = holding;
-                this.SelectedHolding.HoldingManager.ShowSelected();
-                this.HoldingDetailsManager.UpdateDisplay(holding);
+            case true:
+                this.SelectionTargetManger.ShowHoldingAsTarget(holdingMangager);
                 break;
-            default: break;
+            case false:
+                this.SelectionTargetManger.HideSelectionTarget();
+                break;
         }
+    }
+
+    public void SelectHoldingForDetails(Holding holding)
+    {
+        if (Oberkommando.SELECTED_HOLDINGS.Count > 0) { Oberkommando.SELECTED_HOLDINGS[0].HoldingManager.HideSelected(); }
+        Oberkommando.SELECTED_HOLDINGS.Add(holding);
+        holding.HoldingManager.ShowSelected();
+    }
+
+    public void SelectHoldingForMovement(Holding holding)
+    {
+        Oberkommando.SELECTED_HOLDINGS.Add(holding);
     }
 
     public void Show(UIType uiType)
@@ -58,7 +59,7 @@ public class UIController : MonoBehaviour
         switch (uiType)
         {
             case UIType.HoldingDetails:
-                if (this.SelectedHolding != null) { this.SelectedHolding.HoldingManager.HideSelected(); }
+                //if (this.SelectedHolding != null) { this.SelectedHolding.HoldingManager.HideSelected(); }
                 this.HoldingDetailsManager.Hide();
                 break;
             default: break;
@@ -94,22 +95,5 @@ public class UIController : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void ShowSelectableHoldings()
-    {
-        List<Holding> selectableHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => this.SelectedHolding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
-        foreach (Holding h in selectableHoldings)
-        {
-            h.HoldingManager.ShowSelectable();
-        }
-    }
-
-    public void ShowSelectionTarget(HoldingManager holdingManager)
-    {
-        float newXPosition = holdingManager.gameObject.transform.position.x;
-        float newZPositon = holdingManager.gameObject.transform.position.z;
-        Vector3 newPosition = new Vector3(newXPosition, 5f, newZPositon);
-        this.SelectionTarget.transform.localPosition = newPosition;
     }
 }

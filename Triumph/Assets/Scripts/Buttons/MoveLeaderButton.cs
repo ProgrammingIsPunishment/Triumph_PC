@@ -7,5 +7,6 @@ public class MoveLeaderButton : MonoBehaviour
     public void OnClickEvent()
     {
         Oberkommando.UI_CONTROLLER.SetUIState(UIState.MoveLeader);
+        Oberkommando.LEADER_MOVEMENT_MANAGER.ShowHoldingsWithinRange(Oberkommando.SELECTED_HOLDINGS[0]);
     }
 }

@@ -13,7 +13,7 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
     }
 
-    private void InitializeHoldings(List<Holding> allHoldings)
+    private void InitializeModels(List<Holding> allHoldings)
     {
         foreach (Holding h in allHoldings)
         {
@@ -31,8 +31,7 @@ public class InitializationController : MonoBehaviour
     {
         this.AssignControllers();
         Oberkommando.UI_CONTROLLER.HideAll();
-        //this.ForTesting();
-        this.InitializeHoldings(Oberkommando.SAVE.AllHoldings);
+        this.InitializeModels(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         Oberkommando.UI_CONTROLLER.SetUIState(UIState.Default);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);

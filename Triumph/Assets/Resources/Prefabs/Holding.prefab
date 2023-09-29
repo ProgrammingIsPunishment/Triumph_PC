@@ -165,6 +165,7 @@ MonoBehaviour:
   selection: {fileID: 2073919266760035307}
   selectable: {fileID: 7100222161224357762}
   isDiscovered: 0
+  isSelectableForMovement: 0
 --- !u!1 &5420822954728471445
 GameObject:
   m_ObjectHideFlags: 0
