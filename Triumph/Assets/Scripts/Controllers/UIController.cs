@@ -5,17 +5,30 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    public UIState UIState { get; private set; }
+    public List<Holding> SelectedHoldings { get; set; } = new List<Holding>();
+
     [SerializeField] private SelectionTargetManager SelectionTargetManger;
-    [SerializeField] private HoldingDetailsManager HoldingDetailsManager;
 
-    public void SetUIState(UIState uiState)
-    {
-        Oberkommando.UISTATE = uiState;
-    }
+    public HoldingDetailsUIProcess HoldingDetailsUIProcess;
 
-    public void UpdateHoldingDetails(Holding holding)
+    public void NewUIState(UIState uiState, UIProcessData uIProcessData)
     {
-        this.HoldingDetailsManager.UpdateDisplay(holding);
+        switch (uiState)
+        {
+            case UIState.Default:
+                this.HideAll();
+                break;
+            case UIState.HoldingDetails:
+                this.HoldingDetailsUIProcess.Process(uIProcessData);
+                break;
+            case UIState.MoveLeader:
+                break;
+            default:
+                break;
+        }
+
+        this.UIState = uiState;
     }
 
     public void UpdateSelectionTarget(HoldingManager holdingMangager, bool isBeingShown)
@@ -31,44 +44,9 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void SelectHoldingForDetails(Holding holding)
-    {
-        if (Oberkommando.SELECTED_HOLDINGS.Count > 0) { Oberkommando.SELECTED_HOLDINGS[0].HoldingManager.HideSelected(); }
-        Oberkommando.SELECTED_HOLDINGS.Add(holding);
-        holding.HoldingManager.ShowSelected();
-    }
-
-    public void SelectHoldingForMovement(Holding holding)
-    {
-        Oberkommando.SELECTED_HOLDINGS.Add(holding);
-    }
-
-    public void Show(UIType uiType)
-    {
-        switch (uiType)
-        {
-            case UIType.HoldingDetails:
-                this.HoldingDetailsManager.Show();
-                break;
-            default: break;
-        }
-    }
-
-    public void Hide(UIType uiType)
-    {
-        switch (uiType)
-        {
-            case UIType.HoldingDetails:
-                //if (this.SelectedHolding != null) { this.SelectedHolding.HoldingManager.HideSelected(); }
-                this.HoldingDetailsManager.Hide();
-                break;
-            default: break;
-        }
-    }
-
     public void HideAll()
     {
-        this.HoldingDetailsManager.Hide();
+        this.HoldingDetailsUIProcess.Reset();
     }
 
     public void ShowDiscoveredHoldings(Civilization civilization)

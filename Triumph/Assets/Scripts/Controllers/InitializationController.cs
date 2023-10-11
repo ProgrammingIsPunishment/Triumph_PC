@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class InitializationController : MonoBehaviour
 {
+    [SerializeField] private GameObject holdingDetailsUIGameObject;
+
     private void AssignControllers()
     {
         Oberkommando.INITIALIZATION_CONTROLLER = this.gameObject.GetComponent<InitializationController>();
         Oberkommando.PREFAB_CONTROLLER = this.gameObject.GetComponent<PrefabController>();
         Oberkommando.GAME_CONTROLLER = this.gameObject.GetComponent<GameController>();
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
+    }    
+    private void InitializeControllers()
+    {
+        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
     }
 
     private void InitializeModels(List<Holding> allHoldings)
@@ -30,10 +36,11 @@ public class InitializationController : MonoBehaviour
     void Start()
     {
         this.AssignControllers();
+        this.InitializeControllers();
         Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeModels(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
-        Oberkommando.UI_CONTROLLER.SetUIState(UIState.Default);
+        Oberkommando.UI_CONTROLLER.NewUIState(UIState.Default,null);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
     }
 }

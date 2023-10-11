@@ -1290,6 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c139840c714664c8ad81b53a6dbc69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdingDetailsUIGameObject: {fileID: 1486277663}
 --- !u!114 &505117534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1314,8 +1315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9ad6d25b9b0d74e811f0145da9fede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectedHoldings: []
   SelectionTargetManger: {fileID: 1904818458}
-  HoldingDetailsManager: {fileID: 1486277668}
 --- !u!1001 &518052613
 PrefabInstance:
   m_ObjectHideFlags: 0

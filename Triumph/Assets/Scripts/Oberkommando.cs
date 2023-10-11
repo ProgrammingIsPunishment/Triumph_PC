@@ -17,9 +17,5 @@ public static class Oberkommando
     public static CameraManager CAMERA_MANAGER;
     public static LeaderMovementManager LEADER_MOVEMENT_MANAGER = new LeaderMovementManager();
 
-    public static List<Holding> SELECTED_HOLDINGS = new List<Holding>();
-
-    public static UIState UISTATE;
-
     public static Save SAVE;
 }

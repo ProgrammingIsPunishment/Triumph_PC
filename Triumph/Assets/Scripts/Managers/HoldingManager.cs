@@ -61,32 +61,26 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        switch (Oberkommando.UISTATE)
+        switch (Oberkommando.UI_CONTROLLER.UIState)
         {
             case UIState.Default:
                 if (this.isDiscovered) 
                 {
-                    Oberkommando.UI_CONTROLLER.SelectHoldingForDetails(this.holding);
-                    Oberkommando.UI_CONTROLLER.UpdateHoldingDetails(this.holding);
-                    Oberkommando.UI_CONTROLLER.Show(UIType.HoldingDetails);
-                    Oberkommando.UI_CONTROLLER.SetUIState(UIState.HoldingDetails);
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(this.holding,HoldingDetailsProcessState.Show));
                 }
                 break;
             case UIState.HoldingDetails:
                 if (this.isDiscovered)
                 {
-                    Oberkommando.UI_CONTROLLER.SelectHoldingForDetails(this.holding);
-                    Oberkommando.UI_CONTROLLER.UpdateHoldingDetails(this.holding);
-                    Oberkommando.UI_CONTROLLER.Show(UIType.HoldingDetails);
-                    Oberkommando.UI_CONTROLLER.SetUIState(UIState.HoldingDetails);
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(this.holding, HoldingDetailsProcessState.Show));
                 }
                 break;
             case UIState.MoveLeader:
                 if (this.isSelectableForMovement)
                 {
-                    Oberkommando.UI_CONTROLLER.SelectHoldingForMovement(this.holding);
-                    Oberkommando.LEADER_MOVEMENT_MANAGER.MoveLeader(Oberkommando.SELECTED_HOLDINGS[0], Oberkommando.SELECTED_HOLDINGS[1]);
-                    Oberkommando.UI_CONTROLLER.SetUIState(UIState.HoldingDetails);
+                    //Oberkommando.UI_CONTROLLER.SelectHoldingForMovement(this.holding);
+                    //Oberkommando.LEADER_MOVEMENT_MANAGER.MoveLeader(Oberkommando.SELECTED_HOLDINGS[0], Oberkommando.SELECTED_HOLDINGS[1]);
+                    //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
                 }
                 break;
         }
@@ -94,7 +88,7 @@ public class HoldingManager : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        if (this.isSelectableForMovement && Oberkommando.UISTATE == UIState.MoveLeader)
+        if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
         {
             Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,true);
         }
@@ -102,7 +96,7 @@ public class HoldingManager : MonoBehaviour
 
     public void OnMouseExit()
     {
-        if (this.isSelectableForMovement && Oberkommando.UISTATE == UIState.MoveLeader)
+        if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
         {
             Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,false);
         }
