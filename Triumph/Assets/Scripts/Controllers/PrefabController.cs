@@ -33,8 +33,8 @@ public class PrefabController : MonoBehaviour
         GameObject tempUnit = Instantiate(Resources.Load<GameObject>($"Models/Units/{holding.Unit.UnitType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
         tempUnit.transform.SetParent(holding.HoldingManager.gameObject.transform);
         tempUnit.transform.localPosition = new Vector3(0f, 0f, 0f);
-        Destroy(holding.HoldingManager.unit);
-        holding.HoldingManager.unit = tempUnit;
+        Destroy(holding.HoldingManager.unitObject);
+        holding.HoldingManager.unitObject = tempUnit;
 
         tempUnit.SetActive(true);
     }

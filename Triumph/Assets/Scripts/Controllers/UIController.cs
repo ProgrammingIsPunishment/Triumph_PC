@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private SelectionTargetManager SelectionTargetManger;
 
     public HoldingDetailsUIProcess HoldingDetailsUIProcess;
+    public MoveLeaderUnitUIProcess MoveLeaderUnitUIProcess;
 
     public void NewUIState(UIState uiState, UIProcessData uIProcessData)
     {
@@ -23,6 +24,7 @@ public class UIController : MonoBehaviour
                 this.HoldingDetailsUIProcess.Process(uIProcessData);
                 break;
             case UIState.MoveLeader:
+                this.MoveLeaderUnitUIProcess.Process(uIProcessData);
                 break;
             default:
                 break;
@@ -31,22 +33,10 @@ public class UIController : MonoBehaviour
         this.UIState = uiState;
     }
 
-    public void UpdateSelectionTarget(HoldingManager holdingMangager, bool isBeingShown)
-    {
-        switch (isBeingShown)
-        {
-            case true:
-                this.SelectionTargetManger.ShowHoldingAsTarget(holdingMangager);
-                break;
-            case false:
-                this.SelectionTargetManger.HideSelectionTarget();
-                break;
-        }
-    }
-
     public void HideAll()
     {
         this.HoldingDetailsUIProcess.Reset();
+        this.MoveLeaderUnitUIProcess.Reset();
     }
 
     public void ShowDiscoveredHoldings(Civilization civilization)

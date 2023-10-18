@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HoldingManager : MonoBehaviour
 {
     public GameObject terrain;
     public GameObject FogOfWar;
-    public GameObject unit;
+    public GameObject unitObject;
     public GameObject selection;
     public GameObject selectable;
     public Holding holding;
@@ -38,15 +39,18 @@ public class HoldingManager : MonoBehaviour
         this.FogOfWar.SetActive(true);
     }
 
-    public void ShowSelectable()
+    public void DisplaySelectable(bool showSelectable)
     {
-        this.isSelectableForMovement = true;
-        this.selectable.SetActive(true);
-    }
-
-    public void HideSelectable()
-    {
-        this.selectable.SetActive(false);
+        if (showSelectable)
+        {
+            this.isSelectableForMovement = true;
+            this.selectable.SetActive(true);
+        }
+        else
+        {
+            this.isSelectableForMovement = false;
+            this.selectable.SetActive(false);
+        }
     }
 
     public void ShowSelected()
@@ -78,19 +82,27 @@ public class HoldingManager : MonoBehaviour
             case UIState.MoveLeader:
                 if (this.isSelectableForMovement)
                 {
-                    //Oberkommando.UI_CONTROLLER.SelectHoldingForMovement(this.holding);
-                    //Oberkommando.LEADER_MOVEMENT_MANAGER.MoveLeader(Oberkommando.SELECTED_HOLDINGS[0], Oberkommando.SELECTED_HOLDINGS[1]);
-                    //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.MoveLeader, new UIProcessData(Oberkommando.UI_CONTROLLER.SelectedHoldings[0], this.holding, MoveLeaderUnitProcessState.Select));
                 }
                 break;
         }
+    }
+
+    public void MoveUnit(HoldingManager destinationHoldingManager)
+    {
+        destinationHoldingManager.holding.Unit = this.holding.Unit;
+        destinationHoldingManager.unitObject = this.unitObject;
+        destinationHoldingManager.unitObject.transform.SetParent(destinationHoldingManager.gameObject.transform);
+        destinationHoldingManager.unitObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+        this.holding.Unit = null;
+        this.unitObject = null;
     }
 
     public void OnMouseEnter()
     {
         if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
         {
-            Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,true);
+            //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,true);
         }
     }
 
@@ -98,7 +110,7 @@ public class HoldingManager : MonoBehaviour
     {
         if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
         {
-            Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,false);
+            //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,false);
         }
     }
 }

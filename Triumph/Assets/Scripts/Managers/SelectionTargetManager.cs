@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class SelectionTargetManager : MonoBehaviour
 {
-    public void ShowHoldingAsTarget(HoldingManager holdingManager)
+    public void UpdateSelectionTarget(HoldingManager holdingMangager, bool isBeingShown)
+    {
+        switch (isBeingShown)
+        {
+            case true:
+                this.ShowHoldingAsTarget(holdingMangager);
+                break;
+            case false:
+                this.HideSelectionTarget();
+                break;
+        }
+    }
+
+    private void ShowHoldingAsTarget(HoldingManager holdingManager)
     {
         float newXPosition = holdingManager.gameObject.transform.position.x;
         float newZPositon = holdingManager.gameObject.transform.position.z;
@@ -12,7 +25,7 @@ public class SelectionTargetManager : MonoBehaviour
         this.gameObject.transform.localPosition = newPosition;
     }
 
-    public void HideSelectionTarget()
+    private void HideSelectionTarget()
     {
         Vector3 newPosition = new Vector3(this.gameObject.transform.position.x, 100f, this.gameObject.transform.position.z);
         this.gameObject.transform.localPosition = newPosition;

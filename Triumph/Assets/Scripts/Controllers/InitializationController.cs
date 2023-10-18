@@ -17,6 +17,7 @@ public class InitializationController : MonoBehaviour
     private void InitializeControllers()
     {
         Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
+        Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
     }
 
     private void InitializeModels(List<Holding> allHoldings)

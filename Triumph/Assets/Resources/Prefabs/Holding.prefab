@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 8396217382581873488}
   FogOfWar: {fileID: 5972237414046221997}
-  unit: {fileID: 1631182186142897870}
+  unitObject: {fileID: 1631182186142897870}
   selection: {fileID: 2073919266760035307}
   selectable: {fileID: 7100222161224357762}
   isDiscovered: 0
