@@ -15,7 +15,7 @@ public class TurnController
     public void StartTurn(Civilization currentCivilization)
     {
         //For player character only as NPCs don't need to actually "see" anything
-        Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
-        Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(currentCivilization);
+        //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
+        //Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(currentCivilization);
     }
 }

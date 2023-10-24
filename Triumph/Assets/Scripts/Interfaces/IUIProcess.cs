@@ -6,5 +6,5 @@ public interface IUIProcess
 {
     public abstract UIState UIState { get; }
 
-    public abstract void Reset();
+    public abstract void ProcessEnd();
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -53,14 +54,16 @@ public class HoldingManager : MonoBehaviour
         }
     }
 
-    public void ShowSelected()
+    public void DisplaySelected(bool showSelected)
     {
-        this.selection.SetActive(true);
-    }
-
-    public void HideSelected()
-    {
-        this.selection.SetActive(false);
+        if (showSelected)
+        {
+            this.selection.SetActive(true);
+        }
+        else
+        {
+            this.selection.SetActive(false);
+        }
     }
 
     public void OnClickEvent()
@@ -98,19 +101,32 @@ public class HoldingManager : MonoBehaviour
         this.unitObject = null;
     }
 
-    public void OnMouseEnter()
+    public void ShowAdjacentExplorableHoldings()
     {
-        if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
+        List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => this.holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+
+        foreach (Holding ah in adjacentHoldings)
         {
-            //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,true);
+            if (!ah.HoldingManager.isDiscovered)
+            {
+                ah.HoldingManager.ShowExplorable();
+            }
         }
     }
 
-    public void OnMouseExit()
-    {
-        if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
-        {
-            //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,false);
-        }
-    }
+    //public void OnMouseEnter()
+    //{
+    //    if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
+    //    {
+    //        //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,true);
+    //    }
+    //}
+
+    //public void OnMouseExit()
+    //{
+    //    if (this.isSelectableForMovement && Oberkommando.UI_CONTROLLER.UIState == UIState.MoveLeader)
+    //    {
+    //        //Oberkommando.UI_CONTROLLER.UpdateSelectionTarget(this,false);
+    //    }
+    //}
 }

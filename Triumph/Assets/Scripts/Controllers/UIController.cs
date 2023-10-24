@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     public UIState UIState { get; private set; }
     public List<Holding> SelectedHoldings { get; set; } = new List<Holding>();
+    public List<UIState> ActiveUIStates { get; set; } = new List<UIState>();
 
     [SerializeField] private SelectionTargetManager SelectionTargetManger;
 
@@ -15,6 +16,9 @@ public class UIController : MonoBehaviour
 
     public void NewUIState(UIState uiState, UIProcessData uIProcessData)
     {
+        if (!this.ActiveUIStates.Contains(uiState)) { this.ActiveUIStates.Add(uiState); }
+        else { /*Do nothing...ui state already in list*/ }
+
         switch (uiState)
         {
             case UIState.Default:
@@ -35,8 +39,21 @@ public class UIController : MonoBehaviour
 
     public void HideAll()
     {
-        this.HoldingDetailsUIProcess.Reset();
-        this.MoveLeaderUnitUIProcess.Reset();
+        this.HoldingDetailsUIProcess.ProcessEnd();
+        this.MoveLeaderUnitUIProcess.ProcessEnd();
+        this.ActiveUIStates.Clear();
+    }
+
+    public void RefocusUIState()
+    {
+        if (this.ActiveUIStates.Count >= 1)
+        {
+            this.UIState = this.ActiveUIStates.Last();
+        }
+        else
+        {
+            this.UIState = UIState.Default;
+        }
     }
 
     public void ShowDiscoveredHoldings(Civilization civilization)
