@@ -9,7 +9,16 @@ public class TurnController
     {
         Oberkommando.SAVE.Turn++;
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
+        this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
         this.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
+    }
+
+    public void RefreshActionPoints(Civilization civilization)
+    {
+        foreach (Unit u in civilization.Units)
+        {
+            u.RefreshActionPoints();
+        }
     }
 
     public void StartTurn(Civilization currentCivilization)

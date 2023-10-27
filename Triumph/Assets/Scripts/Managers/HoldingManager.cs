@@ -97,6 +97,7 @@ public class HoldingManager : MonoBehaviour
         destinationHoldingManager.unitObject = this.unitObject;
         destinationHoldingManager.unitObject.transform.SetParent(destinationHoldingManager.gameObject.transform);
         destinationHoldingManager.unitObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+        destinationHoldingManager.holding.Unit.Move();
         this.holding.Unit = null;
         this.unitObject = null;
     }

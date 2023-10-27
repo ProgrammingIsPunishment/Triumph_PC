@@ -268,8 +268,9 @@ public class MapController
             {
                 if (ip.IsLeader)
                 {
-                    Unit unit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip);
-                    this.AssignRandomStartingLocation(unit, c);
+                    Unit leaderUnit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip);
+                    c.Units.Add(leaderUnit);
+                    this.AssignRandomStartingLocation(leaderUnit, c);
                 }
             }
         }

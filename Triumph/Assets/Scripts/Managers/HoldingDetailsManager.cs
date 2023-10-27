@@ -8,9 +8,13 @@ public class HoldingDetailsManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField holdingNameInput;
     [SerializeField] private TMP_InputField unitNameInput;
+    [SerializeField] private TextMeshProUGUI unitActionPointText;
     [SerializeField] private Image terrainLandscape;
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
+
+    //Action Buttons
+    [SerializeField] private GameObject moveActionButton;
 
     public void UpdateDisplay(Holding holding)
     {
@@ -20,6 +24,16 @@ public class HoldingDetailsManager : MonoBehaviour
         {
             this.unitNameInput.text = holding.Unit.DisplayName;
             this.unitContainer.SetActive(true);
+            this.unitActionPointText.text = holding.Unit.ActionPoints.ToString();
+
+            if (holding.Unit.ActionPoints == 0)
+            {
+                this.moveActionButton.SetActive(false);
+            }
+            else
+            {
+                this.moveActionButton.SetActive(true);
+            }
         }
         else
         {
