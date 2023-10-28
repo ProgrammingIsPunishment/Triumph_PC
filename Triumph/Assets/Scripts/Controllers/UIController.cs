@@ -19,13 +19,12 @@ public class UIController : MonoBehaviour
         if (!this.ActiveUIStates.Contains(uiState)) { this.ActiveUIStates.Add(uiState); }
         else { /*Do nothing...ui state already in list*/ }
 
+        this.UIState = uiState;
+
         switch (uiState)
         {
-            case UIState.Default:
-                this.HideAll();
-                break;
             case UIState.HoldingDetails:
-                this.HoldingDetailsUIProcess.Process(uIProcessData);
+                if (uIProcessData != null) { this.HoldingDetailsUIProcess.Process(uIProcessData); }
                 break;
             case UIState.MoveLeader:
                 this.MoveLeaderUnitUIProcess.Process(uIProcessData);
@@ -33,8 +32,6 @@ public class UIController : MonoBehaviour
             default:
                 break;
         }
-
-        this.UIState = uiState;
     }
 
     public void HideAll()
@@ -52,7 +49,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            this.UIState = UIState.Default;
+            this.UIState = UIState.HoldingDetails;
         }
     }
 
