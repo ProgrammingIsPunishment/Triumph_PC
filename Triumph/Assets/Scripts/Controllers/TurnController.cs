@@ -7,6 +7,7 @@ public class TurnController
 {
     public void EndTurn()
     {
+        Oberkommando.UI_CONTROLLER.NewUIState(UIState.Disable, null);
         Oberkommando.SAVE.Turn++;
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
         this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
@@ -26,5 +27,6 @@ public class TurnController
         //For player character only as NPCs don't need to actually "see" anything
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
         //Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(currentCivilization);
+        Oberkommando.UI_CONTROLLER.RefreshToDefault();
     }
 }

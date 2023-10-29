@@ -29,6 +29,11 @@ public class UIController : MonoBehaviour
             case UIState.MoveLeader:
                 this.MoveLeaderUnitUIProcess.Process(uIProcessData);
                 break;
+            case UIState.Disable:
+                this.HideAll();
+                this.UIState = uiState;
+                this.ActiveUIStates.Add(uiState);
+                break;
             default:
                 break;
         }
@@ -39,6 +44,13 @@ public class UIController : MonoBehaviour
         this.HoldingDetailsUIProcess.ProcessEnd();
         this.MoveLeaderUnitUIProcess.ProcessEnd();
         this.ActiveUIStates.Clear();
+        this.SelectedHoldings.ForEach(h => h.HoldingManager.DisplaySelected(false));
+    }
+
+    public void RefreshToDefault()
+    {
+        this.ActiveUIStates.Clear();
+        this.NewUIState(UIState.HoldingDetails, null);
     }
 
     public void RefocusUIState()

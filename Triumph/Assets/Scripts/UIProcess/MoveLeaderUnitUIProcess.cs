@@ -29,15 +29,26 @@ public class MoveLeaderUnitUIProcess : IUIProcess
                 this.ShowHoldingsWithinRange(uIProcessData.Holding, true);
                 break;
             case MoveLeaderUnitProcessState.Select:
-                uIProcessData.Holding.HoldingManager.MoveUnit(uIProcessData.Holding2.HoldingManager);
+                bool tempCanMove = false;
+                //Only move the unit to certain terrains...
+                switch (uIProcessData.Holding2.TerrainType)
+                {
+                    case TerrainType.Grassland: tempCanMove = true; break;
+                    case TerrainType.Hills: tempCanMove = true; break;
+                }
+                
                 if (!uIProcessData.Holding2.HoldingManager.isDiscovered) 
                 {
                     uIProcessData.Holding2.HoldingManager.ShowDiscovered();
                     uIProcessData.Holding2.HoldingManager.ShowAdjacentExplorableHoldings();
                 }
-                Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update));
-                
-                this.ShowHoldingsWithinRange(uIProcessData.Holding, false);
+
+                if (tempCanMove)
+                {
+                    uIProcessData.Holding.HoldingManager.MoveUnit(uIProcessData.Holding2.HoldingManager);
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update));
+                    this.ShowHoldingsWithinRange(uIProcessData.Holding, false);
+                }
                 this.ProcessEnd();
                 break;
         }
