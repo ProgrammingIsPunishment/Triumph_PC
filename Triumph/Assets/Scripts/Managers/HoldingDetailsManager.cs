@@ -13,6 +13,8 @@ public class HoldingDetailsManager : MonoBehaviour
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
 
+    [SerializeField] private NaturalResourcesTabManager naturalResourcesTabManger;
+
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
 
@@ -51,5 +53,10 @@ public class HoldingDetailsManager : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void Initialize()
+    {
+        this.naturalResourcesTabManger.Initialize();
     }
 }

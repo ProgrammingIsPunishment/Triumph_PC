@@ -6,6 +6,7 @@ using UnityEngine;
 public class InitializationController : MonoBehaviour
 {
     [SerializeField] private GameObject holdingDetailsUIGameObject;
+    [SerializeField] private GameObject naturalResourcesTabUIGameObject;
 
     private void AssignControllers()
     {
@@ -16,7 +17,9 @@ public class InitializationController : MonoBehaviour
     }    
     private void InitializeControllers()
     {
-        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
+        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(
+            this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>(),
+            this.naturalResourcesTabUIGameObject.GetComponent<NaturalResourcesTabManager>());
         Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
     }
 
@@ -29,6 +32,16 @@ public class InitializationController : MonoBehaviour
             if (h.Unit != null)
             {
                 Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
+            }
+            if (h.ResourceItems.Count >= 1)
+            {
+                foreach (ResourceItem ri in h.ResourceItems)
+                {
+                    switch (ri.GUID.ToLower())
+                    {
+                        case "forest": Oberkommando.PREFAB_CONTROLLER.InstantiateResourrceModel(h,ri); break;
+                    }
+                }
             }
         }
     }

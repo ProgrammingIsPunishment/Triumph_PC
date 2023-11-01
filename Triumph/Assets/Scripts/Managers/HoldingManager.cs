@@ -10,6 +10,7 @@ public class HoldingManager : MonoBehaviour
     public GameObject terrain;
     public GameObject FogOfWar;
     public GameObject unitObject;
+    public GameObject resourceObject = null;
     public GameObject selection;
     public GameObject selectable;
     public Holding holding;
@@ -30,6 +31,10 @@ public class HoldingManager : MonoBehaviour
         this.isDiscovered = true;
         this.gameObject.SetActive(true);
         this.terrain.SetActive(true);
+        if (this.resourceObject != null)
+        {
+            this.resourceObject.SetActive(true);
+        }
         this.FogOfWar.SetActive(false);
     }
 

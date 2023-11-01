@@ -11,7 +11,7 @@ public class MapController
 {
     private List<Holding> spawnHoldings = new List<Holding>();
     private Dictionary<string, TerrainType> terrainDictionary = new Dictionary<string, TerrainType>();
-    private Dictionary<string, int> heatDictionary = new Dictionary<string, int>();
+    private Dictionary<string, Tuple<string, int>> heatDictionary = new Dictionary<string, Tuple<string, int>>();
     private Dictionary<string, string> resourceDictionary = new Dictionary<string, string>();
     private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
@@ -98,17 +98,18 @@ public class MapController
         return result;
     }
 
-    private Dictionary<string, int> ConvertToHeatDictionary(IEnumerable<XElement> heatDefinitionElements)
+    private Dictionary<string, Tuple<string, int>> ConvertToHeatDictionary(IEnumerable<XElement> heatDefinitionElements)
     {
-        Dictionary<string, int> result = new Dictionary<string, int>();
+        Dictionary<string, Tuple<string, int>> result = new Dictionary<string, Tuple<string, int>>();
 
         //Loop through all the terrains
         foreach (var hd in heatDefinitionElements)
         {
             int amount = int.Parse(hd.Attribute("amount").Value);
             string colorHexCode = (string)hd.Attribute("hexcode").Value;
+            string guid = (string)hd.Attribute("guid").Value;
 
-            result.Add(colorHexCode, amount);
+            result.Add(colorHexCode, new Tuple<string,int>(guid, amount));
         }
 
         return result;
@@ -149,22 +150,23 @@ public class MapController
 
                 string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
                 string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
-                string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
+                //string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
                 string spawnColorHex = ColorUtility.ToHtmlStringRGB(spawnsTexture.GetPixel(x, z));
 
                 bool foundHolding = this.holdingDictionary.TryGetValue(new Tuple<int,int>(x,z), out Tuple<string,string> guidAndDisplayName);
                 bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
-                bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
-                bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
+                //bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
+                //bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
+                bool foundHeat1 = this.heatDictionary.TryGetValue(resources1ColorHex, out Tuple<string,int> tuple);
                 bool foundSpawn = this.spawnDictionary.TryGetValue(spawnColorHex, out string spawnGroup);
 
-                if (foundResource1)
+                if (foundHeat1)
                 {
-                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == resource1GUID.ToLower()).CreateInstance();
+                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == tuple.Item1.ToLower()).CreateInstance();
 
                     if (foundHeat1)
                     {
-                        tempResourceItem.AddToStack(amount1);
+                        tempResourceItem.AddToStack(tuple.Item2);
                     }
 
                     resourceItems.Add(tempResourceItem);
@@ -198,8 +200,8 @@ public class MapController
             int stackLimit = int.Parse(ri.Attribute("stacklimit").Value);
             List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
 
-            string hexcode = (string)ri.Attribute("hexcode").Value;
-            if (hexcode != "null") { this.resourceDictionary.Add(hexcode, guid); }
+            //string hexcode = (string)ri.Attribute("hexcode").Value;
+            //if (hexcode != "null") { this.resourceDictionary.Add(hexcode, guid); }
 
             //loop through resource item components
             var allComponents = ri.Elements("resourceitemcomponents").Elements("resourceitemcomponent");

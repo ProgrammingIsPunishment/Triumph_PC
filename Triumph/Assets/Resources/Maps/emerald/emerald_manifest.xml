@@ -4,8 +4,9 @@
 		<spawn hexcode="FF0000" group="all"></spawn>
 	</spawns>
 	<heats>
-		<heat amount="5" hexcode="FFFF00"></heat>
-		<heat amount="10" hexcode="FFB400"></heat>
+		<heat amount="5" hexcode="783C14" guid="forest"></heat>
+		<heat amount="10" hexcode="AA551D" guid="forest"></heat>
+		<heat amount="5" hexcode="FF7E2D" guid="deer"></heat>
 	</heats>
 	<terrains>
 		<terrain terrain="Grassland" hexcode="00FF00"></terrain>
@@ -14,23 +15,34 @@
 		<terrain terrain="Mountain" hexcode="808080"></terrain>
 	</terrains>
 	<resourceitems>
-		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested" hexcode="null">
+		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
+			<heats>
+			</heats>
 		</resourceitem>
-		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested" hexcode="null">
+		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
+			<heats>
+			</heats>
 		</resourceitem>
-		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage" hexcode="783C14">
+		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>
+			<heats>
+				<heat amount="10" hexcode="783C14"></heat>
+				<heat amount="5" hexcode="AA551D"></heat>
+			</heats>
 		</resourceitem>
-		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" hexcode="F77C2A">
+		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="meat" amount="5"></resourceitemcomponent>
 			</resourceitemcomponents>
+			<heats>
+				<heat amount="5" hexcode="F77C2A"></heat>
+			</heats>
 		</resourceitem>
 	</resourceitems>
 	<influentialpeople>

@@ -13,13 +13,17 @@ public enum HoldingDetailsProcessState
 public class HoldingDetailsUIProcess : IUIProcess
 {
     private HoldingDetailsManager HoldingDetailsManager;
+    private NaturalResourcesTabManager NaturalResourcesTabManager;
 
     public UIState UIState { get; } = UIState.HoldingDetails;
     private HoldingDetailsProcessState holdingDetailsProcessState = HoldingDetailsProcessState.Hide;
 
-    public HoldingDetailsUIProcess(HoldingDetailsManager holdingDetailsManager)
+    public HoldingDetailsUIProcess(HoldingDetailsManager holdingDetailsManager, NaturalResourcesTabManager naturalResourcesTabManager)
     {
         this.HoldingDetailsManager = holdingDetailsManager;
+        this.NaturalResourcesTabManager = naturalResourcesTabManager;
+
+        this.NaturalResourcesTabManager.Initialize();
     }
 
     public void Process(UIProcessData uIProcessData)

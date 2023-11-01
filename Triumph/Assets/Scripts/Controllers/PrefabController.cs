@@ -28,6 +28,16 @@ public class PrefabController : MonoBehaviour
         tempTerrain.SetActive(false);
     }
 
+    public void InstantiateResourrceModel(Holding holding, ResourceItem resourceItem)
+    {
+        GameObject tempResource = Instantiate(Resources.Load<GameObject>($"Models/Resources/{resourceItem.GUID.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempResource.transform.SetParent(holding.HoldingManager.gameObject.transform);
+        tempResource.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+        holding.HoldingManager.resourceObject = tempResource;
+
+        tempResource.SetActive(false);
+    }
+
     public void InstantiateUnitModel(Holding holding)
     {
         GameObject tempUnit = Instantiate(Resources.Load<GameObject>($"Models/Units/{holding.Unit.UnitType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
