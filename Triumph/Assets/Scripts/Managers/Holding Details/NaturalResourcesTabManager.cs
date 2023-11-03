@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class NaturalResourcesTabManager : MonoBehaviour
 {
-    private List<InventorySlotManager> InventorySlotManagers;
+    private List<InventorySlotManager> InventorySlotManagers = new List<InventorySlotManager>();
+
+    public void UpdateDisplay(List<ResourceItem> resourceItems)
+    {
+        for (int i = 0; i < resourceItems.Count; i++)
+        {
+            InventorySlotManagers[i].UpdateDisplay(resourceItems[i]);
+            InventorySlotManagers[i].Show();
+        }
+    }
 
     public void Show()
     {
@@ -14,10 +23,18 @@ public class NaturalResourcesTabManager : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+        foreach (InventorySlotManager ism in this.InventorySlotManagers)
+        {
+            ism.Hide();
+        }
     }
 
     public void Initialize()
     {
         this.InventorySlotManagers.AddRange(this.GetComponentsInChildren<InventorySlotManager>());
+        foreach (InventorySlotManager ism in this.InventorySlotManagers)
+        {
+            ism.Hide();
+        }
     }
 }

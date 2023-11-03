@@ -14,12 +14,18 @@ public class InitializationController : MonoBehaviour
         Oberkommando.PREFAB_CONTROLLER = this.gameObject.GetComponent<PrefabController>();
         Oberkommando.GAME_CONTROLLER = this.gameObject.GetComponent<GameController>();
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
-    }    
+    }
+
+    private void InitializeManagers()
+    {
+        NaturalResourcesTabManager tempNaturalResourcesTabManager = this.naturalResourcesTabUIGameObject.GetComponent<NaturalResourcesTabManager>();
+        tempNaturalResourcesTabManager.Initialize();
+        this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>().AssignManagers(tempNaturalResourcesTabManager);
+    }
+
     private void InitializeControllers()
     {
-        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(
-            this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>(),
-            this.naturalResourcesTabUIGameObject.GetComponent<NaturalResourcesTabManager>());
+        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
         Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
     }
 
@@ -49,7 +55,9 @@ public class InitializationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Order very important
         this.AssignControllers();
+        this.InitializeManagers();
         this.InitializeControllers();
         Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeModels(Oberkommando.SAVE.AllHoldings);

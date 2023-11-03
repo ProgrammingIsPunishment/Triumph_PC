@@ -283,3 +283,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586846882a08d2f4497a75e524be69cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IconImageGameObject: {fileID: 621580014547618400}
+  AmountText: {fileID: 621580013144542250}

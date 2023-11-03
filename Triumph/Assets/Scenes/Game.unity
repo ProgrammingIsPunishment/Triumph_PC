@@ -2039,7 +2039,7 @@ RectTransform:
   m_GameObject: {fileID: 742572180}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 236027204}
@@ -5904,7 +5904,7 @@ MonoBehaviour:
   terrainLandscape: {fileID: 1590974813}
   unitContainer: {fileID: 339936108}
   noUnitContainer: {fileID: 1696957564}
-  naturalResourcesTabManger: {fileID: 0}
+  naturalResourcesTabManager: {fileID: 1918232201}
   moveActionButton: {fileID: 2250711}
 --- !u!114 &1486277669
 MonoBehaviour:
@@ -6893,7 +6893,7 @@ MonoBehaviour:
   terrainLandscape: {fileID: 0}
   unitContainer: {fileID: 0}
   noUnitContainer: {fileID: 0}
-  naturalResourcesTabManger: {fileID: 0}
+  naturalResourcesTabManager: {fileID: 0}
   moveActionButton: {fileID: 0}
 --- !u!223 &1640340474
 Canvas:

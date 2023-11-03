@@ -5,12 +5,25 @@ using UnityEngine;
 
 public class InventorySlotManager : MonoBehaviour
 {
-    [SerializeField] private GameObject Icon;
+    [SerializeField] private GameObject IconImageGameObject;
     [SerializeField] private TextMeshProUGUI AmountText;
 
-    public void UpdateDisplay(string guid,int amount)
+    private ResourceItem resourceItem = null;
+
+    public void UpdateDisplay(ResourceItem resourceItem)
     {
-        //Assign resource icon
-        this.AmountText.text = amount.ToString();
+        this.resourceItem = resourceItem;
+        //Assign resource icon based on guid
+        this.AmountText.text = resourceItem.Amount.ToString();
+    }
+
+    public void Show()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
     }
 }

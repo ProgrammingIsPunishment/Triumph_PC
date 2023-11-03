@@ -13,7 +13,7 @@ public class HoldingDetailsManager : MonoBehaviour
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
 
-    [SerializeField] private NaturalResourcesTabManager naturalResourcesTabManger;
+    [SerializeField] private NaturalResourcesTabManager naturalResourcesTabManager;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
@@ -42,6 +42,17 @@ public class HoldingDetailsManager : MonoBehaviour
             this.unitContainer.SetActive(false);
         }
 
+        List<ResourceItem> workingNaturalResourceItems = holding.ResourceItems.FindAll(ri=>ri.ResourceItemType == ResourceItemType.Foliage || ri.ResourceItemType == ResourceItemType.Fauna);
+        if (workingNaturalResourceItems.Count >= 1)
+        {
+            this.naturalResourcesTabManager.UpdateDisplay(workingNaturalResourceItems);
+            this.naturalResourcesTabManager.Show();
+        }
+        else
+        {
+            this.naturalResourcesTabManager.Hide();
+        }
+
         this.terrainLandscape.sprite = Resources.Load<Sprite>($"Sprites/Terrain Landscapes/{holding.TerrainType}TerrainLandscape");
     }
 
@@ -55,8 +66,8 @@ public class HoldingDetailsManager : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Initialize()
+    public void AssignManagers(NaturalResourcesTabManager naturalResourcesTabManager)
     {
-        this.naturalResourcesTabManger.Initialize();
+        this.naturalResourcesTabManager = naturalResourcesTabManager;
     }
 }
