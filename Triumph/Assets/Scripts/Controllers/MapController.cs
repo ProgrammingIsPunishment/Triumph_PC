@@ -135,21 +135,22 @@ public class MapController
     {
         Texture2D terrainTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_terrain");
         Texture2D resources1Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1");
-        Texture2D resources1HeatTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1_heat");
+        Texture2D resources2Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_2");
         Texture2D spawnsTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_spawns");
 
         List<Holding> result = new List<Holding>();
         int width = terrainTexture.width;
-        int height = terrainTexture.height;;
+        int height = terrainTexture.height;
 
         for (int x = 0; x < width; x++)
         {
             for (int z = 0; z < height; z++)
             {
-                List<ResourceItem> resourceItems = new List<ResourceItem>();
+                List<ResourceItem> workingNaturalResourceItems = new List<ResourceItem>();
 
                 string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
                 string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
+                string resources2ColorHex = ColorUtility.ToHtmlStringRGB(resources2Texture.GetPixel(x, z));
                 //string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
                 string spawnColorHex = ColorUtility.ToHtmlStringRGB(spawnsTexture.GetPixel(x, z));
 
@@ -157,22 +158,50 @@ public class MapController
                 bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
                 //bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
                 //bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
-                bool foundHeat1 = this.heatDictionary.TryGetValue(resources1ColorHex, out Tuple<string,int> tuple);
+                bool foundResourceHeat1 = this.heatDictionary.TryGetValue(resources1ColorHex, out Tuple<string,int> resourceHeat1Tuple);
+                bool foundResourceHeat2 = this.heatDictionary.TryGetValue(resources2ColorHex, out Tuple<string,int> resourceHeat2Tuple);
                 bool foundSpawn = this.spawnDictionary.TryGetValue(spawnColorHex, out string spawnGroup);
 
-                if (foundHeat1)
+                if (foundResourceHeat1 || foundResourceHeat2)
                 {
-                    ResourceItem tempResourceItem = allResourceItems.Find(wri => wri.GUID.ToLower() == tuple.Item1.ToLower()).CreateInstance();
+                    List<ResourceItem> tempResourceItems = new List<ResourceItem>();
 
-                    if (foundHeat1)
+                    if (foundResourceHeat1) {
+                        ResourceItem tempResourceItem1 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat1Tuple.Item1.ToLower()).CreateInstance();
+                        tempResourceItem1.AddToStack(resourceHeat1Tuple.Item2);
+                        tempResourceItems.Add(tempResourceItem1);
+                    }
+                    
+                    if (foundResourceHeat2)
                     {
-                        tempResourceItem.AddToStack(tuple.Item2);
+                        ResourceItem tempResourceItem2 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat2Tuple.Item1.ToLower()).CreateInstance();
+                        tempResourceItem2.AddToStack(resourceHeat2Tuple.Item2);
+                        tempResourceItems.Add(tempResourceItem2);
                     }
 
-                    resourceItems.Add(tempResourceItem);
+                    foreach (ResourceItem ri in tempResourceItems)
+                    {
+                        switch (ri.ResourceItemType)
+                        {
+                            case ResourceItemType.Foliage:
+                                workingNaturalResourceItems.Add(ri);
+                                break;
+                            case ResourceItemType.Fauna:
+                                workingNaturalResourceItems.Add(ri);
+                                break;
+                            case ResourceItemType.Harvested:
+                                break;
+                            case ResourceItemType.Manufactured:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
 
-                Holding tempHolding = new Holding(guidAndDisplayName.Item2,x,z,terrainType, resourceItems);
+                Inventory naturalResourcesInventory = new Inventory(InventoryType.NaturalResources,workingNaturalResourceItems);
+
+                Holding tempHolding = new Holding(guidAndDisplayName.Item2,x,z,terrainType, naturalResourcesInventory);
                 tempHolding.GUID = guidAndDisplayName.Item1;
 
                 if (foundSpawn)
@@ -198,6 +227,7 @@ public class MapController
             string displayName = (string)ri.Attribute("displayname").Value;
             ResourceItemType resourceItemType = Enum.Parse<ResourceItemType>(ri.Attribute("resourceitemtype").Value);
             int stackLimit = int.Parse(ri.Attribute("stacklimit").Value);
+            string iconFileName = (string)ri.Attribute("iconFileName").Value.ToLower();
             List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
 
             //string hexcode = (string)ri.Attribute("hexcode").Value;
@@ -212,7 +242,7 @@ public class MapController
 
                 resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
             }
-            result.Add(new ResourceItem(guid, displayName, resourceItemType, stackLimit, resourceItemComponents));
+            result.Add(new ResourceItem(guid, displayName, iconFileName, resourceItemType, stackLimit, resourceItemComponents));
         }
 
         return result;

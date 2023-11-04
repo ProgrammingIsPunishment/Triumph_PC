@@ -42,10 +42,10 @@ public class HoldingDetailsManager : MonoBehaviour
             this.unitContainer.SetActive(false);
         }
 
-        List<ResourceItem> workingNaturalResourceItems = holding.ResourceItems.FindAll(ri=>ri.ResourceItemType == ResourceItemType.Foliage || ri.ResourceItemType == ResourceItemType.Fauna);
-        if (workingNaturalResourceItems.Count >= 1)
+        //Natural Resources Tab Manager
+        if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
-            this.naturalResourcesTabManager.UpdateDisplay(workingNaturalResourceItems);
+            this.naturalResourcesTabManager.UpdateDisplay(holding.NaturalResourcesInventory.ResourceItems);
             this.naturalResourcesTabManager.Show();
         }
         else

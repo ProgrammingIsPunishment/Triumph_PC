@@ -15,34 +15,23 @@
 		<terrain terrain="Mountain" hexcode="808080"></terrain>
 	</terrains>
 	<resourceitems>
-		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested">
+		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested" iconFileName="Log">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
-			<heats>
-			</heats>
 		</resourceitem>
-		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested">
+		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested" iconFileName="Meat">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
-			<heats>
-			</heats>
 		</resourceitem>
-		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage">
+		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage" iconFileName="Forest">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>
-			<heats>
-				<heat amount="10" hexcode="783C14"></heat>
-				<heat amount="5" hexcode="AA551D"></heat>
-			</heats>
 		</resourceitem>
-		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna">
+		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" iconFileName="Deer">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="meat" amount="5"></resourceitemcomponent>
 			</resourceitemcomponents>
-			<heats>
-				<heat amount="5" hexcode="F77C2A"></heat>
-			</heats>
 		</resourceitem>
 	</resourceitems>
 	<influentialpeople>

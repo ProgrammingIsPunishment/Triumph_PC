@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySlotManager : MonoBehaviour
 {
-    [SerializeField] private GameObject IconImageGameObject;
-    [SerializeField] private TextMeshProUGUI AmountText;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI amountText;
 
     private ResourceItem resourceItem = null;
 
     public void UpdateDisplay(ResourceItem resourceItem)
     {
         this.resourceItem = resourceItem;
-        //Assign resource icon based on guid
-        this.AmountText.text = resourceItem.Amount.ToString();
+        this.amountText.text = resourceItem.Amount.ToString();
+        this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
     }
 
     public void Show()

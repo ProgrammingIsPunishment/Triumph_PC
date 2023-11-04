@@ -39,9 +39,9 @@ public class InitializationController : MonoBehaviour
             {
                 Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
             }
-            if (h.ResourceItems.Count >= 1)
+            if (h.NaturalResourcesInventory.ResourceItems.Count >= 1)
             {
-                foreach (ResourceItem ri in h.ResourceItems)
+                foreach (ResourceItem ri in h.NaturalResourcesInventory.ResourceItems)
                 {
                     switch (ri.GUID.ToLower())
                     {
