@@ -12,10 +12,13 @@ public class UIProcessData
 
     public MoveLeaderUnitProcessState? MoveLeaderUnitProcessState = null;
 
-    public UIProcessData(Holding holding, HoldingDetailsProcessState holdingDetailsProcessState)
+    public HoldingDetailsTabType? HoldingDetailsTabType = null;
+
+    public UIProcessData(Holding holding, HoldingDetailsProcessState holdingDetailsProcessState, HoldingDetailsTabType? holdingDetailsTabType)
     {
         this.Holding = holding;
         this.HoldingDetailsProcessState = holdingDetailsProcessState;
+        this.HoldingDetailsTabType = holdingDetailsTabType;
     }
 
     public UIProcessData(Holding currentHolding, Holding destinationHolding, MoveLeaderUnitProcessState moveLeaderUnitProcessState)

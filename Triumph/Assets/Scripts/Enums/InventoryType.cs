@@ -1,4 +1,5 @@
 public enum InventoryType
 {
-    NaturalResources
+    NaturalResources,
+    UnitSupply
 }

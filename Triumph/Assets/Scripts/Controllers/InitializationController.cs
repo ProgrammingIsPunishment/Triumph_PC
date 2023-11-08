@@ -7,6 +7,8 @@ public class InitializationController : MonoBehaviour
 {
     [SerializeField] private GameObject holdingDetailsUIGameObject;
     [SerializeField] private GameObject naturalResourcesTabUIGameObject;
+    [SerializeField] private GameObject unitTabUIGameObject;
+    [SerializeField] private GameObject summaryTabUIGameObject;
 
     private void AssignControllers()
     {
@@ -20,7 +22,11 @@ public class InitializationController : MonoBehaviour
     {
         NaturalResourcesTabManager tempNaturalResourcesTabManager = this.naturalResourcesTabUIGameObject.GetComponent<NaturalResourcesTabManager>();
         tempNaturalResourcesTabManager.Initialize();
-        this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>().AssignManagers(tempNaturalResourcesTabManager);
+        UnitTabManager tempUnitTabManager = this.unitTabUIGameObject.GetComponent<UnitTabManager>();
+        tempUnitTabManager.Initialize();
+        SummaryTabManager tempSummaryTabManager = this.summaryTabUIGameObject.GetComponent<SummaryTabManager>();
+        tempSummaryTabManager.Initialize();
+        this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>().AssignManagers(tempNaturalResourcesTabManager, tempUnitTabManager, tempSummaryTabManager);
     }
 
     private void InitializeControllers()

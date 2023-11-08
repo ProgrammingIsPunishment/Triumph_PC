@@ -46,7 +46,7 @@ public class MoveLeaderUnitUIProcess : IUIProcess
                 if (tempCanMove)
                 {
                     uIProcessData.Holding.HoldingManager.MoveUnit(uIProcessData.Holding2.HoldingManager);
-                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update));
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update, null));
                     this.ShowHoldingsWithinRange(uIProcessData.Holding, false);
                 }
                 this.ProcessEnd();

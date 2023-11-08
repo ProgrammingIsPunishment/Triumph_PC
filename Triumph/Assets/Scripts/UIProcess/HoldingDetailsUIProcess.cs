@@ -7,6 +7,7 @@ public enum HoldingDetailsProcessState
     None,
     Show,
     Update,
+    NewTab,
     Hide
 }
 
@@ -57,6 +58,9 @@ public class HoldingDetailsUIProcess : IUIProcess
                 uIProcessData.Holding.HoldingManager.DisplaySelected(true);
                 this.HoldingDetailsManager.UpdateDisplay(uIProcessData.Holding);
                 //this.HoldingDetailsManager.Show();
+                break;
+            case HoldingDetailsProcessState.NewTab:
+                this.HoldingDetailsManager.SwitchTab((HoldingDetailsTabType)uIProcessData.HoldingDetailsTabType);
                 break;
             case HoldingDetailsProcessState.Hide:
                 if (Oberkommando.UI_CONTROLLER.ActiveUIStates.Contains(UIState.MoveLeader))

@@ -56,7 +56,7 @@ public class MapController
 
         this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
 
-        this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings);
+        this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
         result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>>(workingResourceItems, workingHoldings, workingCivilizations);
@@ -292,15 +292,23 @@ public class MapController
         }
     }
 
-    private void GenerateLeaderUnits(ref List<Civilization> civilizations, ref List<Holding> holdings)
+    private void GenerateLeaderUnits(ref List<Civilization> civilizations, ref List<Holding> holdings, ref List<ResourceItem> resourceItems)
     {
         foreach (Civilization c in civilizations)
         {
             foreach (InfluentialPerson ip in c.InfluentialPeople)
             {
+                Inventory workingSupplyInventory = new Inventory(InventoryType.UnitSupply, new List<ResourceItem>());
+
+                //For testing until how to add a starting inventory is figured out
+                ResourceItem tempResourceItem = resourceItems.Find(wri => wri.GUID.ToLower() == "meat").CreateInstance();
+                tempResourceItem.AddToStack(5);
+                workingSupplyInventory.ResourceItems.Add(tempResourceItem);
+                //End testing
+
                 if (ip.IsLeader)
                 {
-                    Unit leaderUnit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip);
+                    Unit leaderUnit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip, workingSupplyInventory);
                     c.Units.Add(leaderUnit);
                     this.AssignRandomStartingLocation(leaderUnit, c);
                 }

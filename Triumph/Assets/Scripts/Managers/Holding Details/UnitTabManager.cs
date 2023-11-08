@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NaturalResourcesTabManager : MonoBehaviour
+public class UnitTabManager : MonoBehaviour
 {
     private List<InventorySlotManager> InventorySlotManagers = new List<InventorySlotManager>();
 

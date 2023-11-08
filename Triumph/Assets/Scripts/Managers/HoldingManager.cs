@@ -78,7 +78,7 @@ public class HoldingManager : MonoBehaviour
             case UIState.HoldingDetails:
                 if (this.isDiscovered)
                 {
-                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(this.holding, HoldingDetailsProcessState.Show));
+                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(this.holding, HoldingDetailsProcessState.Show, null));
                 }
                 break;
             case UIState.MoveLeader:

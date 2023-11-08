@@ -11,13 +11,15 @@ public class Unit
     public UnitType UnitType { get; set; }
     public int ActionPoints { get; set; }
     public InfluentialPerson Commander { get; set; }
+    public Inventory SupplyInventory { get; set; }
 
-    public Unit(string guid, string displayName, UnitType unitType, InfluentialPerson commander)
+    public Unit(string guid, string displayName, UnitType unitType, InfluentialPerson commander, Inventory supplyInventory)
     {
         this.GUID = guid;
         this.DisplayName = displayName;
         this.UnitType = unitType;
         this.Commander = commander;
+        this.SupplyInventory = supplyInventory;
         this.ActionPoints = 2;
     }
 

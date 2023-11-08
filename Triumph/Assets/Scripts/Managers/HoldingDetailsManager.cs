@@ -9,18 +9,30 @@ public class HoldingDetailsManager : MonoBehaviour
     [SerializeField] private TMP_InputField holdingNameInput;
     [SerializeField] private TMP_InputField unitNameInput;
     [SerializeField] private TextMeshProUGUI unitActionPointText;
-    [SerializeField] private Image terrainLandscape;
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
 
+    [SerializeField] private SummaryTabManager summaryTabManager;
     [SerializeField] private NaturalResourcesTabManager naturalResourcesTabManager;
+    [SerializeField] private UnitTabManager unitTabManager;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
 
+    //Tab buttons
+    [SerializeField] private HoldingDetailsTabButton summaryTabButton;
+    [SerializeField] private HoldingDetailsTabButton naturalResourcesTabButton;
+    [SerializeField] private HoldingDetailsTabButton unitInventoryTabButton;
+
     public void UpdateDisplay(Holding holding)
     {
         this.holdingNameInput.text = holding.DisplayName;
+
+        this.summaryTabManager.Show();
+        this.naturalResourcesTabManager.Hide();
+        this.unitTabManager.Hide();
+
+        this.EnableTabButtons(holding);
 
         if (holding.Unit != null)
         {
@@ -36,24 +48,46 @@ public class HoldingDetailsManager : MonoBehaviour
             {
                 this.moveActionButton.SetActive(true);
             }
+
+            //Unit Tab Manager
+            if (holding.Unit.SupplyInventory.ResourceItems.Count >= 1)
+            {
+                this.unitTabManager.UpdateDisplay(holding.Unit.SupplyInventory.ResourceItems);
+            }
         }
         else
         {
             this.unitContainer.SetActive(false);
         }
 
+        //Summary Tab Manager
+        this.summaryTabManager.UpdateDisplay(holding);
+
         //Natural Resources Tab Manager
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
             this.naturalResourcesTabManager.UpdateDisplay(holding.NaturalResourcesInventory.ResourceItems);
-            this.naturalResourcesTabManager.Show();
         }
-        else
-        {
-            this.naturalResourcesTabManager.Hide();
-        }
+    }
 
-        this.terrainLandscape.sprite = Resources.Load<Sprite>($"Sprites/Terrain Landscapes/{holding.TerrainType}TerrainLandscape");
+    public void SwitchTab(HoldingDetailsTabType holdingDetailsTabType)
+    {
+        this.summaryTabManager.Hide();
+        this.naturalResourcesTabManager.Hide();
+        this.unitTabManager.Hide();
+
+        switch (holdingDetailsTabType)
+        {
+            case HoldingDetailsTabType.Summary:
+                this.summaryTabManager.Show();
+                break;
+            case HoldingDetailsTabType.NaturalResources:
+                this.naturalResourcesTabManager.Show();
+                break;
+            case HoldingDetailsTabType.Unit:
+                this.unitTabManager.Show();
+                break;
+        }
     }
 
     public void Show()
@@ -66,8 +100,28 @@ public class HoldingDetailsManager : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void AssignManagers(NaturalResourcesTabManager naturalResourcesTabManager)
+    public void AssignManagers(NaturalResourcesTabManager naturalResourcesTabManager, UnitTabManager unitTabManager, SummaryTabManager summaryTabManager)
     {
         this.naturalResourcesTabManager = naturalResourcesTabManager;
+        this.unitTabManager = unitTabManager;
+        this.summaryTabManager = summaryTabManager;
+    }
+
+    private void EnableTabButtons(Holding holding)
+    {
+        this.summaryTabButton.Enable();
+
+        this.naturalResourcesTabButton.Disable();
+        this.unitInventoryTabButton.Disable();
+
+        if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
+        {
+            this.naturalResourcesTabButton.Enable();
+        }
+
+        if(holding.Unit != null)
+        {
+            this.unitInventoryTabButton.Enable();
+        }
     }
 }
