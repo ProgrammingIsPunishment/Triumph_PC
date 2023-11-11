@@ -20,4 +20,54 @@ public class Inventory
                 break;
         }
     }
+
+    public bool ContainsItem(string guid)
+    {
+        bool result = false;
+
+        foreach (ResourceItem ri in this.ResourceItems)
+        {
+            if (ri.GUID == guid)
+            {
+                return true;
+            }
+        }
+
+        return result;
+    }
+
+    public void Add(List<ResourceItem> resourceItems)
+    {
+        foreach (ResourceItem ri in resourceItems)
+        {
+            if (this.ContainsItem(ri.GUID))
+            {
+                //Already has an item of this type
+                //try to add to the stack
+                ResourceItem tempResourceItem = this.ResourceItems.Find(r=>r.GUID == ri.GUID);
+                tempResourceItem.AddToStack(ri.Amount);
+            }
+            else
+            {
+                //New item of this type
+                this.ResourceItems.Add(ri);
+            }
+        }
+    }
+
+    public List<ResourceItem> Gather(GatherType gatherType)
+    {
+        List<ResourceItem> result = null;
+
+        switch (gatherType)
+        {
+            case GatherType.Wood:
+                result = this.ResourceItems.Find(ri=>ri.DisplayName == "forest").Breakdown();
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
 }

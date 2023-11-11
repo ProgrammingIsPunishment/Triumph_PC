@@ -101,6 +101,11 @@ public class HoldingManager : MonoBehaviour
         this.unitObject = null;
     }
 
+    public void Gather()
+    {
+        
+    }
+
     public void ShowAdjacentExplorableHoldings()
     {
         List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => this.holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();

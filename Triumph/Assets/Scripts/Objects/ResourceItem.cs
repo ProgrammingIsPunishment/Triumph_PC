@@ -36,4 +36,20 @@ public class ResourceItem
         this.Amount += amount;
         if (this.Amount > this.StackLimit) { this.Amount = this.StackLimit; }
     }
+
+    public List<ResourceItem> Breakdown()
+    {
+        List<ResourceItem> result = new List<ResourceItem>();
+
+        foreach (Tuple<string, int> ric in this.ResourceItemComponents)
+        {
+            ResourceItem tempResourceItem = Oberkommando.SAVE.AllResourceItems.Find(ri => ri.GUID == ric.Item1).CreateInstance();
+            tempResourceItem.AddToStack(ric.Item2);
+            result.Add(tempResourceItem);
+        }
+
+        this.Amount--;
+
+        return result;
+    }
 }

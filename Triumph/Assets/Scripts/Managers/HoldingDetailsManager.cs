@@ -18,6 +18,7 @@ public class HoldingDetailsManager : MonoBehaviour
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
+    [SerializeField] private GameObject gatherWoodActionButton;
 
     //Tab buttons
     [SerializeField] private HoldingDetailsTabButton summaryTabButton;
@@ -47,6 +48,15 @@ public class HoldingDetailsManager : MonoBehaviour
             else
             {
                 this.moveActionButton.SetActive(true);
+
+                if (holding.NaturalResourcesInventory.ContainsItem("forest"))
+                {
+                    this.gatherWoodActionButton.SetActive(true);
+                }
+                else
+                {
+                    this.gatherWoodActionButton.SetActive(false);
+                }
             }
 
             //Unit Tab Manager

@@ -28,6 +28,11 @@ public class Unit
         this.ActionPoints -= 1;
     }
 
+    public void Gather(Inventory holdingInventory, GatherType gatherType)
+    {
+        this.SupplyInventory.Add(holdingInventory.Gather(gatherType));
+    }
+
     public void RefreshActionPoints()
     {
         this.ActionPoints = 2;
