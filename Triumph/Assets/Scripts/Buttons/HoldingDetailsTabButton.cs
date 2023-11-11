@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class HoldingDetailsTabButton : MonoBehaviour
 {
-    [SerializeField] private HoldingDetailsTabType HoldingDetailsTabType;
+    [SerializeField] private HoldingDetailsTabType holdingDetailsTabType;
 
     public void ClickEvent()
     {
+        Oberkommando.UI_CONTROLLER.holdingDetailsManager.SwitchTab(this.holdingDetailsTabType);
         //Holding tempSelectedHolding = Oberkommando.UI_CONTROLLER.SelectedHoldings[0];
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(tempSelectedHolding, HoldingDetailsProcessState.NewTab, this.HoldingDetailsTabType));
     }

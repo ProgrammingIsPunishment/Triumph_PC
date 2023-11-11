@@ -18,15 +18,11 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
     }
 
-    private void InitializeControllers()
-    {
-        //Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
-        //Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
-    }
-
     private void InitializeManagers()
     {
-        //Oberkommando.UI_CONTROLLER.hol
+        Oberkommando.UI_CONTROLLER.holdingDetailsManager.summaryTabManager.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingDetailsManager.unitTabManager.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingDetailsManager.naturalResourcesTabManager.Initialize();
     }
 
     private void InitializeModels(List<Holding> allHoldings)
@@ -57,8 +53,8 @@ public class InitializationController : MonoBehaviour
     {
         //Order very important
         this.AssignControllers();
-        this.InitializeControllers();
-        //Oberkommando.UI_CONTROLLER.HideAll();
+        this.InitializeManagers();
+        Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeModels(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();

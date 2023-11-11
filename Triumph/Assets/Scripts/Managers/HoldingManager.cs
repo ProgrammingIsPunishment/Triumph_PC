@@ -78,7 +78,9 @@ public class HoldingManager : MonoBehaviour
             case UIState.HoldingDetails:
                 if (this.isDiscovered)
                 {
-                    //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(this.holding, HoldingDetailsProcessState.Show, null));
+                    Oberkommando.UI_CONTROLLER.SelectHolding(this.holding);
+                    Oberkommando.UI_CONTROLLER.holdingDetailsManager.UpdateDisplay(this.holding);
+                    Oberkommando.UI_CONTROLLER.holdingDetailsManager.Show();
                 }
                 break;
             case UIState.MoveLeader:
@@ -103,7 +105,7 @@ public class HoldingManager : MonoBehaviour
 
     public void Gather()
     {
-        
+        //Need to do???
     }
 
     public void ShowAdjacentExplorableHoldings()

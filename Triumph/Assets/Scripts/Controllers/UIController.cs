@@ -62,6 +62,16 @@ public class UIController : MonoBehaviour
     //    }
     //}
 
+    public void SelectHolding(Holding holding)
+    {
+        this.SelectedHoldings.Add(holding);
+    }
+
+    public void HideAll()
+    {
+        this.holdingDetailsManager.Hide();
+    }
+
     public void ShowDiscoveredHoldings(Civilization civilization)
     {
         foreach (Holding h in Oberkommando.SAVE.AllHoldings)
