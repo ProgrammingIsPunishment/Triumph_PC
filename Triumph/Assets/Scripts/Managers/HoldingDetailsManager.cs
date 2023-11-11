@@ -12,9 +12,9 @@ public class HoldingDetailsManager : MonoBehaviour
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
 
-    [SerializeField] private SummaryTabManager summaryTabManager;
-    [SerializeField] private NaturalResourcesTabManager naturalResourcesTabManager;
-    [SerializeField] private UnitTabManager unitTabManager;
+    [SerializeField] public SummaryTabManager summaryTabManager;
+    [SerializeField] public NaturalResourcesTabManager naturalResourcesTabManager;
+    [SerializeField] public UnitTabManager unitTabManager;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
@@ -108,13 +108,6 @@ public class HoldingDetailsManager : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
-    }
-
-    public void AssignManagers(NaturalResourcesTabManager naturalResourcesTabManager, UnitTabManager unitTabManager, SummaryTabManager summaryTabManager)
-    {
-        this.naturalResourcesTabManager = naturalResourcesTabManager;
-        this.unitTabManager = unitTabManager;
-        this.summaryTabManager = summaryTabManager;
     }
 
     private void EnableTabButtons(Holding holding)

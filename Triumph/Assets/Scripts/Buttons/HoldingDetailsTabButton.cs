@@ -9,8 +9,8 @@ public class HoldingDetailsTabButton : MonoBehaviour
 
     public void ClickEvent()
     {
-        Holding tempSelectedHolding = Oberkommando.UI_CONTROLLER.SelectedHoldings[0];
-        Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(tempSelectedHolding, HoldingDetailsProcessState.NewTab, this.HoldingDetailsTabType));
+        //Holding tempSelectedHolding = Oberkommando.UI_CONTROLLER.SelectedHoldings[0];
+        //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(tempSelectedHolding, HoldingDetailsProcessState.NewTab, this.HoldingDetailsTabType));
     }
 
     public void Disable()

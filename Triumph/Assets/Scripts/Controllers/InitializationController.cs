@@ -18,21 +18,15 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
     }
 
-    private void InitializeManagers()
-    {
-        NaturalResourcesTabManager tempNaturalResourcesTabManager = this.naturalResourcesTabUIGameObject.GetComponent<NaturalResourcesTabManager>();
-        tempNaturalResourcesTabManager.Initialize();
-        UnitTabManager tempUnitTabManager = this.unitTabUIGameObject.GetComponent<UnitTabManager>();
-        tempUnitTabManager.Initialize();
-        SummaryTabManager tempSummaryTabManager = this.summaryTabUIGameObject.GetComponent<SummaryTabManager>();
-        tempSummaryTabManager.Initialize();
-        this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>().AssignManagers(tempNaturalResourcesTabManager, tempUnitTabManager, tempSummaryTabManager);
-    }
-
     private void InitializeControllers()
     {
-        Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
-        Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
+        //Oberkommando.UI_CONTROLLER.HoldingDetailsUIProcess = new HoldingDetailsUIProcess(this.holdingDetailsUIGameObject.GetComponent<HoldingDetailsManager>());
+        //Oberkommando.UI_CONTROLLER.MoveLeaderUnitUIProcess = new MoveLeaderUnitUIProcess();
+    }
+
+    private void InitializeManagers()
+    {
+        //Oberkommando.UI_CONTROLLER.hol
     }
 
     private void InitializeModels(List<Holding> allHoldings)
@@ -63,12 +57,11 @@ public class InitializationController : MonoBehaviour
     {
         //Order very important
         this.AssignControllers();
-        this.InitializeManagers();
         this.InitializeControllers();
-        Oberkommando.UI_CONTROLLER.HideAll();
+        //Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeModels(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
-        Oberkommando.UI_CONTROLLER.RefreshToDefault();
+        //Oberkommando.UI_CONTROLLER.RefreshToDefault();
         Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);

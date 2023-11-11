@@ -9,61 +9,58 @@ public class UIController : MonoBehaviour
     public List<Holding> SelectedHoldings { get; set; } = new List<Holding>();
     public List<UIState> ActiveUIStates { get; set; } = new List<UIState>();
 
-    [SerializeField] private SelectionTargetManager SelectionTargetManger;
+    public HoldingDetailsManager holdingDetailsManager;
 
-    public HoldingDetailsUIProcess HoldingDetailsUIProcess;
-    public MoveLeaderUnitUIProcess MoveLeaderUnitUIProcess;
+    //public void NewUIState(UIState uiState, UIProcessData uIProcessData)
+    //{
+    //    if (!this.ActiveUIStates.Contains(uiState)) { this.ActiveUIStates.Add(uiState); }
+    //    else { /*Do nothing...ui state already in list*/ }
 
-    public void NewUIState(UIState uiState, UIProcessData uIProcessData)
-    {
-        if (!this.ActiveUIStates.Contains(uiState)) { this.ActiveUIStates.Add(uiState); }
-        else { /*Do nothing...ui state already in list*/ }
+    //    this.UIState = uiState;
 
-        this.UIState = uiState;
+    //    switch (uiState)
+    //    {
+    //        case UIState.HoldingDetails:
+    //            if (uIProcessData != null) { this.HoldingDetailsUIProcess.Process(uIProcessData); }
+    //            break;
+    //        case UIState.MoveLeader:
+    //            this.MoveLeaderUnitUIProcess.Process(uIProcessData);
+    //            break;
+    //        case UIState.Disable:
+    //            this.HideAll();
+    //            this.UIState = uiState;
+    //            this.ActiveUIStates.Add(uiState);
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 
-        switch (uiState)
-        {
-            case UIState.HoldingDetails:
-                if (uIProcessData != null) { this.HoldingDetailsUIProcess.Process(uIProcessData); }
-                break;
-            case UIState.MoveLeader:
-                this.MoveLeaderUnitUIProcess.Process(uIProcessData);
-                break;
-            case UIState.Disable:
-                this.HideAll();
-                this.UIState = uiState;
-                this.ActiveUIStates.Add(uiState);
-                break;
-            default:
-                break;
-        }
-    }
+    //public void HideAll()
+    //{
+    //    this.HoldingDetailsUIProcess.ProcessEnd();
+    //    this.MoveLeaderUnitUIProcess.ProcessEnd();
+    //    this.ActiveUIStates.Clear();
+    //    this.SelectedHoldings.ForEach(h => h.HoldingManager.DisplaySelected(false));
+    //}
 
-    public void HideAll()
-    {
-        this.HoldingDetailsUIProcess.ProcessEnd();
-        this.MoveLeaderUnitUIProcess.ProcessEnd();
-        this.ActiveUIStates.Clear();
-        this.SelectedHoldings.ForEach(h => h.HoldingManager.DisplaySelected(false));
-    }
+    //public void RefreshToDefault()
+    //{
+    //    this.ActiveUIStates.Clear();
+    //    this.NewUIState(UIState.HoldingDetails, null);
+    //}
 
-    public void RefreshToDefault()
-    {
-        this.ActiveUIStates.Clear();
-        this.NewUIState(UIState.HoldingDetails, null);
-    }
-
-    public void RefocusUIState()
-    {
-        if (this.ActiveUIStates.Count >= 1)
-        {
-            this.UIState = this.ActiveUIStates.Last();
-        }
-        else
-        {
-            this.UIState = UIState.HoldingDetails;
-        }
-    }
+    //public void RefocusUIState()
+    //{
+    //    if (this.ActiveUIStates.Count >= 1)
+    //    {
+    //        this.UIState = this.ActiveUIStates.Last();
+    //    }
+    //    else
+    //    {
+    //        this.UIState = UIState.HoldingDetails;
+    //    }
+    //}
 
     public void ShowDiscoveredHoldings(Civilization civilization)
     {

@@ -20,53 +20,53 @@ public class MoveLeaderUnitUIProcess : IUIProcess
 
     public void Process(UIProcessData uIProcessData)
     {
-        this.currentUIProcessData = uIProcessData;
-        this.moveLeaderUnitProcessState = (MoveLeaderUnitProcessState)uIProcessData.MoveLeaderUnitProcessState;
+        //this.currentUIProcessData = uIProcessData;
+        //this.moveLeaderUnitProcessState = (MoveLeaderUnitProcessState)uIProcessData.MoveLeaderUnitProcessState;
 
-        switch (this.moveLeaderUnitProcessState)
-        {
-            case MoveLeaderUnitProcessState.ShowSelectable:
-                this.ShowHoldingsWithinRange(uIProcessData.Holding, true);
-                break;
-            case MoveLeaderUnitProcessState.Select:
-                bool tempCanMove = false;
-                //Only move the unit to certain terrains...
-                switch (uIProcessData.Holding2.TerrainType)
-                {
-                    case TerrainType.Grassland: tempCanMove = true; break;
-                    case TerrainType.Hills: tempCanMove = true; break;
-                }
+        //switch (this.moveLeaderUnitProcessState)
+        //{
+        //    case MoveLeaderUnitProcessState.ShowSelectable:
+        //        this.ShowHoldingsWithinRange(uIProcessData.Holding, true);
+        //        break;
+        //    case MoveLeaderUnitProcessState.Select:
+        //        bool tempCanMove = false;
+        //        //Only move the unit to certain terrains...
+        //        switch (uIProcessData.Holding2.TerrainType)
+        //        {
+        //            case TerrainType.Grassland: tempCanMove = true; break;
+        //            case TerrainType.Hills: tempCanMove = true; break;
+        //        }
                 
-                if (!uIProcessData.Holding2.HoldingManager.isDiscovered) 
-                {
-                    uIProcessData.Holding2.HoldingManager.ShowDiscovered();
-                    uIProcessData.Holding2.HoldingManager.ShowAdjacentExplorableHoldings();
-                }
+        //        if (!uIProcessData.Holding2.HoldingManager.isDiscovered) 
+        //        {
+        //            uIProcessData.Holding2.HoldingManager.ShowDiscovered();
+        //            uIProcessData.Holding2.HoldingManager.ShowAdjacentExplorableHoldings();
+        //        }
 
-                if (tempCanMove)
-                {
-                    uIProcessData.Holding.HoldingManager.MoveUnit(uIProcessData.Holding2.HoldingManager);
-                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update, null));
-                    this.ShowHoldingsWithinRange(uIProcessData.Holding, false);
-                }
-                this.ProcessEnd();
-                break;
-        }
+        //        if (tempCanMove)
+        //        {
+        //            uIProcessData.Holding.HoldingManager.MoveUnit(uIProcessData.Holding2.HoldingManager);
+        //            Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(uIProcessData.Holding2, HoldingDetailsProcessState.Update, null));
+        //            this.ShowHoldingsWithinRange(uIProcessData.Holding, false);
+        //        }
+        //        this.ProcessEnd();
+        //        break;
+        //}
     }
 
     public void ProcessEnd()
     {
-        //Logic for reseting the ui process
-        this.moveLeaderUnitProcessState = MoveLeaderUnitProcessState.None;
+        ////Logic for reseting the ui process
+        //this.moveLeaderUnitProcessState = MoveLeaderUnitProcessState.None;
 
-        if (this.currentUIProcessData != null)
-        {
-            this.ShowHoldingsWithinRange(this.currentUIProcessData.Holding, false);
-            this.currentUIProcessData = null;
-        }
+        //if (this.currentUIProcessData != null)
+        //{
+        //    this.ShowHoldingsWithinRange(this.currentUIProcessData.Holding, false);
+        //    this.currentUIProcessData = null;
+        //}
 
-        Oberkommando.UI_CONTROLLER.ActiveUIStates.Remove(this.UIState);
-        Oberkommando.UI_CONTROLLER.RefocusUIState();
+        //Oberkommando.UI_CONTROLLER.ActiveUIStates.Remove(this.UIState);
+        //Oberkommando.UI_CONTROLLER.RefocusUIState();
     }
 
     private void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)
