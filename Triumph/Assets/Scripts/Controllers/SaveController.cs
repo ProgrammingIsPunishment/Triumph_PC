@@ -12,11 +12,12 @@ public class SaveController
 {
     public Save NewGame(Save save)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> mapData = Oberkommando.MAP_CONTROLLER.LoadMapFile(save.MapName);
+        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>> mapData = Oberkommando.MAP_CONTROLLER.LoadMapFile(save.MapName);
 
         save.AllResourceItems = mapData.Item1;
         save.AllHoldings = mapData.Item2;
         save.AllCivilizations = mapData.Item3;
+        save.AllUnits = mapData.Item4;
 
         return save;
     }
