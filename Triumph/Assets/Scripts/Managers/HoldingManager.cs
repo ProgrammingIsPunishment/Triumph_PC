@@ -22,7 +22,7 @@ public class HoldingManager : MonoBehaviour
         this.isDiscovered = false;
         this.isSelectableForMovement = false;
 
-        holding.HoldingManager = this;
+        //holding.HoldingManager = this;
         this.holding = holding;
     }
 
@@ -45,7 +45,7 @@ public class HoldingManager : MonoBehaviour
         this.FogOfWar.SetActive(true);
     }
 
-    public void DisplaySelectable(bool showSelectable)
+    public void ShowSelectable(bool showSelectable)
     {
         if (showSelectable)
         {
@@ -59,7 +59,7 @@ public class HoldingManager : MonoBehaviour
         }
     }
 
-    public void DisplaySelected(bool showSelected)
+    public void ShowSelected(bool showSelected)
     {
         if (showSelected)
         {
@@ -78,47 +78,33 @@ public class HoldingManager : MonoBehaviour
             case UIState.HoldingDetails:
                 if (this.isDiscovered)
                 {
-                    Oberkommando.UI_CONTROLLER.SelectHolding(this.holding);
-                    Oberkommando.UI_CONTROLLER.holdingDetailsManager.UpdateDisplay(this.holding);
-                    Oberkommando.UI_CONTROLLER.holdingDetailsManager.Show();
+                    Oberkommando.UI_CONTROLLER.HoldingDetailsProcess(HoldingDetailsSubState.Show,this.holding);
                 }
                 break;
             case UIState.MoveLeader:
                 if (this.isSelectableForMovement)
                 {
+                    Oberkommando.UI_CONTROLLER.MoveLeaderProcess(MoveLeaderSubState.HoldingSelected,this.holding);
                     //Oberkommando.UI_CONTROLLER.NewUIState(UIState.MoveLeader, new UIProcessData(Oberkommando.UI_CONTROLLER.SelectedHoldings[0], this.holding, MoveLeaderUnitProcessState.Select));
                 }
                 break;
         }
     }
 
-    public void MoveUnit(HoldingManager destinationHoldingManager)
-    {
-        destinationHoldingManager.holding.Unit = this.holding.Unit;
-        destinationHoldingManager.unitObject = this.unitObject;
-        destinationHoldingManager.unitObject.transform.SetParent(destinationHoldingManager.gameObject.transform);
-        destinationHoldingManager.unitObject.transform.localPosition = new Vector3(0f, 0f, 0f);
-        destinationHoldingManager.holding.Unit.Move();
-        this.holding.Unit = null;
-        this.unitObject = null;
-    }
+    //public void MoveUnit(HoldingManager destinationHoldingManager)
+    //{
+    //    destinationHoldingManager.holding.Unit = this.holding.Unit;
+    //    destinationHoldingManager.unitObject = this.unitObject;
+    //    destinationHoldingManager.unitObject.transform.SetParent(destinationHoldingManager.gameObject.transform);
+    //    destinationHoldingManager.unitObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+    //    destinationHoldingManager.holding.Unit.Move();
+    //    this.holding.Unit = null;
+    //    this.unitObject = null;
+    //}
 
     public void Gather()
     {
         //Need to do???
-    }
-
-    public void ShowAdjacentExplorableHoldings()
-    {
-        List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => this.holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
-
-        foreach (Holding ah in adjacentHoldings)
-        {
-            if (!ah.HoldingManager.isDiscovered)
-            {
-                ah.HoldingManager.ShowExplorable();
-            }
-        }
     }
 
     //public void OnMouseEnter()

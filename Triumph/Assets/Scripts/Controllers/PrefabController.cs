@@ -10,42 +10,43 @@ public class PrefabController : MonoBehaviour
 {
     public void InstantiateHoldingPrefab(Holding holding)
     {
-        GameObject tempHolding = Instantiate(Resources.Load<GameObject>("Prefabs/Holding"), new Vector3((holding.XPosition * 10), 0f, (holding.ZPosition * 10)), Quaternion.identity);
-        tempHolding.GetComponent<HoldingManager>().UpdateFromHolding(holding);
-        tempHolding.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
+        GameObject tempHoldingObject = Instantiate(Resources.Load<GameObject>("Prefabs/Holding"), new Vector3((holding.XPosition * 10), 0f, (holding.ZPosition * 10)), Quaternion.identity);
+        holding.HoldingDisplayManager = tempHoldingObject.GetComponent<HoldingDisplayManager>();
+        tempHoldingObject.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
 
-        tempHolding.SetActive(false);
+        holding.HoldingDisplayManager.Show(false);
+        //tempHoldingObject.(false);
     }
 
     public void InstantiateTerrainModel(Holding holding)
     {
-        GameObject tempTerrain = Instantiate(Resources.Load<GameObject>($"Models/Terrain/{holding.TerrainType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-        tempTerrain.transform.SetParent(holding.HoldingManager.gameObject.transform);
-        tempTerrain.transform.localPosition = new Vector3(0f, 0f, 0f);
-        Destroy(holding.HoldingManager.terrain);
-        holding.HoldingManager.terrain = tempTerrain;
+        GameObject tempTerrainObject = Instantiate(Resources.Load<GameObject>($"Models/Terrain/{holding.TerrainType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempTerrainObject.transform.SetParent(holding.HoldingDisplayManager.gameObject.transform);
+        tempTerrainObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+        //Destroy(holding.HoldingManager.terrain);
+        holding.HoldingDisplayManager.terrainObject = tempTerrainObject;
 
-        tempTerrain.SetActive(false);
+        tempTerrainObject.SetActive(true);
+        //tempTerrainObject.SetActive(false);
     }
 
-    public void InstantiateResourrceModel(Holding holding, ResourceItem resourceItem)
+    public void InstantiateResourceModel(Holding holding, ResourceItem resourceItem)
     {
-        GameObject tempResource = Instantiate(Resources.Load<GameObject>($"Models/Resources/{resourceItem.GUID.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-        tempResource.transform.SetParent(holding.HoldingManager.gameObject.transform);
-        tempResource.transform.localPosition = new Vector3(0f, 1.5f, 0f);
-        holding.HoldingManager.resourceObject = tempResource;
+        GameObject tempResourceObject = Instantiate(Resources.Load<GameObject>($"Models/Resources/{resourceItem.GUID.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempResourceObject.transform.SetParent(holding.HoldingDisplayManager.gameObject.transform);
+        tempResourceObject.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+        holding.HoldingDisplayManager.resourceObject = tempResourceObject;
 
-        tempResource.SetActive(false);
+        tempResourceObject.SetActive(true);
     }
 
-    public void InstantiateUnitModel(Holding holding)
+    public void InstantiateUnitPrefab(Unit unit)
     {
-        GameObject tempUnit = Instantiate(Resources.Load<GameObject>($"Models/Units/{holding.Unit.UnitType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-        tempUnit.transform.SetParent(holding.HoldingManager.gameObject.transform);
-        tempUnit.transform.localPosition = new Vector3(0f, 0f, 0f);
-        Destroy(holding.HoldingManager.unitObject);
-        holding.HoldingManager.unitObject = tempUnit;
+        GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>("Prefabs/Unit"), new Vector3((unit.XPosition * 10), 0f, (unit.ZPosition * 10)), Quaternion.identity);
+        unit.UnitDisplayManager = tempUnitObject.GetComponent<UnitDisplayManager>();
+        tempUnitObject.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
 
-        tempUnit.SetActive(true);
+        unit.UnitDisplayManager.Show(true);
+        //tempHoldingObject.(false);
     }
 }

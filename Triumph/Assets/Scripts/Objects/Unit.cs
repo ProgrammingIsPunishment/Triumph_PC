@@ -8,33 +8,21 @@ public class Unit
 {
     public string GUID { get; set; }
     public string DisplayName { get; set; }
+    public int XPosition { get; set; }
+    public int ZPosition { get; set; }
     public UnitType UnitType { get; set; }
-    public int ActionPoints { get; set; }
     public InfluentialPerson Commander { get; set; }
     public Inventory SupplyInventory { get; set; }
 
-    public Unit(string guid, string displayName, UnitType unitType, InfluentialPerson commander, Inventory supplyInventory)
+    [NonSerialized] public UnitDisplayManager UnitDisplayManager;
+
+    public Unit(string displayName, int xPosition, int zPosition, UnitType unitType)
     {
-        this.GUID = guid;
         this.DisplayName = displayName;
+        this.XPosition = xPosition;
+        this.ZPosition = zPosition;
         this.UnitType = unitType;
-        this.Commander = commander;
-        this.SupplyInventory = supplyInventory;
-        this.ActionPoints = 2;
-    }
-
-    public void Move()
-    {
-        this.ActionPoints -= 1;
-    }
-
-    public void Gather(Inventory holdingInventory, GatherType gatherType)
-    {
-        this.SupplyInventory.Add(holdingInventory.Gather(gatherType));
-    }
-
-    public void RefreshActionPoints()
-    {
-        this.ActionPoints = 2;
+        this.Commander = null;
+        this.SupplyInventory = new Inventory(InventoryType.UnitSupply,new List<ResourceItem>());
     }
 }

@@ -10,6 +10,8 @@ public class Civilization
     public string Name { get; set; }
     public List<InfluentialPerson> InfluentialPeople { get; set; }
     public List<Unit> Units { get; set; }
+    public List<Holding> ExploredHoldings { get; set; }
+    public InfluentialPerson Leader { get; set; }
 
     public Civilization(string guid, string name)
     {
@@ -17,5 +19,7 @@ public class Civilization
         this.Name = name;
         this.InfluentialPeople = new List<InfluentialPerson>();
         this.Units = new List<Unit>();
+        this.ExploredHoldings = new List<Holding>();
+        this.Leader = null;
     }
 }

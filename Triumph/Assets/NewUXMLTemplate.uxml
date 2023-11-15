@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="background-color: rgb(255, 0, 0);" />
+    <ui:VisualElement>
+        <ui:Label text="Label" display-tooltip-when-elided="true" style="height: 51px; width: 605px;" />
+    </ui:VisualElement>
+    <ui:SliderInt picking-mode="Ignore" label="SliderInt" value="42" high-value="100" />
+    <ui:RadioButton label="Radio Button" />
+    <ui:Button display-tooltip-when-elided="true" style="height: 154px; width: 150px; -unity-background-scale-mode: stretch-to-fill; background-image: resource(&apos;Sprites/UI/Button_NextTurn_Unclicked&apos;); -unity-text-align: lower-center; display: flex; visibility: visible; overflow: hidden;" />
+</ui:UXML>

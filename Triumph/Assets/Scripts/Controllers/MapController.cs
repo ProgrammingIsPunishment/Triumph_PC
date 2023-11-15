@@ -16,9 +16,9 @@ public class MapController
     private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
-    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> LoadMapFile(string mapName)
+    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>> LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>> result = null;
+        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>> result = null;
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
@@ -32,9 +32,10 @@ public class MapController
 
         List<ResourceItem> workingResourceItems = new List<ResourceItem>();
         List<Holding> workingHoldings = new List<Holding>();
+        List<Unit> workingUnits = new List<Unit>();
         List<Civilization> workingCivilizations = new List<Civilization>();
 
-        List<InfluentialPerson> tempInfluentialPeople = new List<InfluentialPerson>();
+        List<InfluentialPerson> workingInfluencialPeople = new List<InfluentialPerson>();
 
         //Generate independent definition dictionaries
         this.heatDictionary = this.ConvertToHeatDictionary(allHeatDefinitionElements);
@@ -46,20 +47,23 @@ public class MapController
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
 
         //Loop through all influential people
-        tempInfluentialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
+        workingInfluencialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
         //Loop through all the holdings
         workingHoldings.AddRange(this.ReadMapTextures(mapName, workingResourceItems));
 
         //Loop through all the civilizations
-        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements));
+        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople));
 
-        this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
+        //Generate Leader Units
+        workingUnits.AddRange(this.GenerateLeaderUnits(workingCivilizations));
 
-        this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
+        //this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
+
+        //this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
-        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>>(workingResourceItems, workingHoldings, workingCivilizations);
+        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits);
 
         return result;
     }
@@ -228,6 +232,7 @@ public class MapController
             ResourceItemType resourceItemType = Enum.Parse<ResourceItemType>(ri.Attribute("resourceitemtype").Value);
             int stackLimit = int.Parse(ri.Attribute("stacklimit").Value);
             string iconFileName = (string)ri.Attribute("iconFileName").Value.ToLower();
+            string modelfilename = (string)ri.Attribute("modelfilename").Value.ToLower();
             List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
 
             //string hexcode = (string)ri.Attribute("hexcode").Value;
@@ -242,7 +247,7 @@ public class MapController
 
                 resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
             }
-            result.Add(new ResourceItem(guid, displayName, iconFileName, resourceItemType, stackLimit, resourceItemComponents));
+            result.Add(new ResourceItem(guid, displayName, iconFileName, resourceItemType, stackLimit, resourceItemComponents,modelfilename));
         }
 
         return result;
@@ -264,7 +269,7 @@ public class MapController
         return result;
     }
 
-    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements)
+    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople)
     {
         List<Civilization> result = new List<Civilization>();
 
@@ -273,68 +278,48 @@ public class MapController
         {
             string guid = (string)c.Attribute("guid").Value.ToLower();
             string displayName = (string)c.Attribute("displayname").Value;
+            string startingLocationGUID = (string)c.Attribute("startinglocationguid").Value;
+            string leaderGUID = (string)c.Attribute("leaderguid").Value;
 
-            result.Add(new Civilization(guid, displayName));
+            Civilization workingCivilization = new Civilization(guid, displayName);
+            workingCivilization.ExploredHoldings.Add(allHoldings.Find(h=>h.GUID == startingLocationGUID));
+
+            InfluentialPerson workingLeader = allInfluentialPeople.Find(ip => ip.GUID == leaderGUID);
+            workingLeader.IsLeader = true;
+
+            workingCivilization.InfluentialPeople.Add(workingLeader);
+            workingCivilization.Leader = workingLeader;
+            result.Add(workingCivilization);
         }
 
         return result;
     }
 
-    private void AssignLeadersToCivilizations(ref List<Civilization> civilizations, ref List<InfluentialPerson> influentialPeople)
+    private List<Unit> GenerateLeaderUnits(List<Civilization> civilizations)
     {
+        List<Unit> result = new List<Unit>();
+
         foreach (Civilization c in civilizations)
         {
-            string tempGUID = influentialPeople[0].GUID;
-            InfluentialPerson influentialPerson = influentialPeople.Find(ip=>ip.GUID == tempGUID);
-            influentialPerson.IsLeader = true;
-            influentialPeople.RemoveAt(0);
-            c.InfluentialPeople.Add(influentialPerson);
+            Unit tempUnit = new Unit(c.Leader.DisplayName, c.ExploredHoldings[0].XPosition, c.ExploredHoldings[0].ZPosition, UnitType.Leader);
+
+            c.Units.Add(tempUnit);
+            result.Add(tempUnit);
         }
-    }
 
-    private void GenerateLeaderUnits(ref List<Civilization> civilizations, ref List<Holding> holdings, ref List<ResourceItem> resourceItems)
-    {
-        foreach (Civilization c in civilizations)
-        {
-            foreach (InfluentialPerson ip in c.InfluentialPeople)
-            {
-                Inventory workingSupplyInventory = new Inventory(InventoryType.UnitSupply, new List<ResourceItem>());
-
-                //For testing until how to add a starting inventory is figured out
-                ResourceItem tempResourceItem = resourceItems.Find(wri => wri.GUID.ToLower() == "meat").CreateInstance();
-                tempResourceItem.AddToStack(5);
-                workingSupplyInventory.ResourceItems.Add(tempResourceItem);
-                //End testing
-
-                if (ip.IsLeader)
-                {
-                    Unit leaderUnit = new Unit(Guid.NewGuid().ToString().ToLower(), ip.DisplayName,UnitType.Leader,ip, workingSupplyInventory);
-                    c.Units.Add(leaderUnit);
-                    this.AssignRandomStartingLocation(leaderUnit, c);
-                }
-            }
-        }
-    }
-
-    private void AssignRandomStartingLocation(Unit unit, Civilization civlization)
-    {
-        Holding tempHolding = this.spawnHoldings[0];
-        tempHolding.Unit = unit;
-        tempHolding.DiscoveredCivilizationGUIDs.Add(civlization.GUID);
-        //civlization.DiscoveredHoldingGUIDs.Add(tempHolding.GUID);
-        this.spawnHoldings.RemoveAt(0);
+        return result;
     }
 
     private void AssignAdjacentHoldings(List<Holding> allHoldings)
     {
         foreach (Holding h in allHoldings)
         {
-            h.AdjacentHoldingGUIDs.AddRange(allHoldings.Where(ah=>
+            h.AdjacentHoldings.AddRange(allHoldings.Where(ah=>
                 (ah.XPosition == (h.XPosition + 1) && ah.ZPosition == h.ZPosition) ||
                 (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition + 1)) ||
                 (ah.XPosition == (h.XPosition - 1) && ah.ZPosition == h.ZPosition) ||
                 (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition - 1))
-            ).Select(x=>x.GUID).ToList());
+            ).Select(x=>x).ToList());
         }
     }
 

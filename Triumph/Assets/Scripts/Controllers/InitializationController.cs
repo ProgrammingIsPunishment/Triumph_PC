@@ -25,26 +25,31 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.holdingDetailsManager.naturalResourcesTabManager.Initialize();
     }
 
-    private void InitializeModels(List<Holding> allHoldings)
+    private void InitializeHoldingModels(List<Holding> allHoldings)
     {
         foreach (Holding h in allHoldings)
         {
             Oberkommando.PREFAB_CONTROLLER.InstantiateHoldingPrefab(h);
             Oberkommando.PREFAB_CONTROLLER.InstantiateTerrainModel(h);
-            if (h.Unit != null)
+            //if (h.Unit != null)
+            //{
+            //    Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
+            //}
+            foreach (ResourceItem ri in h.NaturalResourcesInventory.ResourceItems)
             {
-                Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
-            }
-            if (h.NaturalResourcesInventory.ResourceItems.Count >= 1)
-            {
-                foreach (ResourceItem ri in h.NaturalResourcesInventory.ResourceItems)
+                if (ri.ModelFileName != "")
                 {
-                    switch (ri.GUID.ToLower())
-                    {
-                        case "forest": Oberkommando.PREFAB_CONTROLLER.InstantiateResourrceModel(h,ri); break;
-                    }
+                    Oberkommando.PREFAB_CONTROLLER.InstantiateResourceModel(h, ri);
                 }
             }
+        }
+    }
+
+    private void InitializeUnitModels(List<Unit> units)
+    {
+        foreach (Unit u in units)
+        {
+            Oberkommando.PREFAB_CONTROLLER.InstantiateUnitPrefab(u);
         }
     }
 
@@ -55,11 +60,13 @@ public class InitializationController : MonoBehaviour
         this.AssignControllers();
         this.InitializeManagers();
         Oberkommando.UI_CONTROLLER.HideAll();
-        this.InitializeModels(Oberkommando.SAVE.AllHoldings);
+        this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
+        this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();
-        Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
-        Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(Oberkommando.SAVE.AllCivilizations[0]);
+        Oberkommando.UI_CONTROLLER.UIState = UIState.HoldingDetails;
+        //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
+        Oberkommando.UI_CONTROLLER.ShowExploredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
     }
 }

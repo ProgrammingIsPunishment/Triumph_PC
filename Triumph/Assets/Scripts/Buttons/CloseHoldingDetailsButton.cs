@@ -6,7 +6,7 @@ public class CloseHoldingDetailsButton : MonoBehaviour
 {
     public void ClickEvent()
     {
-        Oberkommando.UI_CONTROLLER.holdingDetailsManager.Hide();
+        Oberkommando.UI_CONTROLLER.HoldingDetailsProcess(HoldingDetailsSubState.Hide,null);
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails, new UIProcessData(null, HoldingDetailsProcessState.Hide, null));
     }
 }

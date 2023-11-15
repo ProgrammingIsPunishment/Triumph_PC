@@ -12,11 +12,9 @@ public class Holding
     public int ZPosition { get; set; }
     public TerrainType TerrainType { get; set; }
     public Inventory NaturalResourcesInventory { get; set; }
-    public Unit Unit { get; set; }
-    public List<string> DiscoveredCivilizationGUIDs { get; set; }
-    public List<string> AdjacentHoldingGUIDs { get; set; }
+    public List<Holding> AdjacentHoldings { get; set; }
 
-    [NonSerialized] public HoldingManager HoldingManager;
+    [NonSerialized] public HoldingDisplayManager HoldingDisplayManager;
 
     public Holding(string displayName, int xPosition, int ZPosition, TerrainType terrainType, Inventory naturalResourcesInventory)
     {
@@ -25,8 +23,6 @@ public class Holding
         this.ZPosition = ZPosition;
         this.TerrainType = terrainType;
         this.NaturalResourcesInventory = naturalResourcesInventory;
-        this.Unit = null;
-        this.DiscoveredCivilizationGUIDs = new List<string>();
-        this.AdjacentHoldingGUIDs = new List<string>();
+        this.AdjacentHoldings = new List<Holding>();
     }
 }

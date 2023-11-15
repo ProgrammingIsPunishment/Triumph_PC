@@ -5,66 +5,83 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public UIState UIState { get; private set; }
-    public List<Holding> SelectedHoldings { get; set; } = new List<Holding>();
-    public List<UIState> ActiveUIStates { get; set; } = new List<UIState>();
+    public UIState UIState { get; set; }
 
+    //Holding Details
     public HoldingDetailsManager holdingDetailsManager;
+    //public HoldingDetailsSubState HoldingDetailsSubState { get; set; } = HoldingDetailsSubState.None;
+    //public Holding HoldingDetailsHolding { get; set; } = null;
+    //Move Leader
+    //public MoveLeaderSubState MoveLeaderSubState { get; set; } = MoveLeaderSubState.None;
 
-    //public void NewUIState(UIState uiState, UIProcessData uIProcessData)
-    //{
-    //    if (!this.ActiveUIStates.Contains(uiState)) { this.ActiveUIStates.Add(uiState); }
-    //    else { /*Do nothing...ui state already in list*/ }
-
-    //    this.UIState = uiState;
-
-    //    switch (uiState)
-    //    {
-    //        case UIState.HoldingDetails:
-    //            if (uIProcessData != null) { this.HoldingDetailsUIProcess.Process(uIProcessData); }
-    //            break;
-    //        case UIState.MoveLeader:
-    //            this.MoveLeaderUnitUIProcess.Process(uIProcessData);
-    //            break;
-    //        case UIState.Disable:
-    //            this.HideAll();
-    //            this.UIState = uiState;
-    //            this.ActiveUIStates.Add(uiState);
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
-
-    //public void HideAll()
-    //{
-    //    this.HoldingDetailsUIProcess.ProcessEnd();
-    //    this.MoveLeaderUnitUIProcess.ProcessEnd();
-    //    this.ActiveUIStates.Clear();
-    //    this.SelectedHoldings.ForEach(h => h.HoldingManager.DisplaySelected(false));
-    //}
-
-    //public void RefreshToDefault()
-    //{
-    //    this.ActiveUIStates.Clear();
-    //    this.NewUIState(UIState.HoldingDetails, null);
-    //}
-
-    //public void RefocusUIState()
-    //{
-    //    if (this.ActiveUIStates.Count >= 1)
-    //    {
-    //        this.UIState = this.ActiveUIStates.Last();
-    //    }
-    //    else
-    //    {
-    //        this.UIState = UIState.HoldingDetails;
-    //    }
-    //}
-
-    public void SelectHolding(Holding holding)
+    public void HoldingDetailsProcess(HoldingDetailsSubState holdingDetailsSubState, Holding holding)
     {
-        this.SelectedHoldings.Add(holding);
+        //this.HoldingDetailsSubState = holdingDetailsSubState;
+
+        //switch (holdingDetailsSubState)
+        //{
+        //    case HoldingDetailsSubState.Show:
+        //        //There is already a holding slected...
+        //       // if (HoldingDetailsHolding != null) { this.HoldingDetailsHolding.HoldingManager.ShowSelected(false); }
+
+        //        //holding.HoldingManager.ShowSelected(true);
+        //        this.holdingDetailsManager.UpdateDisplay(holding);
+        //        HoldingDetailsHolding = holding;
+        //        this.holdingDetailsManager.Show();
+        //        break;
+        //    case HoldingDetailsSubState.Hide:
+        //        this.holdingDetailsManager.Hide();
+        //        //this.HoldingDetailsHolding.HoldingManager.ShowSelected(false);
+        //        this.HoldingDetailsHolding = null;
+        //        this.HoldingDetailsSubState = HoldingDetailsSubState.None;
+        //        break;
+        //}
+
+        ////Reset back to default state
+        //if (this.HoldingDetailsSubState == HoldingDetailsSubState.None)
+        //{
+        //    //Do something???? Maybe?
+        //}
+    }
+
+    public void MoveLeaderProcess(MoveLeaderSubState moveLeaderSubState, Holding holding)
+    {
+        //this.MoveLeaderSubState = moveLeaderSubState;
+
+        //switch (moveLeaderSubState)
+        //{
+        //    case MoveLeaderSubState.ShowSelectableHoldings:
+        //        this.ShowHoldingsWithinRange(this.HoldingDetailsHolding, true);
+        //        break;
+        //    case MoveLeaderSubState.HoldingSelected:
+        //        bool tempCanMove = false;
+        //        //Only move the unit to certain terrains...
+        //        switch (holding.TerrainType)
+        //        {
+        //            case TerrainType.Grassland: tempCanMove = true; break;
+        //            case TerrainType.Hills: tempCanMove = true; break;
+        //        }
+
+        //        //if (!holding.HoldingManager.isDiscovered)
+        //        //{
+        //        //    holding.HoldingManager.ShowDiscovered();
+        //        //    this.ShowAdjacentExplorableHoldings(holding);
+        //        //}
+
+        //        if (tempCanMove)
+        //        {
+        //            //this.HoldingDetailsHolding.HoldingManager.MoveUnit(holding.HoldingManager);
+        //            this.ShowHoldingsWithinRange(this.HoldingDetailsHolding, false);
+        //        }
+        //        this.MoveLeaderSubState = MoveLeaderSubState.None;
+        //        break;
+        //}
+
+        ////Reset back to default state
+        //if (this.MoveLeaderSubState == MoveLeaderSubState.None)
+        //{
+        //    this.ShowHoldingsWithinRange(this.HoldingDetailsHolding,false);
+        //}
     }
 
     public void HideAll()
@@ -72,29 +89,58 @@ public class UIController : MonoBehaviour
         this.holdingDetailsManager.Hide();
     }
 
-    public void ShowDiscoveredHoldings(Civilization civilization)
+    //public void ShowDiscoveredHoldings(Civilization civilization)
+    //{
+    //    foreach (Holding h in Oberkommando.SAVE.AllHoldings)
+    //    {
+    //        //if (h.DiscoveredCivilizationGUIDs.Contains(civilization.GUID))
+    //        //{
+    //        //    //h.HoldingManager.ShowDiscovered();
+    //        //}
+    //    }
+    //}
+
+    public void ShowExploredHoldings(Civilization civilization)
     {
-        foreach (Holding h in Oberkommando.SAVE.AllHoldings)
+        foreach (Holding h in civilization.ExploredHoldings)
         {
-            if (h.DiscoveredCivilizationGUIDs.Contains(civilization.GUID))
-            {
-                h.HoldingManager.ShowDiscovered();
-            }
+            h.HoldingDisplayManager.ShowExplored(true);
+            h.HoldingDisplayManager.Show(true);
+            //if (h.DiscoveredCivilizationGUIDs.Contains(civilization.GUID))
+            //{
+            //    List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => h.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+            //    foreach (Holding ah in adjacentHoldings)
+            //    {
+            //        //ah.HoldingManager.ShowExplorable();
+            //    }
+            //}
         }
     }
 
-    public void ShowExplorableHoldings(Civilization civilization)
+    public void ShowAdjacentExplorableHoldings(Holding holding)
     {
-        foreach (Holding h in Oberkommando.SAVE.AllHoldings)
+        //List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+
+        //foreach (Holding ah in adjacentHoldings)
+        //{
+        //    //if (!ah.HoldingManager.isDiscovered)
+        //    //{
+        //    //    ah.HoldingManager.ShowExplorable();
+        //    //}
+        //}
+    }
+
+    public void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)
+    {
+        //List<Holding> selectableHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+
+        if (isBeingShown)
         {
-            if (h.DiscoveredCivilizationGUIDs.Contains(civilization.GUID))
-            {
-                List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => h.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
-                foreach (Holding ah in adjacentHoldings)
-                {
-                    ah.HoldingManager.ShowExplorable();
-                }
-            }
+            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(true); }
+        }
+        else
+        {
+            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(false); }
         }
     }
 }

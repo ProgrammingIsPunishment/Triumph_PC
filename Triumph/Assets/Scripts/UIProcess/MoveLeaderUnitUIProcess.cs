@@ -71,15 +71,15 @@ public class MoveLeaderUnitUIProcess : IUIProcess
 
     private void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)
     {
-        List<Holding> selectableHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+        //List<Holding> selectableHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
 
         if (isBeingShown)
         {
-            foreach (Holding h in selectableHoldings) { h.HoldingManager.DisplaySelectable(true); }
+            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(true); }
         }
         else
         {
-            foreach (Holding h in selectableHoldings) { h.HoldingManager.DisplaySelectable(false); }
+            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(false); }
         }
     }
 }

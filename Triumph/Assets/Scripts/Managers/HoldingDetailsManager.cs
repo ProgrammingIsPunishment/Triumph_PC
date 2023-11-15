@@ -27,57 +27,57 @@ public class HoldingDetailsManager : MonoBehaviour
 
     public void UpdateDisplay(Holding holding)
     {
-        this.holdingNameInput.text = holding.DisplayName;
+        //this.holdingNameInput.text = holding.DisplayName;
 
-        this.summaryTabManager.Show();
-        this.naturalResourcesTabManager.Hide();
-        this.unitTabManager.Hide();
+        //this.summaryTabManager.Show();
+        //this.naturalResourcesTabManager.Hide();
+        //this.unitTabManager.Hide();
 
-        this.EnableTabButtons(holding);
+        //this.EnableTabButtons(holding);
 
-        if (holding.Unit != null)
-        {
-            this.unitNameInput.text = holding.Unit.DisplayName;
-            this.unitContainer.SetActive(true);
-            this.unitActionPointText.text = holding.Unit.ActionPoints.ToString();
+        //if (holding.Unit != null)
+        //{
+        //    this.unitNameInput.text = holding.Unit.DisplayName;
+        //    this.unitContainer.SetActive(true);
+        //    this.unitActionPointText.text = holding.Unit.ActionPoints.ToString();
 
-            if (holding.Unit.ActionPoints == 0)
-            {
-                this.moveActionButton.SetActive(false);
-            }
-            else
-            {
-                this.moveActionButton.SetActive(true);
+        //    if (holding.Unit.ActionPoints == 0)
+        //    {
+        //        this.moveActionButton.SetActive(false);
+        //    }
+        //    else
+        //    {
+        //        this.moveActionButton.SetActive(true);
 
-                if (holding.NaturalResourcesInventory.ContainsItem("forest"))
-                {
-                    this.gatherWoodActionButton.SetActive(true);
-                }
-                else
-                {
-                    this.gatherWoodActionButton.SetActive(false);
-                }
-            }
+        //        if (holding.NaturalResourcesInventory.ContainsItem("forest"))
+        //        {
+        //            this.gatherWoodActionButton.SetActive(true);
+        //        }
+        //        else
+        //        {
+        //            this.gatherWoodActionButton.SetActive(false);
+        //        }
+        //    }
 
-            //Unit Tab Manager
-            if (holding.Unit.SupplyInventory.ResourceItems.Count >= 1)
-            {
-                this.unitTabManager.UpdateDisplay(holding.Unit.SupplyInventory.ResourceItems);
-            }
-        }
-        else
-        {
-            this.unitContainer.SetActive(false);
-        }
+        //    //Unit Tab Manager
+        //    if (holding.Unit.SupplyInventory.ResourceItems.Count >= 1)
+        //    {
+        //        this.unitTabManager.UpdateDisplay(holding.Unit.SupplyInventory.ResourceItems);
+        //    }
+        //}
+        //else
+        //{
+        //    this.unitContainer.SetActive(false);
+        //}
 
-        //Summary Tab Manager
-        this.summaryTabManager.UpdateDisplay(holding);
+        ////Summary Tab Manager
+        //this.summaryTabManager.UpdateDisplay(holding);
 
-        //Natural Resources Tab Manager
-        if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
-        {
-            this.naturalResourcesTabManager.UpdateDisplay(holding.NaturalResourcesInventory.ResourceItems);
-        }
+        ////Natural Resources Tab Manager
+        //if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
+        //{
+        //    this.naturalResourcesTabManager.UpdateDisplay(holding.NaturalResourcesInventory.ResourceItems);
+        //}
     }
 
     public void SwitchTab(HoldingDetailsTabType holdingDetailsTabType)
@@ -122,9 +122,9 @@ public class HoldingDetailsManager : MonoBehaviour
             this.naturalResourcesTabButton.Enable();
         }
 
-        if(holding.Unit != null)
-        {
-            this.unitInventoryTabButton.Enable();
-        }
+        //if(holding.Unit != null)
+        //{
+        //    this.unitInventoryTabButton.Enable();
+        //}
     }
 }

@@ -15,20 +15,20 @@
 		<terrain terrain="Mountain" hexcode="808080"></terrain>
 	</terrains>
 	<resourceitems>
-		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested" iconFileName="Log">
+		<resourceitem guid="log" displayname="log" stacklimit="20" resourceitemtype="Harvested" iconFileName="Log" modelfilename="">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
 		</resourceitem>
-		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested" iconFileName="Meat">
+		<resourceitem guid="meat" displayname="meat" stacklimit="20" resourceitemtype="Harvested" iconFileName="Meat" modelfilename="">
 			<resourceitemcomponents>
 			</resourceitemcomponents>
 		</resourceitem>
-		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage" iconFileName="Forest">
+		<resourceitem guid="forest" displayname="forest" stacklimit="10" resourceitemtype="Foliage" iconFileName="Forest" modelfilename="forest">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>
 		</resourceitem>
-		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" iconFileName="Deer">
+		<resourceitem guid="deer" displayname="deer" stacklimit="10" resourceitemtype="Fauna" iconFileName="Deer" modelfilename="">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="meat" amount="5"></resourceitemcomponent>
 			</resourceitemcomponents>
@@ -38,7 +38,7 @@
 		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
 	</influentialpeople>
 	<civilizations>
-		<civilization guid="america" displayname="America"></civilization>
+		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham"></civilization>
 	</civilizations>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0"></holding>

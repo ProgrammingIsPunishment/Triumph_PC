@@ -9,13 +9,14 @@ public class ResourceItem
     public string GUID { get; set; }
     public string DisplayName { get; set; }
     public string IconFileName { get; set; }
+    public string ModelFileName { get; set; }
     public ResourceItemType ResourceItemType { get; set; }
     public int Amount { get; set; }
     public int StackLimit { get; set; }
     public List<Tuple<string, int>> ResourceItemComponents { get; set; }
 
 
-    public ResourceItem(string guid, string displayName, string iconFileName, ResourceItemType resourceItemType, int stackLimit, List<Tuple<string, int>> resourceItemComponents)
+    public ResourceItem(string guid, string displayName, string iconFileName, ResourceItemType resourceItemType, int stackLimit, List<Tuple<string, int>> resourceItemComponents, string modelFileName)
     {
         this.GUID = guid;
         this.DisplayName = displayName;
@@ -24,11 +25,12 @@ public class ResourceItem
         this.Amount = 0;
         this.StackLimit = stackLimit;
         this.ResourceItemComponents = resourceItemComponents;
+        this.ModelFileName = modelFileName;
     }
 
     public ResourceItem CreateInstance()
     {   
-        return new ResourceItem(this.GUID, this.DisplayName, this.IconFileName, this.ResourceItemType,this.StackLimit,this.ResourceItemComponents);
+        return new ResourceItem(this.GUID, this.DisplayName, this.IconFileName, this.ResourceItemType,this.StackLimit,this.ResourceItemComponents, this.ModelFileName);
     }
 
     public void AddToStack(int amount)

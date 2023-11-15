@@ -18,13 +18,14 @@ public class TurnController
     {
         foreach (Unit u in civilization.Units)
         {
-            u.RefreshActionPoints();
+            //u.RefreshActionPoints();
         }
     }
 
     public void StartTurn(Civilization currentCivilization)
     {
         //For player character only as NPCs don't need to actually "see" anything
+        Oberkommando.UI_CONTROLLER.ShowExploredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
         //Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(currentCivilization);
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();
