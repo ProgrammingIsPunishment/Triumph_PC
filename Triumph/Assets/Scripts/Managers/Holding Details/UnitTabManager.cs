@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class UnitTabManager : MonoBehaviour
 {
-    private List<InventorySlotManager> InventorySlotManagers = new List<InventorySlotManager>();
+    private List<InventorySlotDisplayManager> InventorySlotManagers = new List<InventorySlotDisplayManager>();
 
     public void UpdateDisplay(List<ResourceItem> resourceItems)
     {
-        foreach (InventorySlotManager ism in this.InventorySlotManagers) { ism.Hide(); }
+        foreach (InventorySlotDisplayManager ism in this.InventorySlotManagers) { ism.Hide(); }
         for (int i = 0; i < resourceItems.Count; i++)
         {
             InventorySlotManagers[i].UpdateDisplay(resourceItems[i]);
@@ -28,8 +28,8 @@ public class UnitTabManager : MonoBehaviour
 
     public void Initialize()
     {
-        this.InventorySlotManagers.AddRange(this.GetComponentsInChildren<InventorySlotManager>());
-        foreach (InventorySlotManager ism in this.InventorySlotManagers)
+        this.InventorySlotManagers.AddRange(this.GetComponentsInChildren<InventorySlotDisplayManager>());
+        foreach (InventorySlotDisplayManager ism in this.InventorySlotManagers)
         {
             ism.Hide();
         }

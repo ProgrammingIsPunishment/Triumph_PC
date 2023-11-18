@@ -15,6 +15,8 @@ public class ResourceItem
     public int StackLimit { get; set; }
     public List<Tuple<string, int>> ResourceItemComponents { get; set; }
 
+    [NonSerialized] public InventorySlotDisplayManager InventorySlotDisplayManager;
+
 
     public ResourceItem(string guid, string displayName, string iconFileName, ResourceItemType resourceItemType, int stackLimit, List<Tuple<string, int>> resourceItemComponents, string modelFileName)
     {

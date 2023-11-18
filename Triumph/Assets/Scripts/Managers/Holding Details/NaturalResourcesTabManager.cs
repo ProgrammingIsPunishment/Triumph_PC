@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class NaturalResourcesTabManager : MonoBehaviour
 {
-    private List<InventorySlotManager> InventorySlotManagers = new List<InventorySlotManager>();
+    private List<InventorySlotDisplayManager> InventorySlotDisplayManagers = new List<InventorySlotDisplayManager>();
 
     public void UpdateView(List<ResourceItem> resourceItems)
     {
-        foreach (InventorySlotManager ism in this.InventorySlotManagers) { ism.Hide(); }
+        foreach (InventorySlotDisplayManager ism in this.InventorySlotDisplayManagers) { ism.Hide(); }
         for (int i = 0; i < resourceItems.Count; i++)
         {
-            InventorySlotManagers[i].UpdateDisplay(resourceItems[i]);
-            InventorySlotManagers[i].Show();
+            InventorySlotDisplayManagers[i].Couple(resourceItems[i]);
+            InventorySlotDisplayManagers[i].UpdateDisplay(resourceItems[i]);
+            InventorySlotDisplayManagers[i].Show();
         }
     }
 
@@ -28,8 +29,8 @@ public class NaturalResourcesTabManager : MonoBehaviour
 
     public void Initialize()
     {
-        this.InventorySlotManagers.AddRange(this.GetComponentsInChildren<InventorySlotManager>());
-        foreach (InventorySlotManager ism in this.InventorySlotManagers)
+        this.InventorySlotDisplayManagers.AddRange(this.GetComponentsInChildren<InventorySlotDisplayManager>());
+        foreach (InventorySlotDisplayManager ism in this.InventorySlotDisplayManagers)
         {
             ism.Hide();
         }
