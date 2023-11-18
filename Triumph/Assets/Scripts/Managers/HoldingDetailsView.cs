@@ -6,15 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.UI.CanvasScaler;
 
-public enum HoldingDetailsViewState
-{
-    Show,
-    ShowAdjacentHoldingsForMove,
-    HoldingSelectedForMove,
-    MoveLeader,
-    Hide
-}
-
 public class HoldingDetailsView : MonoBehaviour
 {
     [SerializeField] private TMP_InputField holdingNameInput;
@@ -36,46 +27,7 @@ public class HoldingDetailsView : MonoBehaviour
     [SerializeField] private HoldingDetailsTabButton naturalResourcesTabButton;
     [SerializeField] private HoldingDetailsTabButton unitInventoryTabButton;
 
-    public void Set(HoldingDetailsViewState holdingDetailsViewState)
-    {
-        Holding tempHolding = Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_Holding;
-        Unit tempUnit = Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_Unit;
-        Holding tempDestinationHolding = Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_DestinationHolding;
-        Civilization currentPlayer = Oberkommando.SAVE.AllCivilizations[0];
-
-        switch (holdingDetailsViewState)
-        {
-            case HoldingDetailsViewState.Show:
-                //Just showing the details of the selected holding
-                this.Refresh(tempHolding,tempUnit);
-                this.Show();
-                break;
-            case HoldingDetailsViewState.ShowAdjacentHoldingsForMove:
-                Oberkommando.UI_CONTROLLER.ShowSelectableAdjacentExplorableHoldings(currentPlayer, tempHolding);
-                holdingDetailsViewState = HoldingDetailsViewState.HoldingSelectedForMove;
-                break;
-            case HoldingDetailsViewState.MoveLeader:
-                float tempXPosition = tempDestinationHolding.XPosition;
-                float tempZPosition = tempDestinationHolding.ZPosition;
-                Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_Unit.Move(tempXPosition,tempZPosition);
-                Oberkommando.UI_CONTROLLER.HideSelectableAdjacentExplorableHoldings(currentPlayer, tempHolding);
-                currentPlayer.ExploredHoldings.Add(tempDestinationHolding);
-                tempDestinationHolding.HoldingDisplayManager.ShowExplored(true);
-                tempDestinationHolding.VisibilityLevel = VisibilityLevel.Explored;
-                holdingDetailsViewState = HoldingDetailsViewState.Show;
-                break;
-            case HoldingDetailsViewState.Hide:
-                this.Hide();
-                holdingDetailsViewState = HoldingDetailsViewState.Show;
-                break;
-            default:
-                break;
-        }
-
-        Oberkommando.UI_CONTROLLER.UIData.HoldingDetailsViewState = holdingDetailsViewState;
-    }
-
-    private void Refresh(Holding holding,Unit unit)
+    public void Refresh(Holding holding, Unit unit)
     {
         this.holdingNameInput.text = holding.DisplayName;
 
@@ -83,7 +35,7 @@ public class HoldingDetailsView : MonoBehaviour
         this.naturalResourcesTabManager.Hide();
         this.unitTabManager.Hide();
 
-        this.EnableTabButtons(holding);
+        this.EnableTabButtons(holding, unit);
 
         if (unit != null)
         {
@@ -150,17 +102,17 @@ public class HoldingDetailsView : MonoBehaviour
         }
     }
 
-    private void Show()
+    public void Show()
     {
         this.gameObject.SetActive(true);
     }
 
-    private void Hide()
+    public void Hide()
     {
         this.gameObject.SetActive(false);
     }
 
-    private void EnableTabButtons(Holding holding)
+    private void EnableTabButtons(Holding holding, Unit unit)
     {
         this.summaryTabButton.Enable();
 
@@ -172,9 +124,9 @@ public class HoldingDetailsView : MonoBehaviour
             this.naturalResourcesTabButton.Enable();
         }
 
-        //if(holding.Unit != null)
-        //{
-        //    this.unitInventoryTabButton.Enable();
-        //}
+        if (unit != null)
+        {
+            this.unitInventoryTabButton.Enable();
+        }
     }
 }

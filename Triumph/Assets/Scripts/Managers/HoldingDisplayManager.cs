@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HoldingDisplayManager : MonoBehaviour
 {
@@ -63,31 +64,20 @@ public class HoldingDisplayManager : MonoBehaviour
 
     public void OnClickEvent()
     {
+        Unit tempUnit = null;
+
         switch (Oberkommando.UI_CONTROLLER.CurrentUIState())
         {
             case UIState.HoldingDetails:
-                switch (Oberkommando.UI_CONTROLLER.UIData.HoldingDetailsViewState)
-                {
-                    case HoldingDetailsViewState.Show:
-                        //Only allow interaction if the holding is explored
-                        if (this.holding.VisibilityLevel == VisibilityLevel.Explored)
-                        {
-                            Unit tempUnit = this.GetUnitAtThisLocation();
-                            Oberkommando.UI_CONTROLLER.UIData.AssignHoldingDetailsData(this.holding, tempUnit);
-                            Oberkommando.UI_CONTROLLER.holdingDetailsView.Set(HoldingDetailsViewState.Show);
-                        }
-                        break;
-                    case HoldingDetailsViewState.HoldingSelectedForMove:
-                        //Only allow interaction if the holding is explored
-                        if (Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_Holding.AdjacentHoldings.Contains(this.holding))
-                        {
-                            Oberkommando.UI_CONTROLLER.UIData.HoldingDetails_DestinationHolding = this.holding;
-                            Oberkommando.UI_CONTROLLER.holdingDetailsView.Set(HoldingDetailsViewState.MoveLeader);
-                        }
-                        break;
-                }
+                tempUnit = this.GetUnitAtThisLocation();
+                Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Reset();
+                Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.AssignFields(this.holding,tempUnit);
+                Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Handle(HoldingDetailsProcedureStep.Show);
                 break;
-            //case UIState.MoveLeader:break;
+            case UIState.MoveLeader:
+                Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.DestinationHolding = this.holding;
+                Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.Handle(MoveLeaderProcedureStep.Move);
+                break;
             default: /*Do nothing...*/ break;
         }
     }

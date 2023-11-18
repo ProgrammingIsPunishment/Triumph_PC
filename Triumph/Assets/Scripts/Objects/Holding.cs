@@ -26,4 +26,23 @@ public class Holding
         this.NaturalResourcesInventory = naturalResourcesInventory;
         this.AdjacentHoldings = new List<Holding>();
     }
+
+    public void UpdateVisibility(Civilization civilization)
+    {
+        if (!civilization.ExploredHoldings.Contains(this))
+        {
+            civilization.ExploredHoldings.Add(this);
+            this.VisibilityLevel = VisibilityLevel.Explored;
+            this.HoldingDisplayManager.ShowExplored(true);
+        }
+
+        foreach (Holding h in this.AdjacentHoldings)
+        {
+            if (!civilization.ExploredHoldings.Contains(h))
+            {
+                h.HoldingDisplayManager.ShowExplored(false);
+                h.HoldingDisplayManager.Show(true);
+            }
+        }
+    }
 }

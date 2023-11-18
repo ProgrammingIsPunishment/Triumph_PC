@@ -26,8 +26,10 @@ public class Unit
         this.SupplyInventory = new Inventory(InventoryType.UnitSupply,new List<ResourceItem>());
     }
 
-    public void Move(float xPosition, float zPosition)
+    public void Move(int xPosition, int zPosition)
     {
         this.UnitDisplayManager.transform.localPosition = new Vector3(xPosition*10, 0f, zPosition*10);
+        this.XPosition = xPosition;
+        this.ZPosition = zPosition;
     }
 }

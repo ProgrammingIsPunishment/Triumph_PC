@@ -55,19 +55,19 @@ public class Inventory
         }
     }
 
-    public List<ResourceItem> Gather(GatherType gatherType)
-    {
-        List<ResourceItem> result = null;
+    //public List<ResourceItem> Gather(GatherType gatherType)
+    //{
+    //    List<ResourceItem> result = null;
 
-        switch (gatherType)
-        {
-            case GatherType.Wood:
-                result = this.ResourceItems.Find(ri=>ri.DisplayName == "forest").Breakdown();
-                break;
-            default:
-                break;
-        }
+    //    switch (gatherType)
+    //    {
+    //        case GatherType.Wood:
+    //            result = this.ResourceItems.Find(ri=>ri.DisplayName == "forest").Breakdown();
+    //            break;
+    //        default:
+    //            break;
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 }

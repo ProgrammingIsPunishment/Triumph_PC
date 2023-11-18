@@ -11,7 +11,10 @@ public class UIController : MonoBehaviour
     //Holding Details
     [SerializeField] public HoldingDetailsView holdingDetailsView;
 
-    [NonSerialized] public UIData UIData = new UIData();
+    //Procedures
+    [NonSerialized] public HoldingDetailsProcedure HoldingDetailsProcedure = new HoldingDetailsProcedure();
+    [NonSerialized] public MoveLeaderProcedure MoveLeaderProcedure = new MoveLeaderProcedure();
+    [NonSerialized] public GatherLeaderProcedure GatherLeaderProcedure = new GatherLeaderProcedure();
 
     public void NewUIState(UIState newUIState)
     {
@@ -23,79 +26,9 @@ public class UIController : MonoBehaviour
         return this.UIStateStack.Last();
     }
 
-    public void HoldingDetailsProcess(HoldingDetailsSubState holdingDetailsSubState, Holding holding)
-    {
-        //this.HoldingDetailsSubState = holdingDetailsSubState;
-
-        //switch (holdingDetailsSubState)
-        //{
-        //    case HoldingDetailsSubState.Show:
-        //        //There is already a holding slected...
-        //       // if (HoldingDetailsHolding != null) { this.HoldingDetailsHolding.HoldingManager.ShowSelected(false); }
-
-        //        //holding.HoldingManager.ShowSelected(true);
-        //        this.holdingDetailsManager.UpdateDisplay(holding);
-        //        HoldingDetailsHolding = holding;
-        //        this.holdingDetailsManager.Show();
-        //        break;
-        //    case HoldingDetailsSubState.Hide:
-        //        this.holdingDetailsManager.Hide();
-        //        //this.HoldingDetailsHolding.HoldingManager.ShowSelected(false);
-        //        this.HoldingDetailsHolding = null;
-        //        this.HoldingDetailsSubState = HoldingDetailsSubState.None;
-        //        break;
-        //}
-
-        ////Reset back to default state
-        //if (this.HoldingDetailsSubState == HoldingDetailsSubState.None)
-        //{
-        //    //Do something???? Maybe?
-        //}
-    }
-
-    public void MoveLeaderProcess(MoveLeaderSubState moveLeaderSubState, Holding holding)
-    {
-        //this.MoveLeaderSubState = moveLeaderSubState;
-
-        //switch (moveLeaderSubState)
-        //{
-        //    case MoveLeaderSubState.ShowSelectableHoldings:
-        //        this.ShowHoldingsWithinRange(this.HoldingDetailsHolding, true);
-        //        break;
-        //    case MoveLeaderSubState.HoldingSelected:
-        //        bool tempCanMove = false;
-        //        //Only move the unit to certain terrains...
-        //        switch (holding.TerrainType)
-        //        {
-        //            case TerrainType.Grassland: tempCanMove = true; break;
-        //            case TerrainType.Hills: tempCanMove = true; break;
-        //        }
-
-        //        //if (!holding.HoldingManager.isDiscovered)
-        //        //{
-        //        //    holding.HoldingManager.ShowDiscovered();
-        //        //    this.ShowAdjacentExplorableHoldings(holding);
-        //        //}
-
-        //        if (tempCanMove)
-        //        {
-        //            //this.HoldingDetailsHolding.HoldingManager.MoveUnit(holding.HoldingManager);
-        //            this.ShowHoldingsWithinRange(this.HoldingDetailsHolding, false);
-        //        }
-        //        this.MoveLeaderSubState = MoveLeaderSubState.None;
-        //        break;
-        //}
-
-        ////Reset back to default state
-        //if (this.MoveLeaderSubState == MoveLeaderSubState.None)
-        //{
-        //    this.ShowHoldingsWithinRange(this.HoldingDetailsHolding,false);
-        //}
-    }
-
     public void HideAll()
     {
-        this.holdingDetailsView.Set(HoldingDetailsViewState.Hide);
+        this.holdingDetailsView.Hide();
     }
 
     public void MapRefresh(Civilization civilization)
@@ -145,27 +78,6 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void ShowSelectableAdjacentExplorableHoldings(Civilization civilization, Holding holding)
-    {
-        foreach (Holding h in holding.AdjacentHoldings)
-        {
-            if (!civilization.ExploredHoldings.Contains(h))
-            {
-                h.HoldingDisplayManager.ShowSelectable(true);
-            }
-        }
-    }
-
-    public void HideSelectableAdjacentExplorableHoldings(Civilization civilization, Holding holding)
-    {
-        foreach (Holding h in holding.AdjacentHoldings)
-        {
-            if (!civilization.ExploredHoldings.Contains(h))
-            {
-                h.HoldingDisplayManager.ShowSelectable(false);
-            }
-        }
-    }
 
     public void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)
     {
