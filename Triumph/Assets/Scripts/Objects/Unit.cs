@@ -25,4 +25,9 @@ public class Unit
         this.Commander = null;
         this.SupplyInventory = new Inventory(InventoryType.UnitSupply,new List<ResourceItem>());
     }
+
+    public void Move(float xPosition, float zPosition)
+    {
+        this.UnitDisplayManager.transform.localPosition = new Vector3(xPosition*10, 0f, zPosition*10);
+    }
 }

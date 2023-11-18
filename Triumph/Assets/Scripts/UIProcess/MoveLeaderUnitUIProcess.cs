@@ -10,11 +10,11 @@ public enum MoveLeaderUnitProcessState
     Select
 }
 
-public class MoveLeaderUnitUIProcess : IUIProcess
+public class MoveLeaderUnitUIProcess //: IUIProcess
 {
-    public UIState UIState { get; } = UIState.MoveLeader;
-    private MoveLeaderUnitProcessState moveLeaderUnitProcessState = MoveLeaderUnitProcessState.ShowSelectable;
-    private UIProcessData currentUIProcessData;
+    //public UIState UIState { get; } = UIState.MoveLeader;
+    //private MoveLeaderUnitProcessState moveLeaderUnitProcessState = MoveLeaderUnitProcessState.ShowSelectable;
+    //private UIProcessData currentUIProcessData;
 
     public MoveLeaderUnitUIProcess() { }
 

@@ -25,7 +25,9 @@ public class TurnController
     public void StartTurn(Civilization currentCivilization)
     {
         //For player character only as NPCs don't need to actually "see" anything
-        Oberkommando.UI_CONTROLLER.ShowExploredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
+        Oberkommando.UI_CONTROLLER.MapRefresh(Oberkommando.SAVE.AllCivilizations[0]);
+        //NEED TO DO...do passover of holdings that are not currently fully visible
+
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
         //Oberkommando.UI_CONTROLLER.ShowExplorableHoldings(currentCivilization);
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();

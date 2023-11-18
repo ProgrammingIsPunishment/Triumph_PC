@@ -7,7 +7,7 @@ public class SummaryTabManager : MonoBehaviour
 {
     [SerializeField] private Image terrainLandscape;
 
-    public void UpdateDisplay(Holding holding)
+    public void UpdateView(Holding holding)
     {
         this.terrainLandscape.sprite = Resources.Load<Sprite>($"Sprites/Terrain Landscapes/{holding.TerrainType}TerrainLandscape");
     }

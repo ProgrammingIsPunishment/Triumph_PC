@@ -13,6 +13,7 @@ public class Holding
     public TerrainType TerrainType { get; set; }
     public Inventory NaturalResourcesInventory { get; set; }
     public List<Holding> AdjacentHoldings { get; set; }
+    public VisibilityLevel VisibilityLevel { get; set; }
 
     [NonSerialized] public HoldingDisplayManager HoldingDisplayManager;
 

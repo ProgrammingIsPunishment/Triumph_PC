@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,14 +6,22 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public UIState UIState { get; set; }
+    public List<UIState> UIStateStack { get; set; } = new List<UIState>();
 
     //Holding Details
-    public HoldingDetailsManager holdingDetailsManager;
-    //public HoldingDetailsSubState HoldingDetailsSubState { get; set; } = HoldingDetailsSubState.None;
-    //public Holding HoldingDetailsHolding { get; set; } = null;
-    //Move Leader
-    //public MoveLeaderSubState MoveLeaderSubState { get; set; } = MoveLeaderSubState.None;
+    [SerializeField] public HoldingDetailsView holdingDetailsView;
+
+    [NonSerialized] public UIData UIData = new UIData();
+
+    public void NewUIState(UIState newUIState)
+    {
+        this.UIStateStack.Add(newUIState);
+    }
+
+    public UIState CurrentUIState()
+    {
+        return this.UIStateStack.Last();
+    }
 
     public void HoldingDetailsProcess(HoldingDetailsSubState holdingDetailsSubState, Holding holding)
     {
@@ -86,7 +95,34 @@ public class UIController : MonoBehaviour
 
     public void HideAll()
     {
-        this.holdingDetailsManager.Hide();
+        this.holdingDetailsView.Set(HoldingDetailsViewState.Hide);
+    }
+
+    public void MapRefresh(Civilization civilization)
+    {
+        //Set visibility level to hidden for all holdings to start with
+        foreach (Holding h in Oberkommando.SAVE.AllHoldings)
+        {
+            h.VisibilityLevel = VisibilityLevel.Hidden;
+        }
+
+        //Loop through and determine explored holdings
+        foreach (Holding h in civilization.ExploredHoldings)
+        {
+            h.VisibilityLevel = VisibilityLevel.Explored;
+            h.HoldingDisplayManager.ShowExplored(true);
+            h.HoldingDisplayManager.Show(true);
+
+            foreach (Holding hh in h.AdjacentHoldings)
+            {
+                if (!civilization.ExploredHoldings.Contains(hh))
+                {
+                    hh.VisibilityLevel = VisibilityLevel.Unexplored;
+                    hh.HoldingDisplayManager.ShowExplored(false);
+                    hh.HoldingDisplayManager.Show(true);
+                }
+            }
+        }
     }
 
     //public void ShowDiscoveredHoldings(Civilization civilization)
@@ -106,28 +142,29 @@ public class UIController : MonoBehaviour
         {
             h.HoldingDisplayManager.ShowExplored(true);
             h.HoldingDisplayManager.Show(true);
-            //if (h.DiscoveredCivilizationGUIDs.Contains(civilization.GUID))
-            //{
-            //    List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => h.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
-            //    foreach (Holding ah in adjacentHoldings)
-            //    {
-            //        //ah.HoldingManager.ShowExplorable();
-            //    }
-            //}
         }
     }
 
-    public void ShowAdjacentExplorableHoldings(Holding holding)
+    public void ShowSelectableAdjacentExplorableHoldings(Civilization civilization, Holding holding)
     {
-        //List<Holding> adjacentHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
+        foreach (Holding h in holding.AdjacentHoldings)
+        {
+            if (!civilization.ExploredHoldings.Contains(h))
+            {
+                h.HoldingDisplayManager.ShowSelectable(true);
+            }
+        }
+    }
 
-        //foreach (Holding ah in adjacentHoldings)
-        //{
-        //    //if (!ah.HoldingManager.isDiscovered)
-        //    //{
-        //    //    ah.HoldingManager.ShowExplorable();
-        //    //}
-        //}
+    public void HideSelectableAdjacentExplorableHoldings(Civilization civilization, Holding holding)
+    {
+        foreach (Holding h in holding.AdjacentHoldings)
+        {
+            if (!civilization.ExploredHoldings.Contains(h))
+            {
+                h.HoldingDisplayManager.ShowSelectable(false);
+            }
+        }
     }
 
     public void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)

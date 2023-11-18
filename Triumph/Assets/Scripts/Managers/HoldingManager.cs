@@ -73,22 +73,22 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        switch (Oberkommando.UI_CONTROLLER.UIState)
-        {
-            case UIState.HoldingDetails:
-                if (this.isDiscovered)
-                {
-                    Oberkommando.UI_CONTROLLER.HoldingDetailsProcess(HoldingDetailsSubState.Show,this.holding);
-                }
-                break;
-            case UIState.MoveLeader:
-                if (this.isSelectableForMovement)
-                {
-                    Oberkommando.UI_CONTROLLER.MoveLeaderProcess(MoveLeaderSubState.HoldingSelected,this.holding);
-                    //Oberkommando.UI_CONTROLLER.NewUIState(UIState.MoveLeader, new UIProcessData(Oberkommando.UI_CONTROLLER.SelectedHoldings[0], this.holding, MoveLeaderUnitProcessState.Select));
-                }
-                break;
-        }
+        //switch (Oberkommando.UI_CONTROLLER.UIStateStack.Last())
+        //{
+        //    case UIStateType.HoldingDetails:
+        //        if (this.isDiscovered)
+        //        {
+        //            Oberkommando.UI_CONTROLLER.HoldingDetailsProcess(HoldingDetailsSubState.Show,this.holding);
+        //        }
+        //        break;
+        //    case UIStateType.MoveLeader:
+        //        if (this.isSelectableForMovement)
+        //        {
+        //            Oberkommando.UI_CONTROLLER.MoveLeaderProcess(MoveLeaderSubState.HoldingSelected,this.holding);
+        //            //Oberkommando.UI_CONTROLLER.NewUIState(UIState.MoveLeader, new UIProcessData(Oberkommando.UI_CONTROLLER.SelectedHoldings[0], this.holding, MoveLeaderUnitProcessState.Select));
+        //        }
+        //        break;
+        //}
     }
 
     //public void MoveUnit(HoldingManager destinationHoldingManager)

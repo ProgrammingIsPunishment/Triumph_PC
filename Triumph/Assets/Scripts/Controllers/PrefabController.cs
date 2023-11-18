@@ -11,7 +11,7 @@ public class PrefabController : MonoBehaviour
     public void InstantiateHoldingPrefab(Holding holding)
     {
         GameObject tempHoldingObject = Instantiate(Resources.Load<GameObject>("Prefabs/Holding"), new Vector3((holding.XPosition * 10), 0f, (holding.ZPosition * 10)), Quaternion.identity);
-        holding.HoldingDisplayManager = tempHoldingObject.GetComponent<HoldingDisplayManager>();
+        tempHoldingObject.GetComponent<HoldingDisplayManager>().Couple(holding);
         tempHoldingObject.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
 
         holding.HoldingDisplayManager.Show(false);

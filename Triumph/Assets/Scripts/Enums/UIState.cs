@@ -1,6 +1,5 @@
 public enum UIState
 {
-    HoldingDetails,
-    MoveLeader,
-    Disable
+    None,
+    HoldingDetails
 }

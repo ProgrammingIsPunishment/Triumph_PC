@@ -6,7 +6,7 @@ public class NaturalResourcesTabManager : MonoBehaviour
 {
     private List<InventorySlotManager> InventorySlotManagers = new List<InventorySlotManager>();
 
-    public void UpdateDisplay(List<ResourceItem> resourceItems)
+    public void UpdateView(List<ResourceItem> resourceItems)
     {
         foreach (InventorySlotManager ism in this.InventorySlotManagers) { ism.Hide(); }
         for (int i = 0; i < resourceItems.Count; i++)
