@@ -52,11 +52,14 @@ public class MapController
         //Loop through all the holdings
         workingHoldings.AddRange(this.ReadMapTextures(mapName, workingResourceItems));
 
-        //Loop through all the civilizations
+        //Loop through all the civilizations...generate units for the civilization as well
         workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople));
 
-        //Generate Leader Units
-        workingUnits.AddRange(this.GenerateLeaderUnits(workingCivilizations));
+        //Loop through all units and add them to the complete list of units
+        foreach (Civilization c in workingCivilizations)
+        {
+            workingUnits.AddRange(c.Units);
+        }
 
         //this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
 
@@ -287,24 +290,41 @@ public class MapController
             InfluentialPerson workingLeader = allInfluentialPeople.Find(ip => ip.GUID == leaderGUID);
             workingLeader.IsLeader = true;
 
+            //Generate Units
+            var allUnits = c.Element("units").Elements("unit");
+            List<Unit> workingUnits = this.ConvertToUnits(allUnits,allHoldings,allInfluentialPeople);
+
+
             workingCivilization.InfluentialPeople.Add(workingLeader);
             workingCivilization.Leader = workingLeader;
+            workingCivilization.Units = workingUnits;
             result.Add(workingCivilization);
         }
 
         return result;
     }
 
-    private List<Unit> GenerateLeaderUnits(List<Civilization> civilizations)
+    private List<Unit> ConvertToUnits(IEnumerable<XElement> unitElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople)
     {
         List<Unit> result = new List<Unit>();
 
-        foreach (Civilization c in civilizations)
+        //Loop through all the resource items
+        foreach (var u in unitElements)
         {
-            Unit tempUnit = new Unit(c.Leader.DisplayName, c.ExploredHoldings[0].XPosition, c.ExploredHoldings[0].ZPosition, UnitType.Leader);
+            string guid = (string)u.Attribute("guid").Value.ToLower();
+            string displayName = (string)u.Attribute("displayname").Value.ToLower();
+            UnitType unitType = Enum.Parse<UnitType>(u.Attribute("unittype").Value);
+            string commanderGUID = (string)u.Attribute("commanderguid").Value.ToLower();
+            string startinglocationGUID = (string)u.Attribute("startinglocationguid").Value.ToLower();
 
-            c.Units.Add(tempUnit);
-            result.Add(tempUnit);
+            Holding startingLocation = allHoldings.Find(h => h.GUID == startinglocationGUID);
+            InfluentialPerson tempCommander = allInfluentialPeople.Find(ip => ip.GUID == commanderGUID);
+
+            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType);
+            workingUnit.GUID = guid;
+            workingUnit.Commander = tempCommander;
+
+            result.Add(workingUnit);
         }
 
         return result;

@@ -35,17 +35,21 @@
 		</resourceitem>
 	</resourceitems>
 	<attritions>
-		<attrition guid="leader">
+		<attrition guid="triballeader">
 			<resourceitems>
-				<resourceitem resourceguid="meat" maximum="10" perturnattrition="1"><resourceitem>
-			<resourceitems>
-		<attrition>
+				<resourceitem resourceguid="meat" maximum="10" perturnattrition="1"></resourceitem>
+			</resourceitems>
+		</attrition>
 	</attritions>
 	<influentialpeople>
 		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
 	</influentialpeople>
 	<civilizations>
-		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham"></civilization>
+		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham">
+			<units>
+				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" attritionguid="triballeader"></unit>
+			</units>
+		</civilization>
 	</civilizations>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0"></holding>
