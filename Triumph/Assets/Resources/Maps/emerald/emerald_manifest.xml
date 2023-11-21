@@ -34,6 +34,13 @@
 			</resourceitemcomponents>
 		</resourceitem>
 	</resourceitems>
+	<attritions>
+		<attrition guid="leader">
+			<resourceitems>
+				<resourceitem resourceguid="meat" maximum="10" perturnattrition="1"><resourceitem>
+			<resourceitems>
+		<attrition>
+	</attritions>
 	<influentialpeople>
 		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
 	</influentialpeople>

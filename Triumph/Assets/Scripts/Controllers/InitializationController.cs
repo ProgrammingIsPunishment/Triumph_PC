@@ -18,11 +18,11 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
     }
 
-    private void InitializeManagers()
+    private void InitializeViews()
     {
         Oberkommando.UI_CONTROLLER.holdingDetailsView.summaryTabManager.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.unitTabManager.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.naturalResourcesTabManager.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingDetailsView.unitSupplyTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingDetailsView.naturalResourcesTab.Initialize();
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)
@@ -58,7 +58,7 @@ public class InitializationController : MonoBehaviour
     {
         //Order very important
         this.AssignControllers();
-        this.InitializeManagers();
+        this.InitializeViews();
         Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);

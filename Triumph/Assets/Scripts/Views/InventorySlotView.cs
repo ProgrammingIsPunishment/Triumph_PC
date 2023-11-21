@@ -5,9 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotDisplayManager : MonoBehaviour
+public class InventorySlotView : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
+    [SerializeField] private Image emptyImage;
     [SerializeField] private TextMeshProUGUI amountText;
 
     [NonSerialized] private ResourceItem resourceItem = null;
@@ -15,10 +16,16 @@ public class InventorySlotDisplayManager : MonoBehaviour
     public void Couple(ResourceItem resourceItem)
     {
         this.resourceItem = resourceItem;
-        //this.resourceItem.InventorySlotDisplayManager = this;
+        this.resourceItem.InventorySlotView = this;
     }
 
-    public void UpdateDisplay(ResourceItem resourceItem)
+    public void Uncouple()
+    {
+        this.resourceItem.InventorySlotView = null;
+        this.resourceItem = null;
+    }
+
+    public void Refresh(ResourceItem resourceItem)
     {
         this.resourceItem = resourceItem;
         this.amountText.text = resourceItem.Amount.ToString();

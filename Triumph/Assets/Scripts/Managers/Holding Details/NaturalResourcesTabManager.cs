@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class NaturalResourcesTabManager : MonoBehaviour
 {
-    private List<InventorySlotDisplayManager> InventorySlotDisplayManagers = new List<InventorySlotDisplayManager>();
-
-    public void UpdateView(List<ResourceItem> resourceItems)
-    {
-        foreach (InventorySlotDisplayManager ism in this.InventorySlotDisplayManagers) { ism.Hide(); }
-        for (int i = 0; i < resourceItems.Count; i++)
-        {
-            InventorySlotDisplayManagers[i].Couple(resourceItems[i]);
-            InventorySlotDisplayManagers[i].UpdateDisplay(resourceItems[i]);
-            InventorySlotDisplayManagers[i].Show();
-        }
-    }
+    [SerializeField] public InventoryView inventoryView;
 
     public void Show()
     {
@@ -25,14 +14,5 @@ public class NaturalResourcesTabManager : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
-    }
-
-    public void Initialize()
-    {
-        this.InventorySlotDisplayManagers.AddRange(this.GetComponentsInChildren<InventorySlotDisplayManager>());
-        foreach (InventorySlotDisplayManager ism in this.InventorySlotDisplayManagers)
-        {
-            ism.Hide();
-        }
     }
 }

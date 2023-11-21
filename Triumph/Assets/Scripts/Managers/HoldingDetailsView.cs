@@ -15,8 +15,8 @@ public class HoldingDetailsView : MonoBehaviour
     [SerializeField] private GameObject noUnitContainer;
 
     [SerializeField] public SummaryTabManager summaryTabManager;
-    [SerializeField] public NaturalResourcesTabManager naturalResourcesTabManager;
-    [SerializeField] public UnitTabManager unitTabManager;
+    [SerializeField] public InventoryView naturalResourcesTab;
+    [SerializeField] public InventoryView unitSupplyTab;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
@@ -32,8 +32,8 @@ public class HoldingDetailsView : MonoBehaviour
         this.holdingNameInput.text = holding.DisplayName;
 
         this.summaryTabManager.Show();
-        this.naturalResourcesTabManager.Hide();
-        this.unitTabManager.Hide();
+        this.naturalResourcesTab.Hide();
+        this.unitSupplyTab.Hide();
 
         this.EnableTabButtons(holding, unit);
 
@@ -64,7 +64,7 @@ public class HoldingDetailsView : MonoBehaviour
             //Unit Tab Manager
             if (unit.SupplyInventory.ResourceItems.Count >= 1)
             {
-                this.unitTabManager.UpdateDisplay(unit.SupplyInventory.ResourceItems);
+                this.unitSupplyTab.Refresh(unit.SupplyInventory);
             }
         }
         else
@@ -75,18 +75,18 @@ public class HoldingDetailsView : MonoBehaviour
         //Summary Tab Manager
         this.summaryTabManager.UpdateView(holding);
 
-        //Natural Resources Tab Manager
+        //Natural Resources Tab View
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
-            this.naturalResourcesTabManager.UpdateView(holding.NaturalResourcesInventory.ResourceItems);
+            this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory);
         }
     }
 
     public void SwitchTab(HoldingDetailsTabType holdingDetailsTabType)
     {
         this.summaryTabManager.Hide();
-        this.naturalResourcesTabManager.Hide();
-        this.unitTabManager.Hide();
+        this.naturalResourcesTab.Hide();
+        this.unitSupplyTab.Hide();
 
         switch (holdingDetailsTabType)
         {
@@ -94,10 +94,10 @@ public class HoldingDetailsView : MonoBehaviour
                 this.summaryTabManager.Show();
                 break;
             case HoldingDetailsTabType.NaturalResources:
-                this.naturalResourcesTabManager.Show();
+                this.naturalResourcesTab.Show();
                 break;
             case HoldingDetailsTabType.Unit:
-                this.unitTabManager.Show();
+                this.unitSupplyTab.Show();
                 break;
         }
     }
