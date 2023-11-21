@@ -53,13 +53,10 @@ public class MapController
         workingHoldings.AddRange(this.ReadMapTextures(mapName, workingResourceItems));
 
         //Loop through all the civilizations...generate units for the civilization as well
-        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople));
+        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople, workingResourceItems));
 
         //Loop through all units and add them to the complete list of units
-        foreach (Civilization c in workingCivilizations)
-        {
-            workingUnits.AddRange(c.Units);
-        }
+        foreach (Civilization c in workingCivilizations) { workingUnits.AddRange(c.Units); }
 
         //this.AssignLeadersToCivilizations(ref workingCivilizations, ref tempInfluentialPeople);
 
@@ -256,6 +253,34 @@ public class MapController
         return result;
     }
 
+    private List<Supply> ConvertToSupplies(IEnumerable<XElement> supplyElements)
+    {
+        List<Supply> result = new List<Supply>();
+
+        //Loop through all the resource items
+        foreach (var s in supplyElements)
+        {
+            string guid = (string)s.Attribute("guid").Value.ToLower();
+            string displayName = (string)s.Attribute("displayname").Value;
+
+            //loop through attritions
+            var allAttritions = s.Elements("attritions").Elements("attrition");
+            List<Attrition> workingAttritions = new List<Attrition>();
+            foreach (var a in allAttritions)
+            {
+                string resourceGUID = (string)a.Attribute("resourceguid").Value.ToLower();
+                int maximum = int.Parse(a.Attribute("maximum").Value);
+                int perTurnLoss = int.Parse(a.Attribute("perturnloss").Value);
+
+                workingAttritions.Add(new Attrition(resourceGUID,maximum,perTurnLoss));
+            }
+
+            result.Add(new Supply(guid,displayName,workingAttritions));
+        }
+
+        return result;
+    }
+
     private List<InfluentialPerson> ConvertToInfluentialPeople(IEnumerable<XElement> influentialPeopleElements)
     {
         List<InfluentialPerson> result = new List<InfluentialPerson>();
@@ -272,7 +297,7 @@ public class MapController
         return result;
     }
 
-    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople)
+    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems)
     {
         List<Civilization> result = new List<Civilization>();
 
@@ -290,21 +315,25 @@ public class MapController
             InfluentialPerson workingLeader = allInfluentialPeople.Find(ip => ip.GUID == leaderGUID);
             workingLeader.IsLeader = true;
 
+            var allSupplies = c.Element("supplies").Elements("supply");
+            List<Supply> workingSupplies = this.ConvertToSupplies(allSupplies);
+
             //Generate Units
             var allUnits = c.Element("units").Elements("unit");
-            List<Unit> workingUnits = this.ConvertToUnits(allUnits,allHoldings,allInfluentialPeople);
+            List<Unit> workingUnits = this.ConvertToUnits(allUnits,allHoldings,allInfluentialPeople, allResourceItems, workingSupplies);
 
 
             workingCivilization.InfluentialPeople.Add(workingLeader);
             workingCivilization.Leader = workingLeader;
             workingCivilization.Units = workingUnits;
+            workingCivilization.Supplies = workingSupplies;
             result.Add(workingCivilization);
         }
 
         return result;
     }
 
-    private List<Unit> ConvertToUnits(IEnumerable<XElement> unitElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople)
+    private List<Unit> ConvertToUnits(IEnumerable<XElement> unitElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Supply> civilizationSupplies)
     {
         List<Unit> result = new List<Unit>();
 
@@ -316,13 +345,25 @@ public class MapController
             UnitType unitType = Enum.Parse<UnitType>(u.Attribute("unittype").Value);
             string commanderGUID = (string)u.Attribute("commanderguid").Value.ToLower();
             string startinglocationGUID = (string)u.Attribute("startinglocationguid").Value.ToLower();
+            string supplyGUID = (string)u.Attribute("supplyguid").Value.ToLower();
 
             Holding startingLocation = allHoldings.Find(h => h.GUID == startinglocationGUID);
             InfluentialPerson tempCommander = allInfluentialPeople.Find(ip => ip.GUID == commanderGUID);
+            Supply tempSupply = civilizationSupplies.Find(cs=>cs.GUID == supplyGUID);
+
+            //Generate inventory based on supply
+            List<ResourceItem> workingResourceItems = new List<ResourceItem>();
+            foreach (Attrition a in tempSupply.Attritions)
+            {
+                ResourceItem workingResourceItem = allResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID).CreateInstance();
+                workingResourceItems.Add(workingResourceItem);
+            }
+            Inventory workingInventory = new Inventory(InventoryType.UnitSupply, workingResourceItems);
 
             Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType);
             workingUnit.GUID = guid;
             workingUnit.Commander = tempCommander;
+            workingUnit.SupplyInventory = workingInventory;
 
             result.Add(workingUnit);
         }
