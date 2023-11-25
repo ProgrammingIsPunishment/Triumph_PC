@@ -41,6 +41,11 @@ public class ResourceItem
         if (this.Amount > this.StackLimit) { this.Amount = this.StackLimit; }
     }
 
+    public void Consume(int amountToConsume)
+    {
+        this.Amount -= amountToConsume;
+    }
+
     public List<ResourceItem> Breakdown()
     {
         List<ResourceItem> result = new List<ResourceItem>();

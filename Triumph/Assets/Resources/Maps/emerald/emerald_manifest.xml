@@ -39,9 +39,6 @@
 	</influentialpeople>
 	<civilizations>
 		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham">
-			<units>
-				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader"></unit>
-			</units>
 			<supplies>
 				<supply guid="triballeader" displayname="Leader Supply">
 					<attritions>
@@ -49,6 +46,13 @@
 					</attritions>
 				</supply>
 			</supplies>
+			<units>
+				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader" actionpointlimit="2">
+					<inventory>
+						<inventoryresourceitem guid="meat" amount="8"></inventoryresourceitem>
+					</inventory>
+				</unit>
+			</units>
 		</civilization>
 	</civilizations>
 	<holdings>

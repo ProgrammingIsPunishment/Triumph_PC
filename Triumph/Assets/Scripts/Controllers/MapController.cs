@@ -346,24 +346,33 @@ public class MapController
             string commanderGUID = (string)u.Attribute("commanderguid").Value.ToLower();
             string startinglocationGUID = (string)u.Attribute("startinglocationguid").Value.ToLower();
             string supplyGUID = (string)u.Attribute("supplyguid").Value.ToLower();
+            var inventoryResourceItems = u.Element("inventory").Elements("inventoryresourceitem");
+            int actionPointLimit = int.Parse(u.Attribute("actionpointlimit").Value);
 
             Holding startingLocation = allHoldings.Find(h => h.GUID == startinglocationGUID);
             InfluentialPerson tempCommander = allInfluentialPeople.Find(ip => ip.GUID == commanderGUID);
             Supply tempSupply = civilizationSupplies.Find(cs=>cs.GUID == supplyGUID);
 
-            //Generate inventory based on supply
+            //Generate inventory based on units inventory
             List<ResourceItem> workingResourceItems = new List<ResourceItem>();
-            foreach (Attrition a in tempSupply.Attritions)
+            foreach (var iri in inventoryResourceItems)
             {
-                ResourceItem workingResourceItem = allResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID).CreateInstance();
-                workingResourceItems.Add(workingResourceItem);
+                string inventoryResourceItemGUID = (string)iri.Attribute("guid").Value.ToLower();
+                int amount = int.Parse(iri.Attribute("amount").Value);
+
+                ResourceItem tempResourceItem = allResourceItems.Find(ri => ri.GUID == inventoryResourceItemGUID).CreateInstance();
+                tempResourceItem.AddToStack(amount);
+
+                workingResourceItems.Add(tempResourceItem);
             }
+
             Inventory workingInventory = new Inventory(InventoryType.UnitSupply, workingResourceItems);
 
-            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType);
+            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType, actionPointLimit);
             workingUnit.GUID = guid;
             workingUnit.Commander = tempCommander;
-            workingUnit.SupplyInventory = workingInventory;
+            workingUnit.Inventory = workingInventory;
+            workingUnit.Supply = tempSupply;
 
             result.Add(workingUnit);
         }

@@ -10,6 +10,7 @@ public class InventorySlotView : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private Image emptyImage;
     [SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] private TextMeshProUGUI usageText;
 
     [NonSerialized] private ResourceItem resourceItem = null;
 
@@ -25,11 +26,36 @@ public class InventorySlotView : MonoBehaviour
         this.resourceItem = null;
     }
 
-    public void Refresh(ResourceItem resourceItem)
+    public void Refresh(ResourceItem resourceItem, Attrition attrition)
     {
         this.resourceItem = resourceItem;
         this.amountText.text = resourceItem.Amount.ToString();
         this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
+        this.Enable();
+
+        if (attrition != null)
+        {
+            this.usageText.text = attrition.PerTurnConsumption.ToString();
+            this.usageText.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.usageText.gameObject.SetActive(false);
+        }
+    }
+
+    public void Enable()
+    {
+        this.GetComponent<Button>().interactable = true;
+        this.iconImage.color = new Color32(255, 255, 255, 255);
+        this.amountText.color = new Color32(255, 255, 255, 255);
+    }
+
+    public void Disable()
+    {
+        this.GetComponent<Button>().interactable = false;
+        this.iconImage.color = new Color32(255,255,255,50);
+        this.amountText.color = new Color32(255, 255, 255, 50);
     }
 
     public void Show()
@@ -44,6 +70,11 @@ public class InventorySlotView : MonoBehaviour
 
     public void ClickEvent()
     {
-        //switch on UIState.Gather
+        if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.GatherLeader)
+        {
+            //Gather the resource
+            Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.SelectedResourceItem = this.resourceItem;
+            Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.Handle(GatherLeaderProcedureStep.Gather);
+        }
     }
 }

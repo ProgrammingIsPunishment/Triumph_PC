@@ -7788,7 +7788,7 @@ MonoBehaviour:
   naturalResourcesTab: {fileID: 742572183}
   unitSupplyTab: {fileID: 1945864505}
   moveActionButton: {fileID: 2250711}
-  gatherWoodActionButton: {fileID: 91041331}
+  gatherActionButton: {fileID: 91041331}
   summaryTabButton: {fileID: 1925152002}
   naturalResourcesTabButton: {fileID: 1348551391}
   unitInventoryTabButton: {fileID: 1709979868}

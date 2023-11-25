@@ -2,5 +2,6 @@ public enum UIState
 {
     None,
     HoldingDetails,
-    MoveLeader
+    MoveLeader,
+    GatherLeader
 }

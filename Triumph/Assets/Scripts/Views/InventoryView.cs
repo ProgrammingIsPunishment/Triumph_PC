@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +16,13 @@ public class InventoryView : MonoBehaviour
         this.HideAllSlots();
     }
 
-    public void Refresh(Inventory inventory)
+    public void Refresh(Inventory inventory, Supply supplies)
     {
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
-            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i]);
+            Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempAttrition);
+            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
             this.InventorySlotViews[i].Show();
         }
     }

@@ -10,5 +10,6 @@ public class EndTurnButton : MonoBehaviour
         Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Handle(HoldingDetailsProcedureStep.Hide);
         Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.Reset();
         Oberkommando.TURN_CONTROLLER.EndTurn();
+        Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
     }
 }

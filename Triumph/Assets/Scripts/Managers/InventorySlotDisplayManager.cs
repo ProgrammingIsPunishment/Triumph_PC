@@ -23,6 +23,20 @@ public class InventorySlotDisplayManager : MonoBehaviour
         this.resourceItem = resourceItem;
         this.amountText.text = resourceItem.Amount.ToString();
         this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
+        this.SetInteractive(false);
+    }
+
+    public void SetInteractive(bool isActive)
+    {
+        switch (isActive)
+        {
+            case true:
+                this.GetComponent<Button>().interactable = true;
+                break;
+            case false:
+                this.GetComponent<Button>().interactable = false;
+                break;
+        }
     }
 
     public void Show()

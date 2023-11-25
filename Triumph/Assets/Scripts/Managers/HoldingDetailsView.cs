@@ -20,7 +20,7 @@ public class HoldingDetailsView : MonoBehaviour
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
-    [SerializeField] private GameObject gatherWoodActionButton;
+    [SerializeField] private GameObject gatherActionButton;
 
     //Tab buttons
     [SerializeField] private HoldingDetailsTabButton summaryTabButton;
@@ -31,40 +31,19 @@ public class HoldingDetailsView : MonoBehaviour
     {
         this.holdingNameInput.text = holding.DisplayName;
 
-        this.summaryTabManager.Show();
-        this.naturalResourcesTab.Hide();
-        this.unitSupplyTab.Hide();
-
         this.EnableTabButtons(holding, unit);
 
         if (unit != null)
         {
+            this.EnableUnitActionButtons(holding, unit);
             this.unitNameInput.text = unit.DisplayName;
             this.unitContainer.SetActive(true);
-            //this.unitActionPointText.text = unit.ActionPoints.ToString();
+            this.unitActionPointText.text = unit.ActionPoints.ToString();
 
-            //if (unit.ActionPoints == 0)
-            //{
-            //    this.moveActionButton.SetActive(false);
-            //}
-            //else
-            //{
-            //    this.moveActionButton.SetActive(true);
-
-            //    if (holding.NaturalResourcesInventory.ContainsItem("forest"))
-            //    {
-            //        this.gatherWoodActionButton.SetActive(true);
-            //    }
-            //    else
-            //    {
-            //        this.gatherWoodActionButton.SetActive(false);
-            //    }
-            //}
-
-            //Unit Tab Manager
-            if (unit.SupplyInventory.ResourceItems.Count >= 1)
+            //Unit Tab View
+            if (unit.Inventory.ResourceItems.Count >= 1)
             {
-                this.unitSupplyTab.Refresh(unit.SupplyInventory);
+                this.unitSupplyTab.Refresh(unit.Inventory, unit.Supply);
             }
         }
         else
@@ -72,13 +51,39 @@ public class HoldingDetailsView : MonoBehaviour
             this.unitContainer.SetActive(false);
         }
 
-        //Summary Tab Manager
+        //Summary Tab View
         this.summaryTabManager.UpdateView(holding);
 
         //Natural Resources Tab View
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
-            this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory);
+            this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory, unit.Supply);
+        }
+    }
+
+    public void Default()
+    {
+        this.summaryTabManager.Show();
+        this.naturalResourcesTab.Hide();
+        this.unitSupplyTab.Hide();
+    }
+
+    public void EnableUnitActionButtons(Holding holding, Unit unit)
+    {
+        this.moveActionButton.SetActive(false);
+        this.gatherActionButton.SetActive(false);
+
+        if (unit.ActionPoints >= 1)
+        {
+            if (unit != null)
+            {
+                this.moveActionButton.SetActive(true);
+            }
+
+            if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
+            {
+                this.gatherActionButton.SetActive(true);
+            }
         }
     }
 

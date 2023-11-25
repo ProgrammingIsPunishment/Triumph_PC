@@ -38,6 +38,7 @@ public class HoldingDetailsProcedure
             case HoldingDetailsProcedureStep.Show:
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 Oberkommando.UI_CONTROLLER.holdingDetailsView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                Oberkommando.UI_CONTROLLER.holdingDetailsView.Default();
                 Oberkommando.UI_CONTROLLER.holdingDetailsView.Show();
                 Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
                 break;
