@@ -12,6 +12,7 @@ public class HoldingDisplayManager : MonoBehaviour
 
     [NonSerialized] public GameObject terrainObject = null;
     [NonSerialized] public GameObject resourceObject = null;
+    [NonSerialized] public GameObject buildingObject = null;
 
     [NonSerialized] public Holding holding = null;
 

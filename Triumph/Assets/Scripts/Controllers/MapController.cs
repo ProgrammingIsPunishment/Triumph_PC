@@ -27,6 +27,7 @@ public class MapController
 
         var allResourceItemElements = doc.Element("map").Elements("resourceitems").Elements("resourceitem");
         var allInfluentialPeopleElements = doc.Element("map").Elements("influentialpeople").Elements("influentialperson");
+        var allBuildingElements = doc.Element("map").Elements("buildings").Elements("building");
         var allCivilizationsElements = doc.Element("map").Elements("civilizations").Elements("civilization");
         var allHoldingsElements = doc.Element("map").Elements("holdings").Elements("holding");
 
@@ -36,6 +37,7 @@ public class MapController
         List<Civilization> workingCivilizations = new List<Civilization>();
 
         List<InfluentialPerson> workingInfluencialPeople = new List<InfluentialPerson>();
+        List<Building> workingBuildings = new List<Building>();
 
         //Generate independent definition dictionaries
         this.heatDictionary = this.ConvertToHeatDictionary(allHeatDefinitionElements);
@@ -49,11 +51,14 @@ public class MapController
         //Loop through all influential people
         workingInfluencialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
+        //Loop through all buildings
+        workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements));
+
         //Loop through all the holdings
         workingHoldings.AddRange(this.ReadMapTextures(mapName, workingResourceItems));
 
         //Loop through all the civilizations...generate units for the civilization as well
-        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople, workingResourceItems));
+        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople, workingResourceItems, workingBuildings));
 
         //Loop through all units and add them to the complete list of units
         foreach (Civilization c in workingCivilizations) { workingUnits.AddRange(c.Units); }
@@ -297,7 +302,26 @@ public class MapController
         return result;
     }
 
-    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems)
+    private List<Building> ConvertToBuildings(IEnumerable<XElement> buildingElements)
+    {
+        List<Building> result = new List<Building>();
+
+        //Loop through all influential people
+        foreach (var b in buildingElements)
+        {
+            string guid = (string)b.Attribute("guid").Value.ToLower();
+            string displayName = (string)b.Attribute("displayname").Value;
+            LayoutSize layoutSize = Enum.Parse<LayoutSize>(b.Attribute("layoutsize").Value);
+            string iconFileName = (string)b.Attribute("iconfilename").Value;
+            string modelFileName = (string)b.Attribute("modelfilename").Value;
+
+            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName));
+        }
+
+        return result;
+    }
+
+    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Building> allBuildings)
     {
         List<Civilization> result = new List<Civilization>();
 
@@ -321,6 +345,23 @@ public class MapController
             //Generate Units
             var allUnits = c.Element("units").Elements("unit");
             List<Unit> workingUnits = this.ConvertToUnits(allUnits,allHoldings,allInfluentialPeople, allResourceItems, workingSupplies);
+
+            //Generate buildings
+            var buildingElements = c.Element("buildings").Elements("building");
+            foreach (var b in buildingElements)
+            {
+                string buildingTemplateGUID = (string)b.Attribute("templateguid").Value.ToLower();
+                string buildingDisplayName = (string)b.Attribute("displayname").Value;
+                int buildingLot = int.Parse(b.Attribute("lot").Value);
+                string buildingLocationGUID = (string)b.Attribute("locationguid").Value;
+
+                Building workingBuilding = allBuildings.Find(ab => ab.GUID == buildingTemplateGUID).CreateInstance(buildingLot);
+                workingBuilding.DisplayName = buildingDisplayName;
+
+                Holding workingHolding = allHoldings.Find(ab => ab.GUID == buildingLocationGUID);
+
+                workingHolding.Buildings.Add(workingBuilding);
+            }
 
 
             workingCivilization.InfluentialPeople.Add(workingLeader);

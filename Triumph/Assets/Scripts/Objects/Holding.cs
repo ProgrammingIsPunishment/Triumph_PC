@@ -14,6 +14,7 @@ public class Holding
     public Inventory NaturalResourcesInventory { get; set; }
     public List<Holding> AdjacentHoldings { get; set; }
     public VisibilityLevel VisibilityLevel { get; set; }
+    public List<Building> Buildings { get; set; }
 
     [NonSerialized] public HoldingDisplayManager HoldingDisplayManager;
 
@@ -25,6 +26,7 @@ public class Holding
         this.TerrainType = terrainType;
         this.NaturalResourcesInventory = naturalResourcesInventory;
         this.AdjacentHoldings = new List<Holding>();
+        this.Buildings = new List<Building>();
     }
 
     public void UpdateVisibility(Civilization civilization)

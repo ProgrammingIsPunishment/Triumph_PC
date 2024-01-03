@@ -40,6 +40,25 @@ public class PrefabController : MonoBehaviour
         tempResourceObject.SetActive(true);
     }
 
+    public void InstantiateBuildingModel(Holding holding, Building building)
+    {
+        List<Vector3> tempLotVectors = new List<Vector3>() { 
+            new Vector3(-2.5f, -2.2f, -2.5f),
+            new Vector3(-2.5f, -2.2f, 2.5f),
+            new Vector3(2.5f, -2.2f, 2.5f),
+            new Vector3(2.5f, -2.2f, -2.5f),
+        };
+
+
+        GameObject tempBuildingObject = Instantiate(Resources.Load<GameObject>($"Models/Buildings/{building.ModelFileName}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        tempBuildingObject.transform.SetParent(holding.HoldingDisplayManager.gameObject.transform);
+        tempBuildingObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        tempBuildingObject.transform.localPosition = tempLotVectors[building.Lot-1];
+        holding.HoldingDisplayManager.buildingObject = tempBuildingObject;
+
+        tempBuildingObject.SetActive(true);
+    }
+
     public void InstantiateUnitPrefab(Unit unit)
     {
         GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>("Prefabs/Unit"), new Vector3((unit.XPosition * 10), 0f, (unit.ZPosition * 10)), Quaternion.identity);

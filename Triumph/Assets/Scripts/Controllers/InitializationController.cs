@@ -42,6 +42,14 @@ public class InitializationController : MonoBehaviour
                     Oberkommando.PREFAB_CONTROLLER.InstantiateResourceModel(h, ri);
                 }
             }
+
+            foreach (Building b in h.Buildings)
+            {
+                if (b.ModelFileName != "")
+                {
+                    Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(h, b);
+                }
+            }
         }
     }
 
