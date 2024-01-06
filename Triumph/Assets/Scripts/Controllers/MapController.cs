@@ -16,9 +16,9 @@ public class MapController
     private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
-    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>> LoadMapFile(string mapName)
+    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>> LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>> result = null;
+        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>> result = null;
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
@@ -68,7 +68,7 @@ public class MapController
         //this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
-        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits);
+        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings);
 
         return result;
     }
@@ -326,7 +326,10 @@ public class MapController
                 resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
             }
 
-            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, resourceItemComponents));
+            //Generate building construction
+            Construction workingConstruction = new Construction(resourceItemComponents);
+
+            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, workingConstruction));
         }
 
         return result;
@@ -370,6 +373,9 @@ public class MapController
                 workingBuilding.DisplayName = buildingDisplayName;
 
                 Holding workingHolding = allHoldings.Find(ab => ab.GUID == buildingLocationGUID);
+
+                //Force construct as building is already built
+                //workingBuilding.Construction.Complete();
 
                 workingHolding.Buildings.Add(workingBuilding);
             }

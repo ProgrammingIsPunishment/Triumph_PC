@@ -11,25 +11,26 @@ public class Building
     public string DisplayName { get; set; }
     public string IconFileName { get; set; }
     public string ModelFileName { get; set; }
-    public List<Tuple<string, int>> ResourceItemComponents { get; set; }
+    public Construction Construction { get; set; }
     public LayoutSize LayoutSize { get; set; }
     public int Lot { get; set; }
 
     [NonSerialized] public BuildingSlotView BuildingSlotView;
 
-    public Building(string guid, string displayName, LayoutSize layoutSize, string iconFileName, string modelFileName, List<Tuple<string, int>> resourceItemComponents)
+    public Building(string guid, string displayName, LayoutSize layoutSize, string iconFileName, string modelFileName, Construction construction)
     {
         this.GUID = guid;
         this.DisplayName = displayName;
         this.LayoutSize = layoutSize;
         this.IconFileName = iconFileName;
         this.ModelFileName = modelFileName;
-        this.ResourceItemComponents = resourceItemComponents;
+        this.Construction = construction;
     }
 
     public Building CreateInstance(int lot)
     {
-        Building tempBuilding = new Building(this.GUID, this.DisplayName, this.LayoutSize, this.IconFileName, this.ModelFileName, this.ResourceItemComponents);
+        Construction tempConstruction = new Construction(this.Construction.RequiredComponents);
+        Building tempBuilding = new Building(this.GUID, this.DisplayName, this.LayoutSize, this.IconFileName, this.ModelFileName, tempConstruction);
         tempBuilding.Lot = lot;
         return tempBuilding;
     }

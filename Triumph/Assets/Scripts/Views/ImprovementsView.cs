@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 public class ImprovementsView : MonoBehaviour
 {
-    private List<BuildingSlotView> BuildingSlotViews = new List<BuildingSlotView>();
+    [NonSerialized] public List<BuildingSlotView> BuildingSlotViews = new List<BuildingSlotView>();
 
     public void Initialize()
     {
@@ -14,22 +15,25 @@ public class ImprovementsView : MonoBehaviour
         this.MarkAllSlotsEmpty();
     }
 
-    public void UpdateView(Holding holding)
+    public void Refresh(Holding holding)
     {
         List<int> lots = new List<int>() { 1, 2, 3, 4 };
 
-        for (int i = 0; i < holding.Buildings.Count; i++)
-        {
-            BuildingSlotViews[i].Refresh(holding.Buildings[i]);
-            BuildingSlotViews[i].ShowDeveloped();
-            lots.Remove(holding.Buildings[i].Lot);
-        }
-
         foreach (Building b in holding.Buildings)
         {
-            BuildingSlotView temp = BuildingSlotViews.First(bsv=>bsv.lot==b.Lot);
-            temp.Refresh(b);
-            temp.ShowDeveloped();
+            BuildingSlotView tempBuildingSlotView = BuildingSlotViews.First(bsv=>bsv.lot==b.Lot);
+            tempBuildingSlotView.Refresh(b);
+            tempBuildingSlotView.Couple(b);
+
+            if (b.Construction.IsCompleted)
+            {
+                tempBuildingSlotView.ShowDeveloped();
+            }
+            else
+            {
+                tempBuildingSlotView.ShowUnderConstruction();
+            }
+
             lots.Remove(b.Lot);
         }
 

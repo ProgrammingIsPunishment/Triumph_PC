@@ -47,4 +47,29 @@ public class Holding
             }
         }
     }
+
+    public bool HasUnconstructedBuildings()
+    {
+        bool result = false;
+
+        foreach (Building b in this.Buildings)
+        {
+            if (!b.Construction.IsCompleted)
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    public bool HasUndevelopedLots()
+    {
+        bool result = false;
+
+        //NEED TO DO...needs to be more robust as some building take up multiple slots
+        if (this.Buildings.Count < 4) { result = true; }
+
+        return result;
+    }
 }

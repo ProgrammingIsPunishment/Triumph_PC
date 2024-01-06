@@ -45,6 +45,11 @@ public class Unit
         this.ActionPoints--;
     }
 
+    public void Construct()
+    {
+        this.ActionPoints--;
+    }
+
     public void CalculateAttrition()
     {
         foreach (Attrition a in this.Supply.Attritions)

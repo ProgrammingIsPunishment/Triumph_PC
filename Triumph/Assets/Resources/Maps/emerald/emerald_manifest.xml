@@ -62,7 +62,7 @@
 				</unit>
 			</units>
 			<buildings>
-				<building templateguid="hut" displayname="Starting Hut" lot="1" locationguid="dubai2"></building>
+				<building templateguid="hut" displayname="Abraham's Hut" lot="1" locationguid="dubai2"></building>
 				<!-- <building templateguid="hut" displayname="Other Hut" lot="4" locationguid="dubai2"></building> -->
 			</buildings>
 		</civilization>

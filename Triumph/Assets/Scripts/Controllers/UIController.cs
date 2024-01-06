@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     [NonSerialized] public HoldingDetailsProcedure HoldingDetailsProcedure = new HoldingDetailsProcedure();
     [NonSerialized] public MoveLeaderProcedure MoveLeaderProcedure = new MoveLeaderProcedure();
     [NonSerialized] public GatherLeaderProcedure GatherLeaderProcedure = new GatherLeaderProcedure();
+    [NonSerialized] public ConstructLeaderProcedure ConstructLeaderProcedure = new ConstructLeaderProcedure();
 
     public void NewUIState(UIState newUIState)
     {

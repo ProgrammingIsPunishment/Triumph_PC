@@ -22,6 +22,7 @@ public class HoldingDetailsView : MonoBehaviour
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
     [SerializeField] private GameObject gatherActionButton;
+    [SerializeField] private GameObject constructActionButton;
 
     //Tab buttons
     [SerializeField] private HoldingDetailsTabButton summaryTabButton;
@@ -63,7 +64,7 @@ public class HoldingDetailsView : MonoBehaviour
         }
 
         //Improvements Tab
-        this.improvementsTab.UpdateView(holding);
+        this.improvementsTab.Refresh(holding);
     }
 
     public void Default()
@@ -78,6 +79,7 @@ public class HoldingDetailsView : MonoBehaviour
     {
         this.moveActionButton.SetActive(false);
         this.gatherActionButton.SetActive(false);
+        this.constructActionButton.SetActive(false);
 
         if (unit.ActionPoints >= 1)
         {
@@ -89,6 +91,11 @@ public class HoldingDetailsView : MonoBehaviour
             if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
             {
                 this.gatherActionButton.SetActive(true);
+            }
+
+            if (holding.HasUnconstructedBuildings() || holding.HasUndevelopedLots())
+            {
+                this.constructActionButton.SetActive(true);
             }
         }
     }

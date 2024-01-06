@@ -3,5 +3,6 @@ public enum UIState
     None,
     HoldingDetails,
     MoveLeader,
-    GatherLeader
+    GatherLeader,
+    ConstructLeader
 }

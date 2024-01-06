@@ -12,6 +12,7 @@ public class Save
     public List<Holding> AllHoldings { get; set; }
     public List<Unit> AllUnits { get; set; }
     public List<ResourceItem> AllResourceItems { get; set; }
+    public List<Building> AllBuildings { get; set; }
     public List<Civilization> AllCivilizations { get; set; }
 
     public Save(string name)
