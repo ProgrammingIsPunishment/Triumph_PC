@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class InitializationController : MonoBehaviour
 {
-    [SerializeField] private GameObject holdingDetailsUIGameObject;
-    [SerializeField] private GameObject naturalResourcesTabUIGameObject;
-    [SerializeField] private GameObject unitTabUIGameObject;
-    [SerializeField] private GameObject summaryTabUIGameObject;
+    //[SerializeField] private GameObject holdingDetailsUIGameObject;
+    //[SerializeField] private GameObject naturalResourcesTabUIGameObject;
+    //[SerializeField] private GameObject unitTabUIGameObject;
+    //[SerializeField] private GameObject summaryTabUIGameObject;
 
     private void AssignControllers()
     {
@@ -23,6 +23,7 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.holdingDetailsView.summaryTabManager.Initialize();
         Oberkommando.UI_CONTROLLER.holdingDetailsView.unitSupplyTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingDetailsView.naturalResourcesTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingDetailsView.improvementsTab.Initialize();
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)

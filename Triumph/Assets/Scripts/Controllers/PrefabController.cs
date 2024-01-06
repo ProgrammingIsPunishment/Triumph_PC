@@ -45,8 +45,8 @@ public class PrefabController : MonoBehaviour
         List<Vector3> tempLotVectors = new List<Vector3>() { 
             new Vector3(-2.5f, -2.2f, -2.5f),
             new Vector3(-2.5f, -2.2f, 2.5f),
-            new Vector3(2.5f, -2.2f, 2.5f),
             new Vector3(2.5f, -2.2f, -2.5f),
+            new Vector3(2.5f, -2.2f, 2.5f)
         };
 
 

@@ -2,5 +2,6 @@ public enum HoldingDetailsTabType
 {
     Summary,
     NaturalResources,
-    Unit
+    Unit,
+    Improvements
 }

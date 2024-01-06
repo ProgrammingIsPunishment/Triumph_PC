@@ -17,6 +17,7 @@ public class HoldingDetailsView : MonoBehaviour
     [SerializeField] public SummaryTabManager summaryTabManager;
     [SerializeField] public InventoryView naturalResourcesTab;
     [SerializeField] public InventoryView unitSupplyTab;
+    [SerializeField] public ImprovementsView improvementsTab;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
@@ -26,6 +27,7 @@ public class HoldingDetailsView : MonoBehaviour
     [SerializeField] private HoldingDetailsTabButton summaryTabButton;
     [SerializeField] private HoldingDetailsTabButton naturalResourcesTabButton;
     [SerializeField] private HoldingDetailsTabButton unitInventoryTabButton;
+    [SerializeField] private HoldingDetailsTabButton improvementsTabButton;
 
     public void Refresh(Holding holding, Unit unit)
     {
@@ -59,6 +61,9 @@ public class HoldingDetailsView : MonoBehaviour
         {
             this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory, unit.Supply);
         }
+
+        //Improvements Tab
+        this.improvementsTab.UpdateView(holding);
     }
 
     public void Default()
@@ -66,6 +71,7 @@ public class HoldingDetailsView : MonoBehaviour
         this.summaryTabManager.Show();
         this.naturalResourcesTab.Hide();
         this.unitSupplyTab.Hide();
+        this.improvementsTab.Hide();
     }
 
     public void EnableUnitActionButtons(Holding holding, Unit unit)
@@ -92,6 +98,7 @@ public class HoldingDetailsView : MonoBehaviour
         this.summaryTabManager.Hide();
         this.naturalResourcesTab.Hide();
         this.unitSupplyTab.Hide();
+        this.improvementsTab.Hide();
 
         switch (holdingDetailsTabType)
         {
@@ -103,6 +110,9 @@ public class HoldingDetailsView : MonoBehaviour
                 break;
             case HoldingDetailsTabType.Unit:
                 this.unitSupplyTab.Show();
+                break;
+            case HoldingDetailsTabType.Improvements:
+                this.improvementsTab.Show();
                 break;
         }
     }
@@ -120,6 +130,7 @@ public class HoldingDetailsView : MonoBehaviour
     private void EnableTabButtons(Holding holding, Unit unit)
     {
         this.summaryTabButton.Enable();
+        this.improvementsTabButton.Enable();
 
         this.naturalResourcesTabButton.Disable();
         this.unitInventoryTabButton.Disable();

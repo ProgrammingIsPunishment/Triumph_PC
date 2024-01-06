@@ -38,8 +38,12 @@
 		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
 	</influentialpeople>
 	<buildings>
-		<building guid="hut" displayname="hut" layoutsize="One" iconfilename="hut" modelfilename="hut"></building>
-		<building guid="pillar" displayname="pillar" layoutsize="One" iconfilename="pillar" modelfilename="pillar"></building>
+		<building guid="hut" displayname="hut" layoutsize="One" iconfilename="hut" modelfilename="hut">
+			<resourceitemcomponents>
+				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
+			</resourceitemcomponents>
+		</building>
+		<!-- <building guid="pillar" displayname="pillar" layoutsize="One" iconfilename="pillar" modelfilename="pillar"></building> -->
 	</buildings>
 	<civilizations>
 		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham">
@@ -59,6 +63,7 @@
 			</units>
 			<buildings>
 				<building templateguid="hut" displayname="Starting Hut" lot="1" locationguid="dubai2"></building>
+				<!-- <building templateguid="hut" displayname="Other Hut" lot="4" locationguid="dubai2"></building> -->
 			</buildings>
 		</civilization>
 	</civilizations>

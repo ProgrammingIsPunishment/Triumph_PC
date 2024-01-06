@@ -315,7 +315,18 @@ public class MapController
             string iconFileName = (string)b.Attribute("iconfilename").Value;
             string modelFileName = (string)b.Attribute("modelfilename").Value;
 
-            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName));
+            //loop through resource item components
+            var allComponents = b.Elements("resourceitemcomponents").Elements("resourceitemcomponent");
+            List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
+            foreach (var ric in allComponents)
+            {
+                string ricGuid = (string)ric.Attribute("guid").Value;
+                int amount = int.Parse(ric.Attribute("amount").Value);
+
+                resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
+            }
+
+            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, resourceItemComponents));
         }
 
         return result;
