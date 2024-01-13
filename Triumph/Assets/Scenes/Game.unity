@@ -1677,11 +1677,11 @@ RectTransform:
   - {fileID: 1533493102}
   - {fileID: 1599441254}
   - {fileID: 2119504006}
-  m_Father: {fileID: 1486277664}
-  m_RootOrder: 3
+  m_Father: {fileID: 1606456074}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.35, y: 0.9}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9ad6d25b9b0d74e811f0145da9fede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdingDetailsView: {fileID: 1486277670}
+  holdingView: {fileID: 1486277670}
 --- !u!1001 &518052613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5016,7 +5016,7 @@ RectTransform:
   - {fileID: 2089100947}
   - {fileID: 1365572830}
   m_Father: {fileID: 1486277664}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.9}
   m_AnchorMax: {x: 1, y: 1}
@@ -8040,9 +8040,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1486277664}
-  - component: {fileID: 1486277670}
   - component: {fileID: 1486277667}
   - component: {fileID: 1486277669}
+  - component: {fileID: 1486277670}
   m_Layer: 5
   m_Name: UIHoldingDetails
   m_TagString: Untagged
@@ -8063,9 +8063,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1093358260}
+  - {fileID: 1606456074}
   - {fileID: 1036634833}
-  - {fileID: 1696957565}
-  - {fileID: 339936109}
   - {fileID: 1778710290}
   - {fileID: 1886269581}
   m_Father: {fileID: 1151991331}
@@ -8123,21 +8122,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1486277663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8fdb2e4586a1d41b885b87f4802a9a, type: 3}
+  m_Script: {fileID: 11500000, guid: bfb8aefdf8bd68b49b9e1a5a374d664a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdingNameInput: {fileID: 2089100948}
-  unitNameInput: {fileID: 685150146}
-  unitActionPointText: {fileID: 1269459531}
-  unitContainer: {fileID: 339936108}
-  noUnitContainer: {fileID: 1696957564}
   summaryTabManager: {fileID: 914137583}
   naturalResourcesTab: {fileID: 742572183}
   unitSupplyTab: {fileID: 1945864505}
   improvementsTab: {fileID: 995753056}
-  moveActionButton: {fileID: 2250711}
-  gatherActionButton: {fileID: 91041331}
-  constructActionButton: {fileID: 1696108530}
+  unitView: {fileID: 1606456075}
   summaryTabButton: {fileID: 1925152002}
   naturalResourcesTabButton: {fileID: 1348551391}
   unitInventoryTabButton: {fileID: 1709979868}
@@ -8910,6 +8903,64 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 5
+--- !u!1 &1606456073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1606456074}
+  - component: {fileID: 1606456075}
+  m_Layer: 5
+  m_Name: Unit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1606456074
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606456073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 339936109}
+  - {fileID: 1696957565}
+  m_Father: {fileID: 1486277664}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.35, y: 0.9}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1606456075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606456073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991416ab076b74842ba37ebe1c65f177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitNameInput: {fileID: 685150146}
+  unitActionPointText: {fileID: 1269459531}
+  unitContainer: {fileID: 339936108}
+  noUnitContainer: {fileID: 1696957564}
+  moveActionButton: {fileID: 2250711}
+  gatherActionButton: {fileID: 91041331}
+  constructActionButton: {fileID: 1696108530}
 --- !u!1 &1623287846
 GameObject:
   m_ObjectHideFlags: 0
@@ -9117,19 +9168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d1572391c6ee544b2c91f3d92ef29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdingNameInput: {fileID: 0}
-  unitNameInput: {fileID: 0}
-  unitActionPointText: {fileID: 0}
-  unitContainer: {fileID: 0}
-  noUnitContainer: {fileID: 0}
-  summaryTabManager: {fileID: 0}
-  naturalResourcesTabManager: {fileID: 0}
-  unitTabManager: {fileID: 0}
-  moveActionButton: {fileID: 0}
-  gatherWoodActionButton: {fileID: 0}
-  summaryTabButton: {fileID: 0}
-  naturalResourcesTabButton: {fileID: 0}
-  unitInventoryTabButton: {fileID: 0}
 --- !u!223 &1640340474
 Canvas:
   m_ObjectHideFlags: 0
@@ -9472,11 +9510,11 @@ RectTransform:
   m_Children:
   - {fileID: 2039589890}
   - {fileID: 428694786}
-  m_Father: {fileID: 1486277664}
-  m_RootOrder: 2
+  m_Father: {fileID: 1606456074}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.35, y: 0.9}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9737,7 +9775,7 @@ RectTransform:
   - {fileID: 1709979864}
   - {fileID: 949988015}
   m_Father: {fileID: 1486277664}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 0.8}
   m_AnchorMax: {x: 1, y: 0.9}
@@ -10249,7 +10287,7 @@ RectTransform:
   - {fileID: 1945864504}
   - {fileID: 995753055}
   m_Father: {fileID: 1486277664}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 0}
   m_AnchorMax: {x: 1, y: 0.8}

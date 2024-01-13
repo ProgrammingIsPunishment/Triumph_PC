@@ -47,10 +47,10 @@ public class MoveLeaderProcedure
                     this.DestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
 
                     //Bring up holding details
-                    Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Reset();
-                    Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.AssignFields(this.DestinationHolding, this.SelectedUnit);
-                    Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Handle(HoldingDetailsProcedureStep.Show);
-                    Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+                    //Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Reset();
+                    //Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.AssignFields(this.DestinationHolding, this.SelectedUnit);
+                    //Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Handle(HoldingDetailsProcedureStep.Show);
+                    Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails);
 
                     this.Reset();
                 }

@@ -51,8 +51,8 @@ public class ConstructLeaderProcedure
                 this.SelectedHolding.Buildings.Add(tempBuilding);
                 this.SelectedUnit.Construct();
 
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Refresh(this.SelectedHolding, this.SelectedUnit);
-                Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+                Oberkommando.UI_CONTROLLER.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails);
 
                 this.Reset();
                 break;

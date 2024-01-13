@@ -41,11 +41,11 @@ public class GatherLeaderProcedure
             case GatherLeaderProcedureStep.Gather:
                 this.SelectedUnit.Gather(this.SelectedResourceItem);
 
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Refresh(this.SelectedHolding,this.SelectedUnit);
+                Oberkommando.UI_CONTROLLER.holdingView.Refresh(this.SelectedHolding,this.SelectedUnit);
                 //Oberkommando.UI_CONTROLLER.holdingDetailsView.naturalResourcesTab.Refresh(this.SelectedHolding.NaturalResourcesInventory);
                 //Oberkommando.UI_CONTROLLER.holdingDetailsView.unitSupplyTab.Refresh(this.SelectedUnit.SupplyInventory);
 
-                Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails);
 
                 this.Reset();
                 break;

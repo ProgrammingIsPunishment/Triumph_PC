@@ -38,12 +38,12 @@ public class CameraManager : MonoBehaviour
         HandleMovementInput();
     }
 
-    public void CenterCameraOnHolding(HoldingManager holdingManager)
-    {
-        float newXPosition = holdingManager.gameObject.transform.position.x;
-        float newZPositon = holdingManager.gameObject.transform.position.z;
-        newPosition = new Vector3(newXPosition, 0f,newZPositon);
-    }
+    //public void CenterCameraOnHolding(HoldingManager holdingManager)
+    //{
+    //    float newXPosition = holdingManager.gameObject.transform.position.x;
+    //    float newZPositon = holdingManager.gameObject.transform.position.z;
+    //    newPosition = new Vector3(newXPosition, 0f,newZPositon);
+    //}
 
     void HandleMovementInput()
     {

@@ -7,18 +7,37 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     public List<UIState> UIStateStack { get; set; } = new List<UIState>();
+    public List<UIData> UIDataStack { get; set; } = new List<UIData>();
 
-    //Holding Details
-    [SerializeField] public HoldingDetailsView holdingDetailsView;
+    //Master Views
+    [SerializeField] public HoldingView holdingView;
 
-    //Procedures
-    [NonSerialized] public HoldingDetailsProcedure HoldingDetailsProcedure = new HoldingDetailsProcedure();
-    [NonSerialized] public MoveLeaderProcedure MoveLeaderProcedure = new MoveLeaderProcedure();
-    [NonSerialized] public GatherLeaderProcedure GatherLeaderProcedure = new GatherLeaderProcedure();
-    [NonSerialized] public ConstructLeaderProcedure ConstructLeaderProcedure = new ConstructLeaderProcedure();
-
-    public void NewUIState(UIState newUIState)
+    public void UpdateUIState(UIState newUIState, UIData uiData)
     {
+        //Process the new UI state
+        switch (newUIState)
+        {
+            case UIState.HoldingDetails_Show:
+                if (this.CurrentUIData().Holding != null)
+                {
+                    this.holdingView.Refresh(this.CurrentUIData().Holding, this.CurrentUIData().Unit);
+                    this.CurrentUIData().Holding.HoldingDisplayManager.ShowSelected(true);
+                    this.holdingView.ShowDefaultTab();
+                    this.holdingView.Show();
+                }
+                break;
+            case UIState.HoldingDetails_Hide:
+                if (this.CurrentUIData().Holding != null)
+                {
+                    this.CurrentUIData().Holding.HoldingDisplayManager.ShowSelected(false);
+                }
+                this.holdingView.Hide();
+                newUIState = UIState.HoldingDetails_Show;
+                break;
+            default:
+                break;
+        }
+
         this.UIStateStack.Add(newUIState);
     }
 
@@ -27,9 +46,23 @@ public class UIController : MonoBehaviour
         return this.UIStateStack.Last();
     }
 
+    public UIData CurrentUIData()
+    {
+        return this.UIDataStack.Last();
+    }
+
+    public void ClearStateAndData()
+    {
+        this.UIStateStack.Clear();
+        this.UIStateStack.Clear();
+
+        this.UIStateStack.Add(UIState.HoldingDetails_Show);
+        this.UIStateStack.Add(UIState.HoldingDetails_Show);
+    }
+
     public void HideAll()
     {
-        this.holdingDetailsView.Hide();
+        this.holdingView.Hide();
     }
 
     public void MapRefresh(Civilization civilization)

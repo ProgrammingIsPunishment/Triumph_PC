@@ -37,14 +37,14 @@ public class HoldingDetailsProcedure
         {
             case HoldingDetailsProcedureStep.Show:
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Refresh(this.SelectedHolding, this.SelectedUnit);
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Default();
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Show();
-                Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+                Oberkommando.UI_CONTROLLER.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                //Oberkommando.UI_CONTROLLER.holdingView.Default();
+                Oberkommando.UI_CONTROLLER.holdingView.Show();
+                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails);
                 break;
             case HoldingDetailsProcedureStep.Hide:
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
-                Oberkommando.UI_CONTROLLER.holdingDetailsView.Hide();
+                Oberkommando.UI_CONTROLLER.holdingView.Hide();
                 break;
         }
 

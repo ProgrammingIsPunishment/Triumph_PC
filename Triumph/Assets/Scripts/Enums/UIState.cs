@@ -1,8 +1,7 @@
 public enum UIState
 {
-    None,
-    HoldingDetails,
-    MoveLeader,
-    GatherLeader,
-    ConstructLeader
+    HoldingDetails_Show,
+    HoldingDetails_Hide,
+    LeaderMove_Select,
+    LeaderMove_Move,
 }

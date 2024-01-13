@@ -70,11 +70,11 @@ public class InventorySlotView : MonoBehaviour
 
     public void ClickEvent()
     {
-        if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.GatherLeader)
-        {
-            //Gather the resource
-            Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.SelectedResourceItem = this.resourceItem;
-            Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.Handle(GatherLeaderProcedureStep.Gather);
-        }
+        //if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.GatherLeader)
+        //{
+        //    //Gather the resource
+        //    //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.SelectedResourceItem = this.resourceItem;
+        //    //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.Handle(GatherLeaderProcedureStep.Gather);
+        //}
     }
 }

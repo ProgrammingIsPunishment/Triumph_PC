@@ -77,10 +77,10 @@ public class BuildingSlotView : MonoBehaviour
 
     public void ClickEvent()
     {
-        if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.ConstructLeader)
-        {
-            Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.SelectedLot = this.lot;
-            Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.Handle(ConstructLeaderProcedureStep.Construct);
-        }
+        //if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.ConstructLeader)
+        //{
+        //    //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.SelectedLot = this.lot;
+        //    //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.Handle(ConstructLeaderProcedureStep.Construct);
+        //}
     }
 }

@@ -20,10 +20,10 @@ public class InitializationController : MonoBehaviour
 
     private void InitializeViews()
     {
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.summaryTabManager.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.unitSupplyTab.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.naturalResourcesTab.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingDetailsView.improvementsTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.summaryTabManager.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.unitSupplyTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.naturalResourcesTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.improvementsTab.Initialize();
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)
@@ -73,7 +73,8 @@ public class InitializationController : MonoBehaviour
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();
-        Oberkommando.UI_CONTROLLER.NewUIState(UIState.HoldingDetails);
+        Oberkommando.UI_CONTROLLER.ClearStateAndData();
+        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_Show, new UIData().None());
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
     }
