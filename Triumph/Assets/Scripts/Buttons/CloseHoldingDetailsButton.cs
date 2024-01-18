@@ -8,6 +8,6 @@ public class CloseHoldingDetailsButton : MonoBehaviour
     {
         //Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.Handle(HoldingDetailsProcedureStep.Hide);
         //Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.Reset();
-        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_Hide, new UIData().None());
+        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_End);
     }
 }

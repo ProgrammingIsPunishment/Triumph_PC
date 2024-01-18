@@ -68,13 +68,11 @@ public class InitializationController : MonoBehaviour
         //Order very important
         this.AssignControllers();
         this.InitializeViews();
-        Oberkommando.UI_CONTROLLER.HideAll();
         this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();
-        Oberkommando.UI_CONTROLLER.ClearStateAndData();
-        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_Show, new UIData().None());
+        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.Initialize);
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.TURN_CONTROLLER.StartTurn(Oberkommando.SAVE.AllCivilizations[0]);
     }

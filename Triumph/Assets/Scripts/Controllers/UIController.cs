@@ -7,32 +7,61 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     public List<UIState> UIStateStack { get; set; } = new List<UIState>();
-    public List<UIData> UIDataStack { get; set; } = new List<UIData>();
+
+    //UI Data
+    public Holding SelectedHolding { get; set; } = null;
+    public Unit SelectedUnit { get; set; } = null;
+    public Holding SelectedDestinationHolding { get; set; } = null;
 
     //Master Views
     [SerializeField] public HoldingView holdingView;
 
-    public void UpdateUIState(UIState newUIState, UIData uiData)
+    public void UpdateUIState(UIState newUIState)
     {
         //Process the new UI state
         switch (newUIState)
         {
-            case UIState.HoldingDetails_Show:
-                if (this.CurrentUIData().Holding != null)
-                {
-                    this.holdingView.Refresh(this.CurrentUIData().Holding, this.CurrentUIData().Unit);
-                    this.CurrentUIData().Holding.HoldingDisplayManager.ShowSelected(true);
-                    this.holdingView.ShowDefaultTab();
-                    this.holdingView.Show();
-                }
+            case UIState.Initialize:
+                this.HideAll();
+                this.ClearStateAndData();
+                newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
-            case UIState.HoldingDetails_Hide:
-                if (this.CurrentUIData().Holding != null)
+            case UIState.EndTurn:
+                if (this.SelectedHolding != null)
                 {
-                    this.CurrentUIData().Holding.HoldingDisplayManager.ShowSelected(false);
+                    this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 }
+                this.HideAll();
+                this.ClearStateAndData();
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
+            case UIState.HoldingDetails_SelectHolding:
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                this.holdingView.ShowDefaultTab();
+                this.holdingView.Show();
+                break;
+            case UIState.HoldingDetails_End:
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 this.holdingView.Hide();
-                newUIState = UIState.HoldingDetails_Show;
+                this.ClearStateAndData();
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
+            case UIState.LeaderMove_SelectHolding:
+                this.ShowHoldingsWithinRange(true, this.SelectedHolding);
+                break;
+            case UIState.LeaderMove_End:
+                this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
+                this.SelectedDestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
+                this.holdingView.Refresh(this.SelectedDestinationHolding, this.SelectedUnit);
+                Holding tempHolding = this.SelectedDestinationHolding;
+                Unit tempUnit = this.SelectedUnit;
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
+                this.ShowHoldingsWithinRange(false, this.SelectedHolding);
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding,tempUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             default:
                 break;
@@ -46,23 +75,39 @@ public class UIController : MonoBehaviour
         return this.UIStateStack.Last();
     }
 
-    public UIData CurrentUIData()
-    {
-        return this.UIDataStack.Last();
-    }
-
-    public void ClearStateAndData()
+    private void ClearStateAndData()
     {
         this.UIStateStack.Clear();
-        this.UIStateStack.Clear();
+        this.UIStateStack.Add(UIState.HoldingDetails_SelectHolding);
 
-        this.UIStateStack.Add(UIState.HoldingDetails_Show);
-        this.UIStateStack.Add(UIState.HoldingDetails_Show);
+        this.SelectedHolding = null;
+        this.SelectedUnit = null;
+        this.SelectedDestinationHolding = null;
     }
 
-    public void HideAll()
+    private void HideAll()
     {
         this.holdingView.Hide();
+        if (this.SelectedHolding != null)
+        {
+            this.ShowHoldingsWithinRange(false, this.SelectedHolding);
+        }
+    }
+
+    public void HoldingDetailsData(Holding holding, Unit unit)
+    {
+        if (this.SelectedHolding != null)
+        {
+            this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
+        }
+
+        this.SelectedHolding = holding;
+        this.SelectedUnit = unit;
+    }
+
+    public void LeaderMoveData(Holding holding)
+    {
+        this.SelectedDestinationHolding = holding;
     }
 
     public void MapRefresh(Civilization civilization)
@@ -113,17 +158,21 @@ public class UIController : MonoBehaviour
     }
 
 
-    public void ShowHoldingsWithinRange(Holding holding, bool isBeingShown)
+    private void ShowHoldingsWithinRange(bool isBeingShown, Holding holding)
     {
-        //List<Holding> selectableHoldings = Oberkommando.SAVE.AllHoldings.Where(ah => holding.AdjacentHoldingGUIDs.Contains(ah.GUID)).ToList();
-
         if (isBeingShown)
         {
-            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(true); }
+            foreach (Holding h in holding.AdjacentHoldings)
+            {
+                h.HoldingDisplayManager.ShowSelectable(true);
+            }
         }
         else
         {
-            //foreach (Holding h in selectableHoldings) { h.HoldingManager.ShowSelectable(false); }
+            foreach (Holding h in holding.AdjacentHoldings)
+            {
+                h.HoldingDisplayManager.ShowSelectable(false);
+            }
         }
     }
 }

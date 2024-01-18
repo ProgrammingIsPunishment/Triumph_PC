@@ -69,19 +69,18 @@ public class HoldingDisplayManager : MonoBehaviour
 
         switch (Oberkommando.UI_CONTROLLER.CurrentUIState())
         {
-            case UIState.HoldingDetails_Show:
+            case UIState.HoldingDetails_SelectHolding:
                 tempUnit = this.GetUnitAtThisLocation();
-                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_Show, new UIData().HoldingDetails(this.holding,tempUnit));
-
-                //Oberkommando.UI_CONTROLLER.holdingView.Refresh(this.holding,tempUnit);
-                //this.ShowSelected(true);
-                //Oberkommando.UI_CONTROLLER.holdingView.Show();
+                Oberkommando.UI_CONTROLLER.HoldingDetailsData(this.holding,tempUnit);
+                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_SelectHolding);
                 break;
-            //case UIState.MoveLeader:
-            //    //Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.DestinationHolding = this.holding;
-            //    //Oberkommando.UI_CONTROLLER.MoveLeaderProcedure.Handle(MoveLeaderProcedureStep.Move);
-            //    break;
-            default: /*Do nothing...*/ break;
+            case UIState.LeaderMove_SelectHolding:
+                Oberkommando.UI_CONTROLLER.LeaderMoveData(this.holding);
+                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_End);
+                break;
+            default: 
+                /*Do nothing...*/ 
+                break;
         }
     }
 

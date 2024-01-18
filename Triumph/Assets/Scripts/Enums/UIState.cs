@@ -1,7 +1,9 @@
 public enum UIState
 {
-    HoldingDetails_Show,
-    HoldingDetails_Hide,
-    LeaderMove_Select,
-    LeaderMove_Move,
+    Initialize,
+    EndTurn,
+    HoldingDetails_SelectHolding,
+    HoldingDetails_End,
+    LeaderMove_SelectHolding,
+    LeaderMove_End,
 }
