@@ -16,6 +16,25 @@ public class InventoryView : MonoBehaviour
         this.HideAllSlots();
     }
 
+    /// <summary>
+    /// Natural Resources
+    /// </summary>
+    /// <param name="inventory"></param>
+    public void Refresh(Inventory inventory)
+    {
+        for (int i = 0; i < inventory.ResourceItems.Count; i++)
+        {
+            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Show();
+        }
+    }
+
+    /// <summary>
+    /// Unit Supply
+    /// </summary>
+    /// <param name="inventory"></param>
+    /// <param name="supplies"></param>
     public void Refresh(Inventory inventory, Supply supplies)
     {
         for (int i = 0; i < inventory.ResourceItems.Count; i++)

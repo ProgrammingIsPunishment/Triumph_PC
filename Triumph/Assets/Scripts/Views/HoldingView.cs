@@ -33,7 +33,7 @@ public class HoldingView : MonoBehaviour
         this.improvementsTab.Refresh(holding);
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
-            this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory, unit.Supply);
+            this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory);
         }
         if (unit != null)
         {

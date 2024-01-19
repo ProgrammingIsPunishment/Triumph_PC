@@ -6,16 +6,6 @@ public class GatherLeaderButton : MonoBehaviour
 {
     public void OnClickEvent()
     {
-        //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.GatherLeader);
-        //Holding tempHolding = Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.SelectedHolding;
-        //Unit tempUnit = Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.SelectedUnit;
-        Oberkommando.UI_CONTROLLER.holdingView.SwitchTab(HoldingDetailsTabType.NaturalResources);
-        //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.AssignFields(tempHolding, tempUnit);
-        //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.Handle(GatherLeaderProcedureStep.ShowAvailableResources);
-
-
-
-        //Holding selectedHolding = Oberkommando.UI_CONTROLLER.SelectedHoldings[0];
-        //selectedHolding.Unit.Gather(selectedHolding.NaturalResourcesInventory, gatherType);
+        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderGather_SelectResourceItem);
     }
 }

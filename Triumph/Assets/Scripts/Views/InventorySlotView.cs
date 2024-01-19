@@ -14,6 +14,8 @@ public class InventorySlotView : MonoBehaviour
 
     [NonSerialized] private ResourceItem resourceItem = null;
 
+    [NonSerialized] private bool IsSelectableForGather = false;
+
     public void Couple(ResourceItem resourceItem)
     {
         this.resourceItem = resourceItem;
@@ -26,6 +28,24 @@ public class InventorySlotView : MonoBehaviour
         this.resourceItem = null;
     }
 
+    /// <summary>
+    /// Natural Resources
+    /// </summary>
+    /// <param name="resourceItem"></param>
+    public void Refresh(ResourceItem resourceItem)
+    {
+        this.usageText.gameObject.SetActive(false);
+        this.resourceItem = resourceItem;
+        this.amountText.text = resourceItem.Amount.ToString();
+        this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
+        this.Enable();
+    }
+
+    /// <summary>
+    /// Unit Supply
+    /// </summary>
+    /// <param name="resourceItem"></param>
+    /// <param name="attrition"></param>
     public void Refresh(ResourceItem resourceItem, Attrition attrition)
     {
         this.resourceItem = resourceItem;
@@ -68,13 +88,24 @@ public class InventorySlotView : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    public void ShowSelectable(bool isSelectable)
+    {
+        if (isSelectable)
+        {
+            this.IsSelectableForGather = true;
+        }
+        else
+        {
+            this.IsSelectableForGather = false;
+        }
+    }
+
     public void ClickEvent()
     {
-        //if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.GatherLeader)
-        //{
-        //    //Gather the resource
-        //    //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.SelectedResourceItem = this.resourceItem;
-        //    //Oberkommando.UI_CONTROLLER.GatherLeaderProcedure.Handle(GatherLeaderProcedureStep.Gather);
-        //}
+        if (this.IsSelectableForGather)
+        {
+            Oberkommando.UI_CONTROLLER.LeaderGatherData(this.resourceItem);
+            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderGather_End);
+        }
     }
 }

@@ -16,6 +16,8 @@ public class HoldingDisplayManager : MonoBehaviour
 
     [NonSerialized] public Holding holding = null;
 
+    [NonSerialized] private bool IsSelectableForMovement = false;
+
     public void Couple(Holding holdingToCouple)
     {
         this.holding = holdingToCouple;
@@ -53,8 +55,16 @@ public class HoldingDisplayManager : MonoBehaviour
 
     public void ShowSelectable(bool isSelectable)
     {
-        if (isSelectable) { this.selectableObject.SetActive(true); }
-        else { this.selectableObject.SetActive(false); }
+        if (isSelectable) 
+        { 
+            this.selectableObject.SetActive(true);
+            this.IsSelectableForMovement = true;
+        }
+        else 
+        { 
+            this.selectableObject.SetActive(false);
+            this.IsSelectableForMovement = false;
+        }
     }
 
     public void ShowSelected(bool isSelected)
@@ -75,8 +85,11 @@ public class HoldingDisplayManager : MonoBehaviour
                 Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_SelectHolding);
                 break;
             case UIState.LeaderMove_SelectHolding:
-                Oberkommando.UI_CONTROLLER.LeaderMoveData(this.holding);
-                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_End);
+                if (this.IsSelectableForMovement)
+                {
+                    Oberkommando.UI_CONTROLLER.LeaderMoveData(this.holding);
+                    Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_End);
+                }
                 break;
             default: 
                 /*Do nothing...*/ 

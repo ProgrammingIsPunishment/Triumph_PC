@@ -12,12 +12,17 @@ public class UIController : MonoBehaviour
     public Holding SelectedHolding { get; set; } = null;
     public Unit SelectedUnit { get; set; } = null;
     public Holding SelectedDestinationHolding { get; set; } = null;
+    public ResourceItem SelectedResourceItemForGather { get; set; } = null;
 
     //Master Views
     [SerializeField] public HoldingView holdingView;
 
     public void UpdateUIState(UIState newUIState)
     {
+        Holding tempDestinationHolding = this.SelectedDestinationHolding;
+        Holding tempHolding = this.SelectedHolding;
+        Unit tempUnit = this.SelectedUnit;
+
         //Process the new UI state
         switch (newUIState)
         {
@@ -32,6 +37,7 @@ public class UIController : MonoBehaviour
                     this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 }
                 this.HideAll();
+                this.ResetViews();
                 this.ClearStateAndData();
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
@@ -44,6 +50,7 @@ public class UIController : MonoBehaviour
             case UIState.HoldingDetails_End:
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 this.holdingView.Hide();
+                this.ResetViews();
                 this.ClearStateAndData();
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
@@ -54,13 +61,23 @@ public class UIController : MonoBehaviour
                 this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
                 this.SelectedDestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
                 this.holdingView.Refresh(this.SelectedDestinationHolding, this.SelectedUnit);
-                Holding tempHolding = this.SelectedDestinationHolding;
-                Unit tempUnit = this.SelectedUnit;
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
-                this.ShowHoldingsWithinRange(false, this.SelectedHolding);
+                this.ResetViews();
                 this.ClearStateAndData();
-                this.HoldingDetailsData(tempHolding,tempUnit);
+                this.HoldingDetailsData(tempDestinationHolding, tempUnit);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
+            case UIState.LeaderGather_SelectResourceItem:
+                this.ShowGatherableResources(true, this.SelectedHolding.NaturalResourcesInventory);
+                this.holdingView.SwitchTab(HoldingDetailsTabType.NaturalResources);
+                break;
+            case UIState.LeaderGather_End:
+                this.SelectedUnit.Gather(this.SelectedResourceItemForGather);
+                this.ResetViews();
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding, tempUnit);
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             default:
@@ -83,15 +100,21 @@ public class UIController : MonoBehaviour
         this.SelectedHolding = null;
         this.SelectedUnit = null;
         this.SelectedDestinationHolding = null;
+        this.SelectedResourceItemForGather = null;
+    }
+
+    private void ResetViews()
+    {
+        if (this.SelectedHolding != null)
+        {
+            this.ShowHoldingsWithinRange(false, this.SelectedHolding);
+            this.ShowGatherableResources(false, this.SelectedHolding.NaturalResourcesInventory);
+        }
     }
 
     private void HideAll()
     {
         this.holdingView.Hide();
-        if (this.SelectedHolding != null)
-        {
-            this.ShowHoldingsWithinRange(false, this.SelectedHolding);
-        }
     }
 
     public void HoldingDetailsData(Holding holding, Unit unit)
@@ -108,6 +131,11 @@ public class UIController : MonoBehaviour
     public void LeaderMoveData(Holding holding)
     {
         this.SelectedDestinationHolding = holding;
+    }
+
+    public void LeaderGatherData(ResourceItem resourceItem)
+    {
+        this.SelectedResourceItemForGather = resourceItem;
     }
 
     public void MapRefresh(Civilization civilization)
@@ -172,6 +200,28 @@ public class UIController : MonoBehaviour
             foreach (Holding h in holding.AdjacentHoldings)
             {
                 h.HoldingDisplayManager.ShowSelectable(false);
+            }
+        }
+    }
+
+    private void ShowGatherableResources(bool isBeingShown, Inventory inventory)
+    {
+        if (isBeingShown)
+        {
+            //Eventually will need to disable and enable only items that the unit can gather
+            //For right now, everything is enabled for the sake of testing
+            foreach (ResourceItem ri in inventory.ResourceItems)
+            {
+                ri.InventorySlotView.Enable();
+                ri.InventorySlotView.ShowSelectable(true);
+            }
+        }
+        else
+        {
+            foreach (ResourceItem ri in inventory.ResourceItems)
+            {
+                ri.InventorySlotView.Disable();
+                ri.InventorySlotView.ShowSelectable(false);
             }
         }
     }
