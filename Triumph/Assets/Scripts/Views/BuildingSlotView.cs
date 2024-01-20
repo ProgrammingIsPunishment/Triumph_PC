@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ public class BuildingSlotView : MonoBehaviour
 
     [NonSerialized] public Building building = null;
 
+    [NonSerialized] private bool IsSelectableForImprovement = false;
+
     public void Couple(Building building)
     {
         this.building = building;
@@ -24,8 +27,11 @@ public class BuildingSlotView : MonoBehaviour
 
     public void Uncouple()
     {
-        this.building.BuildingSlotView = null;
-        this.building = null;
+        if (this.building != null)
+        {
+            this.building.BuildingSlotView = null;
+            this.building = null;
+        }
     }
 
     public void Refresh(Building building)
@@ -75,12 +81,38 @@ public class BuildingSlotView : MonoBehaviour
         this.GetComponent<Button>().interactable = false;
     }
 
+    public bool HasBuilding()
+    {
+        if (this.building == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public void ShowSelectable(bool isSelectable)
+    {
+        if (isSelectable)
+        {
+            this.IsSelectableForImprovement = true;
+        }
+        else
+        {
+            this.IsSelectableForImprovement = false;
+        }
+    }
+
     public void ClickEvent()
     {
-        //if (this.GetComponent<Button>().interactable && Oberkommando.UI_CONTROLLER.CurrentUIState() == UIState.ConstructLeader)
-        //{
-        //    //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.SelectedLot = this.lot;
-        //    //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.Handle(ConstructLeaderProcedureStep.Construct);
-        //}
+        if (this.IsSelectableForImprovement)
+        {
+            //NEED TO DO...allow selection of building
+            Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);
+            Oberkommando.UI_CONTROLLER.LeaderBuildData(this.lot, tempBuilding);
+            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderBuild_End);
+        }
     }
 }

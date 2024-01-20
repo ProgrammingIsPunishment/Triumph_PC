@@ -8,4 +8,6 @@ public enum UIState
     LeaderMove_End,
     LeaderGather_SelectResourceItem,
     LeaderGather_End,
+    LeaderBuild_SelectLot,
+    LeaderBuild_End
 }

@@ -13,6 +13,8 @@ public class UIController : MonoBehaviour
     public Unit SelectedUnit { get; set; } = null;
     public Holding SelectedDestinationHolding { get; set; } = null;
     public ResourceItem SelectedResourceItemForGather { get; set; } = null;
+    public int SelectedLotForBuild { get; set; } = 0;
+    public Building SelectedBuildingForBuild { get; set; } = null;
 
     //Master Views
     [SerializeField] public HoldingView holdingView;
@@ -32,10 +34,10 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.EndTurn:
-                if (this.SelectedHolding != null)
-                {
-                    this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
-                }
+                //if (this.SelectedHolding != null)
+                //{
+                //    this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
+                //}
                 this.HideAll();
                 this.ResetViews();
                 this.ClearStateAndData();
@@ -69,11 +71,25 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderGather_SelectResourceItem:
-                this.ShowGatherableResources(true, this.SelectedHolding.NaturalResourcesInventory);
+                this.holdingView.naturalResourcesTab.ShowGatherableResources(true);
                 this.holdingView.SwitchTab(HoldingDetailsTabType.NaturalResources);
                 break;
             case UIState.LeaderGather_End:
                 this.SelectedUnit.Gather(this.SelectedResourceItemForGather);
+                this.ResetViews();
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding, tempUnit);
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
+            case UIState.LeaderBuild_SelectLot:
+                this.holdingView.SwitchTab(HoldingDetailsTabType.Improvements);
+                this.holdingView.improvementsTab.ShowImprovableLots(true);
+                break;
+            case UIState.LeaderBuild_End:
+                this.SelectedHolding.BuildBuilding(this.SelectedBuildingForBuild);
+                this.UpdateBuildingModel(this.SelectedHolding,this.SelectedBuildingForBuild);
+                this.SelectedUnit.Build();
                 this.ResetViews();
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);
@@ -101,15 +117,23 @@ public class UIController : MonoBehaviour
         this.SelectedUnit = null;
         this.SelectedDestinationHolding = null;
         this.SelectedResourceItemForGather = null;
+        this.SelectedLotForBuild = 0;
+        this.SelectedBuildingForBuild = null;
     }
 
     private void ResetViews()
     {
         if (this.SelectedHolding != null)
         {
+            this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
             this.ShowHoldingsWithinRange(false, this.SelectedHolding);
-            this.ShowGatherableResources(false, this.SelectedHolding.NaturalResourcesInventory);
+            this.holdingView.naturalResourcesTab.ShowGatherableResources(false);
+            this.holdingView.improvementsTab.ShowImprovableLots(false);
         }
+
+        this.holdingView.naturalResourcesTab.ClearView();
+        this.holdingView.unitSupplyTab.ClearView();
+        this.holdingView.improvementsTab.ClearView();
     }
 
     private void HideAll()
@@ -138,6 +162,12 @@ public class UIController : MonoBehaviour
         this.SelectedResourceItemForGather = resourceItem;
     }
 
+    public void LeaderBuildData(int lot, Building building)
+    {
+        this.SelectedLotForBuild = lot;
+        this.SelectedBuildingForBuild = building;
+    }
+
     public void MapRefresh(Civilization civilization)
     {
         //Set visibility level to hidden for all holdings to start with
@@ -163,6 +193,11 @@ public class UIController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UpdateBuildingModel(Holding holding, Building building)
+    {
+        Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(holding, building);
     }
 
     //public void ShowDiscoveredHoldings(Civilization civilization)
@@ -200,28 +235,6 @@ public class UIController : MonoBehaviour
             foreach (Holding h in holding.AdjacentHoldings)
             {
                 h.HoldingDisplayManager.ShowSelectable(false);
-            }
-        }
-    }
-
-    private void ShowGatherableResources(bool isBeingShown, Inventory inventory)
-    {
-        if (isBeingShown)
-        {
-            //Eventually will need to disable and enable only items that the unit can gather
-            //For right now, everything is enabled for the sake of testing
-            foreach (ResourceItem ri in inventory.ResourceItems)
-            {
-                ri.InventorySlotView.Enable();
-                ri.InventorySlotView.ShowSelectable(true);
-            }
-        }
-        else
-        {
-            foreach (ResourceItem ri in inventory.ResourceItems)
-            {
-                ri.InventorySlotView.Disable();
-                ri.InventorySlotView.ShowSelectable(false);
             }
         }
     }

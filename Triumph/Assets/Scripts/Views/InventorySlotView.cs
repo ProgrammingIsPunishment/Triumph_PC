@@ -24,8 +24,11 @@ public class InventorySlotView : MonoBehaviour
 
     public void Uncouple()
     {
-        this.resourceItem.InventorySlotView = null;
-        this.resourceItem = null;
+        if (this.resourceItem != null)
+        {
+            this.resourceItem.InventorySlotView = null;
+            this.resourceItem = null;
+        }
     }
 
     /// <summary>

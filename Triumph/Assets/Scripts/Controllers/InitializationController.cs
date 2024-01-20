@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class InitializationController : MonoBehaviour
 {
-    //[SerializeField] private GameObject holdingDetailsUIGameObject;
-    //[SerializeField] private GameObject naturalResourcesTabUIGameObject;
-    //[SerializeField] private GameObject unitTabUIGameObject;
-    //[SerializeField] private GameObject summaryTabUIGameObject;
-
     private void AssignControllers()
     {
         Oberkommando.INITIALIZATION_CONTROLLER = this.gameObject.GetComponent<InitializationController>();
@@ -32,10 +27,7 @@ public class InitializationController : MonoBehaviour
         {
             Oberkommando.PREFAB_CONTROLLER.InstantiateHoldingPrefab(h);
             Oberkommando.PREFAB_CONTROLLER.InstantiateTerrainModel(h);
-            //if (h.Unit != null)
-            //{
-            //    Oberkommando.PREFAB_CONTROLLER.InstantiateUnitModel(h);
-            //}
+
             foreach (ResourceItem ri in h.NaturalResourcesInventory.ResourceItems)
             {
                 if (ri.ModelFileName != "")

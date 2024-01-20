@@ -12,7 +12,7 @@ public class ImprovementsView : MonoBehaviour
     public void Initialize()
     {
         this.BuildingSlotViews.AddRange(this.GetComponentsInChildren<BuildingSlotView>());
-        this.MarkAllSlotsEmpty();
+        this.MarkAllSlotsUndeveloped();
     }
 
     public void Refresh(Holding holding)
@@ -53,11 +53,42 @@ public class ImprovementsView : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void MarkAllSlotsEmpty()
+    public void MarkAllSlotsUndeveloped()
     {
         foreach (BuildingSlotView bsv in this.BuildingSlotViews)
         {
             bsv.ShowUndeveloped();
+        }
+    }
+
+    public void ClearView()
+    {
+        foreach (BuildingSlotView bsv in this.BuildingSlotViews)
+        {
+            bsv.Uncouple();
+        }
+    }
+
+    public void ShowImprovableLots(bool isBeingShown)
+    {
+        if (isBeingShown)
+        {
+            foreach (BuildingSlotView bsv in this.BuildingSlotViews)
+            {
+                if (!bsv.HasBuilding())
+                {
+                    bsv.Enable();
+                    bsv.ShowSelectable(true);
+                }
+            }
+        }
+        else
+        {
+            foreach (BuildingSlotView bsv in this.BuildingSlotViews)
+            {
+                bsv.Disable();
+                bsv.ShowSelectable(false);
+            }
         }
     }
 }

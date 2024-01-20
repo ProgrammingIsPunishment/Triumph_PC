@@ -29,6 +29,11 @@ public class Holding
         this.Buildings = new List<Building>();
     }
 
+    public void BuildBuilding(Building building)
+    {
+        this.Buildings.Add(building);
+    }
+
     public void UpdateVisibility(Civilization civilization)
     {
         if (!civilization.ExploredHoldings.Contains(this))

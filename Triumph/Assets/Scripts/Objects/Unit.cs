@@ -45,7 +45,7 @@ public class Unit
         this.ActionPoints--;
     }
 
-    public void Construct()
+    public void Build()
     {
         this.ActionPoints--;
     }

@@ -49,8 +49,14 @@ public class PrefabController : MonoBehaviour
             new Vector3(2.5f, -2.2f, 2.5f)
         };
 
+        string workingBuildingFileName = building.ModelFileName;
 
-        GameObject tempBuildingObject = Instantiate(Resources.Load<GameObject>($"Models/Buildings/{building.ModelFileName}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        if (!building.Construction.IsCompleted)
+        {
+            workingBuildingFileName = "underconstruction";
+        }
+
+        GameObject tempBuildingObject = Instantiate(Resources.Load<GameObject>($"Models/Buildings/{workingBuildingFileName}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
         tempBuildingObject.transform.SetParent(holding.HoldingDisplayManager.gameObject.transform);
         tempBuildingObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         tempBuildingObject.transform.localPosition = tempLotVectors[building.Lot-1];

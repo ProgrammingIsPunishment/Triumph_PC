@@ -63,4 +63,34 @@ public class InventoryView : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+
+    public void ClearView()
+    {
+        foreach (InventorySlotView isv in this.InventorySlotViews)
+        {
+            isv.Uncouple();
+        }
+    }
+
+    public void ShowGatherableResources(bool isBeingShown)
+    {
+        if (isBeingShown)
+        {
+            //Eventually will need to disable and enable only items that the unit can gather
+            //For right now, everything is enabled for the sake of testing
+            foreach (InventorySlotView isv in this.InventorySlotViews)
+            {
+                isv.Enable();
+                isv.ShowSelectable(true);
+            }
+        }
+        else
+        {
+            foreach (InventorySlotView isv in this.InventorySlotViews)
+            {
+                isv.Disable();
+                isv.ShowSelectable(false);
+            }
+        }
+    }
 }

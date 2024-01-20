@@ -8960,7 +8960,7 @@ MonoBehaviour:
   noUnitContainer: {fileID: 1696957564}
   moveActionButton: {fileID: 2250711}
   gatherActionButton: {fileID: 91041331}
-  constructActionButton: {fileID: 1696108530}
+  buildActionButton: {fileID: 1696108530}
 --- !u!1 &1623287846
 GameObject:
   m_ObjectHideFlags: 0
@@ -9348,7 +9348,7 @@ GameObject:
   - component: {fileID: 1696108533}
   - component: {fileID: 1696108532}
   m_Layer: 5
-  m_Name: ConstructButton
+  m_Name: BuildButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
