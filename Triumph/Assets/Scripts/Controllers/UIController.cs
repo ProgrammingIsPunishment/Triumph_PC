@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     public ResourceItem SelectedResourceItemForGather { get; set; } = null;
     public int SelectedLotForBuild { get; set; } = 0;
     public Building SelectedBuildingForBuild { get; set; } = null;
+    public Building SelectedBuildingForLabor { get; set; } = null;
 
     //Master Views
     [SerializeField] public HoldingView holdingView;
@@ -34,12 +35,9 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.EndTurn:
-                //if (this.SelectedHolding != null)
-                //{
-                //    this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
-                //}
                 this.HideAll();
                 this.ResetViews();
+                this.UncoupleViews();
                 this.ClearStateAndData();
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
@@ -96,6 +94,19 @@ public class UIController : MonoBehaviour
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
+            case UIState.LeaderLabor_SelectImprovement:
+                this.holdingView.SwitchTab(HoldingDetailsTabType.Improvements);
+                this.holdingView.improvementsTab.ShowNeededLabor(true);
+                break;
+            case UIState.LeaderLabor_End:
+                this.SelectedBuildingForLabor.Construction.Labor();
+                this.SelectedUnit.Labor();
+                this.ResetViews();
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding, tempUnit);
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
             default:
                 break;
         }
@@ -119,6 +130,7 @@ public class UIController : MonoBehaviour
         this.SelectedResourceItemForGather = null;
         this.SelectedLotForBuild = 0;
         this.SelectedBuildingForBuild = null;
+        this.SelectedBuildingForLabor = null;
     }
 
     private void ResetViews()
@@ -129,11 +141,15 @@ public class UIController : MonoBehaviour
             this.ShowHoldingsWithinRange(false, this.SelectedHolding);
             this.holdingView.naturalResourcesTab.ShowGatherableResources(false);
             this.holdingView.improvementsTab.ShowImprovableLots(false);
+            this.holdingView.improvementsTab.ShowNeededLabor(false);
         }
+    }
 
-        this.holdingView.naturalResourcesTab.ClearView();
-        this.holdingView.unitSupplyTab.ClearView();
-        this.holdingView.improvementsTab.ClearView();
+    private void UncoupleViews()
+    {
+        this.holdingView.naturalResourcesTab.UncoupleView();
+        this.holdingView.unitSupplyTab.UncoupleView();
+        this.holdingView.improvementsTab.UncoupleView();
     }
 
     private void HideAll()
@@ -166,6 +182,11 @@ public class UIController : MonoBehaviour
     {
         this.SelectedLotForBuild = lot;
         this.SelectedBuildingForBuild = building;
+    }
+
+    public void LeaderLaborData(Building building)
+    {
+        this.SelectedBuildingForLabor = building;
     }
 
     public void MapRefresh(Civilization civilization)

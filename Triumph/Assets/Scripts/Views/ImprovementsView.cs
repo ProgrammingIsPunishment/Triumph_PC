@@ -61,7 +61,7 @@ public class ImprovementsView : MonoBehaviour
         }
     }
 
-    public void ClearView()
+    public void UncoupleView()
     {
         foreach (BuildingSlotView bsv in this.BuildingSlotViews)
         {
@@ -78,7 +78,7 @@ public class ImprovementsView : MonoBehaviour
                 if (!bsv.HasBuilding())
                 {
                     bsv.Enable();
-                    bsv.ShowSelectable(true);
+                    bsv.ShowSelectableForImprovement(true);
                 }
             }
         }
@@ -87,7 +87,30 @@ public class ImprovementsView : MonoBehaviour
             foreach (BuildingSlotView bsv in this.BuildingSlotViews)
             {
                 bsv.Disable();
-                bsv.ShowSelectable(false);
+                bsv.ShowSelectableForImprovement(false);
+            }
+        }
+    }
+
+    public void ShowNeededLabor(bool isBeingShown)
+    {
+        if (isBeingShown)
+        {
+            foreach (BuildingSlotView bsv in this.BuildingSlotViews)
+            {
+                if (bsv.HasBuilding() && bsv.NeedsLabor())
+                {
+                    bsv.Enable();
+                    bsv.ShowSelectableForLabor(true);
+                }
+            }
+        }
+        else
+        {
+            foreach (BuildingSlotView bsv in this.BuildingSlotViews)
+            {
+                bsv.Disable();
+                bsv.ShowSelectableForLabor(false);
             }
         }
     }

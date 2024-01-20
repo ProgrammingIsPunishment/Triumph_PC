@@ -9,5 +9,7 @@ public enum UIState
     LeaderGather_SelectResourceItem,
     LeaderGather_End,
     LeaderBuild_SelectLot,
-    LeaderBuild_End
+    LeaderBuild_End,
+    LeaderLabor_SelectImprovement,
+    LeaderLabor_End
 }

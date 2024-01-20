@@ -18,6 +18,7 @@ public class BuildingSlotView : MonoBehaviour
     [NonSerialized] public Building building = null;
 
     [NonSerialized] private bool IsSelectableForImprovement = false;
+    [NonSerialized] private bool IsSelectableForLabor = false;
 
     public void Couple(Building building)
     {
@@ -93,7 +94,22 @@ public class BuildingSlotView : MonoBehaviour
         }
     }
 
-    public void ShowSelectable(bool isSelectable)
+    public bool NeedsLabor()
+    {
+        bool result = false;
+
+        if (this.building != null)
+        {
+            if (!this.building.Construction.IsCompleted)
+            {
+                return true;
+            }
+        }
+
+        return result;
+    }
+
+    public void ShowSelectableForImprovement(bool isSelectable)
     {
         if (isSelectable)
         {
@@ -105,6 +121,18 @@ public class BuildingSlotView : MonoBehaviour
         }
     }
 
+    public void ShowSelectableForLabor(bool isSelectable)
+    {
+        if (isSelectable)
+        {
+            this.IsSelectableForLabor = true;
+        }
+        else
+        {
+            this.IsSelectableForLabor = false;
+        }
+    }
+
     public void ClickEvent()
     {
         if (this.IsSelectableForImprovement)
@@ -113,6 +141,11 @@ public class BuildingSlotView : MonoBehaviour
             Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);
             Oberkommando.UI_CONTROLLER.LeaderBuildData(this.lot, tempBuilding);
             Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderBuild_End);
+        }
+        else if (this.IsSelectableForLabor)
+        {
+            Oberkommando.UI_CONTROLLER.LeaderLaborData(this.building);
+            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderLabor_End);
         }
     }
 }

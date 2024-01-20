@@ -19,8 +19,18 @@ public class Construction
 
         this.UpdateProgress();
     }
+    
+    public void Labor()
+    {
+        this.TurnsLeft--;
 
-    public void UpdateProgress()
+        if (this.TurnsLeft <= 0)
+        {
+            this.Complete();
+        }
+    }
+
+    private void UpdateProgress()
     {
         int tempTurnsLeftTotal = 0;
 
@@ -42,7 +52,7 @@ public class Construction
         }
     }
 
-    public void Complete()
+    private void Complete()
     {
         this.TurnsLeft = 0;
         this.CurrentComponents = this.RequiredComponents;

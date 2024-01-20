@@ -64,7 +64,7 @@ public class InventoryView : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void ClearView()
+    public void UncoupleView()
     {
         foreach (InventorySlotView isv in this.InventorySlotViews)
         {

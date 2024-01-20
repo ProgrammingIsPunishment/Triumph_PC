@@ -50,6 +50,11 @@ public class Unit
         this.ActionPoints--;
     }
 
+    public void Labor()
+    {
+        this.ActionPoints--;
+    }
+
     public void CalculateAttrition()
     {
         foreach (Attrition a in this.Supply.Attritions)

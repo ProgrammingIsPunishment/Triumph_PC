@@ -14,6 +14,7 @@ public class UnitView : MonoBehaviour
     [SerializeField] private GameObject moveActionButton;
     [SerializeField] private GameObject gatherActionButton;
     [SerializeField] private GameObject buildActionButton;
+    [SerializeField] private GameObject laborActionButton;
 
     public void Refresh(Holding holding, Unit unit)
     {
@@ -27,6 +28,7 @@ public class UnitView : MonoBehaviour
             this.moveActionButton.SetActive(false);
             this.gatherActionButton.SetActive(false);
             this.buildActionButton.SetActive(false);
+            this.laborActionButton.SetActive(false);
 
             if (unit.ActionPoints >= 1)
             {
@@ -43,6 +45,11 @@ public class UnitView : MonoBehaviour
                 if (holding.HasUndevelopedLots())
                 {
                     this.buildActionButton.SetActive(true);
+                }
+
+                if (holding.HasUnconstructedBuildings())
+                {
+                    this.laborActionButton.SetActive(true);
                 }
 
                 //holding.HasUnconstructedBuildings()...allow leader to apply labor 

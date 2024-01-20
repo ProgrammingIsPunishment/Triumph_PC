@@ -7,12 +7,5 @@ public class BuildLeaderButton : MonoBehaviour
     public void OnClickEvent()
     {
         Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderBuild_SelectLot);
-        //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.ConstructLeader);
-        //Holding tempHolding = Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.SelectedHolding;
-        //Unit tempUnit = Oberkommando.UI_CONTROLLER.HoldingDetailsProcedure.SelectedUnit;
-        //ImprovementsView tempImporvementsView = Oberkommando.UI_CONTROLLER.holdingView.improvementsTab;
-        //Oberkommando.UI_CONTROLLER.holdingView.SwitchTab(HoldingDetailsTabType.Improvements);
-        //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.AssignFields(tempHolding, tempUnit, tempImporvementsView);
-        //Oberkommando.UI_CONTROLLER.ConstructLeaderProcedure.Handle(ConstructLeaderProcedureStep.ShowAvailableSlots);
     }
 }
