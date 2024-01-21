@@ -380,7 +380,6 @@ public class MapController
                 workingHolding.Buildings.Add(workingBuilding);
             }
 
-
             workingCivilization.InfluentialPeople.Add(workingLeader);
             workingCivilization.Leader = workingLeader;
             workingCivilization.Units = workingUnits;

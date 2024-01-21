@@ -78,6 +78,7 @@ public class UIController : MonoBehaviour
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderBuild_SelectLot:
@@ -86,12 +87,13 @@ public class UIController : MonoBehaviour
                 break;
             case UIState.LeaderBuild_End:
                 this.SelectedHolding.BuildBuilding(this.SelectedBuildingForBuild);
-                this.UpdateBuildingModel(this.SelectedHolding,this.SelectedBuildingForBuild);
+                Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(this.SelectedHolding, this.SelectedBuildingForBuild);
                 this.SelectedUnit.Build();
                 this.ResetViews();
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderLabor_SelectImprovement:
@@ -100,11 +102,16 @@ public class UIController : MonoBehaviour
                 break;
             case UIState.LeaderLabor_End:
                 this.SelectedBuildingForLabor.Construction.Labor();
+                if (this.SelectedBuildingForLabor.Construction.IsCompleted)
+                {
+                    Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(this.SelectedHolding, this.SelectedBuildingForLabor);
+                }
                 this.SelectedUnit.Labor();
                 this.ResetViews();
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             default:
@@ -214,11 +221,6 @@ public class UIController : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void UpdateBuildingModel(Holding holding, Building building)
-    {
-        Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(holding, building);
     }
 
     //public void ShowDiscoveredHoldings(Civilization civilization)

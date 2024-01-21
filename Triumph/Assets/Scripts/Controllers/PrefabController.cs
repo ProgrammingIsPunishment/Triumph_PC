@@ -60,7 +60,7 @@ public class PrefabController : MonoBehaviour
         tempBuildingObject.transform.SetParent(holding.HoldingDisplayManager.gameObject.transform);
         tempBuildingObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         tempBuildingObject.transform.localPosition = tempLotVectors[building.Lot-1];
-        holding.HoldingDisplayManager.buildingObject = tempBuildingObject;
+        holding.HoldingDisplayManager.UpdateBuildingModel(building.Lot, tempBuildingObject);
 
         tempBuildingObject.SetActive(true);
     }

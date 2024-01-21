@@ -12,7 +12,10 @@ public class HoldingDisplayManager : MonoBehaviour
 
     [NonSerialized] public GameObject terrainObject = null;
     [NonSerialized] public GameObject resourceObject = null;
-    [NonSerialized] public GameObject buildingObject = null;
+    [NonSerialized] public GameObject buildingObject1 = null;
+    [NonSerialized] public GameObject buildingObject2 = null;
+    [NonSerialized] public GameObject buildingObject3 = null;
+    [NonSerialized] public GameObject buildingObject4 = null;
 
     [NonSerialized] public Holding holding = null;
 
@@ -93,6 +96,29 @@ public class HoldingDisplayManager : MonoBehaviour
                 break;
             default: 
                 /*Do nothing...*/ 
+                break;
+        }
+    }
+
+    public void UpdateBuildingModel(int lot, GameObject modelObject)
+    {
+        switch (lot)
+        {
+            case 1:
+                if (this.buildingObject1 != null) { Destroy(this.buildingObject1); }
+                this.buildingObject1 = modelObject; 
+                break;
+            case 2:
+                if (this.buildingObject2 != null) { Destroy(this.buildingObject2); }
+                this.buildingObject2 = modelObject;
+                break;
+            case 3:
+                if (this.buildingObject3 != null) { Destroy(this.buildingObject3); }
+                this.buildingObject3 = modelObject;
+                break;
+            case 4:
+                if (this.buildingObject4 != null) { Destroy(this.buildingObject4); }
+                this.buildingObject4 = modelObject;
                 break;
         }
     }
