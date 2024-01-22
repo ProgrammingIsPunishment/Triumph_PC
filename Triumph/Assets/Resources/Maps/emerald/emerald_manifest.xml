@@ -40,6 +40,11 @@
 					</attritions>
 				</supply>
 			</supplies>
+			<goodstemplates>
+				<template guid="tribalgoods" displayname="Tribal Goods">
+					<good goodtype="Necessity" resourceguid="meat" requiredamount="1"></good>
+				</template>
+			</goodstemplates>
 			<units>
 				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader" actionpointlimit="2">
 					<inventory>

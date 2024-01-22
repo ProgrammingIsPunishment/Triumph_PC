@@ -455,10 +455,35 @@ public class MapController
                 workingHolding.Buildings.Add(workingBuilding);
             }
 
+            //Generate goods templates
+            List<GoodsTemplate> workingGoodsTemplates = new List<GoodsTemplate>();
+            var goodsElements = c.Element("goodstemplates").Elements("template");
+            foreach (var ge in goodsElements)
+            {
+                string goodsTemplateGUID = (string)ge.Attribute("guid").Value.ToLower();
+                string goodsTemplateDisplayName = (string)ge.Attribute("displayname").Value.ToLower();
+
+                List<Good> workingGoods = new List<Good>();
+                foreach (var g in goodsElements.Elements("good"))
+                {
+                    GoodType goodtype = Enum.Parse<GoodType>(g.Attribute("goodtype").Value);
+                    string resourceguid = (string)g.Attribute("resourceguid").Value;
+                    int requiredamount = int.Parse(g.Attribute("requiredamount").Value);
+
+                    workingGoods.Add(new Good(goodtype,resourceguid,requiredamount));
+                }
+
+                GoodsTemplate workingGoodsTemplate = new GoodsTemplate(goodsTemplateDisplayName, workingGoods);
+                workingGoodsTemplate.GUID = goodsTemplateGUID;
+
+                workingGoodsTemplates.Add(workingGoodsTemplate);
+            }
+
             workingCivilization.InfluentialPeople.Add(workingLeader);
             workingCivilization.Leader = workingLeader;
             workingCivilization.Units = workingUnits;
             workingCivilization.Supplies = workingSupplies;
+            workingCivilization.GoodsTemplates = workingGoodsTemplates;
             result.Add(workingCivilization);
         }
 
