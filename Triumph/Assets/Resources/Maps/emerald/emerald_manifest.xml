@@ -126,7 +126,12 @@
 		<holding guid="athens2" displayname="Athens2" xposition="5" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="berlin2" displayname="Berlin2" xposition="5" zposition="1" terraintype="Grassland"></holding>
 		<holding guid="cairo2" displayname="Cairo2" xposition="5" zposition="2" terraintype="Grassland"></holding>
-		<holding guid="dubai2" displayname="Dubai2" xposition="5" zposition="3" terraintype="Grassland"></holding>
+		<holding guid="dubai2" displayname="Dubai2" xposition="5" zposition="3" terraintype="Grassland">
+			<population amount="30"></population>
+			<storage>
+				<resourceitem guid="meat" amount="10"></resourceitem>
+			</storage>
+		</holding>
 		<holding guid="istanbul2" displayname="Istanbul2" xposition="5" zposition="4" terraintype="Grassland"></holding>
 		<holding guid="jakarta2" displayname="Jakarta2" xposition="5" zposition="5" terraintype="Grassland"></holding>
 		<holding guid="kolkata2" displayname="Kolkata2" xposition="5" zposition="6" terraintype="Hills"></holding>

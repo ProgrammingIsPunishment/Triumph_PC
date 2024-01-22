@@ -18,6 +18,7 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.holdingView.summaryTabManager.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.unitSupplyTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.naturalResourcesTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.storageTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.improvementsTab.Initialize();
     }
 

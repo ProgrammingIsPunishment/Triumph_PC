@@ -3,5 +3,7 @@ public enum HoldingDetailsTabType
     Summary,
     NaturalResources,
     Unit,
-    Improvements
+    Improvements,
+    Population,
+    Storage
 }

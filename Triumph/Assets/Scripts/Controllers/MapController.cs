@@ -169,9 +169,34 @@ public class MapController
                 workingNaturalResourceItems.Add(tempResourceItem);
             }
 
+            Population workingPopulation = new Population(0);
+
+            //Generate population
+            var pe = hd.Element("population");
+            if (pe != null)
+            {
+                int populationAmount = int.Parse(pe.Attribute("amount").Value);
+                workingPopulation = new Population(populationAmount);
+            }
+
+            //Loop through storage resources
+            List<ResourceItem> workingStorageResources = new List<ResourceItem>();
+            var allStorageResources = hd.Elements("storage").Elements("resourceitem");
+            foreach (var sr in allStorageResources)
+            {
+                string sriGUID = (string)sr.Attribute("guid").Value;
+                int amount = int.Parse(sr.Attribute("amount").Value);
+
+                ResourceItem tempResourceItem = allResourceItems.Find(ari => ari.GUID == sriGUID).CreateInstance();
+                tempResourceItem.Amount = amount;
+
+                workingStorageResources.Add(tempResourceItem);
+            }
+
+            Inventory storageInventory = new Inventory(InventoryType.Storage, workingStorageResources);
             Inventory naturalResourcesInventory = new Inventory(InventoryType.NaturalResources, workingNaturalResourceItems);
 
-            Holding tempHolding = new Holding(name, xPosition, zPosition, terrainType, naturalResourcesInventory);
+            Holding tempHolding = new Holding(name, xPosition, zPosition, terrainType, naturalResourcesInventory, storageInventory, workingPopulation);
             tempHolding.GUID = guid;
 
             result.Add(tempHolding);

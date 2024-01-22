@@ -12,21 +12,25 @@ public class Holding
     public int ZPosition { get; set; }
     public TerrainType TerrainType { get; set; }
     public Inventory NaturalResourcesInventory { get; set; }
+    public Inventory StorageInventory { get; set; }
     public List<Holding> AdjacentHoldings { get; set; }
     public VisibilityLevel VisibilityLevel { get; set; }
     public List<Building> Buildings { get; set; }
+    public Population Population { get; set; }
 
     [NonSerialized] public HoldingDisplayManager HoldingDisplayManager;
 
-    public Holding(string displayName, int xPosition, int ZPosition, TerrainType terrainType, Inventory naturalResourcesInventory)
+    public Holding(string displayName, int xPosition, int ZPosition, TerrainType terrainType, Inventory naturalResourcesInventory, Inventory storageInventory, Population population)
     {
         this.DisplayName = displayName;
         this.XPosition = xPosition;
         this.ZPosition = ZPosition;
         this.TerrainType = terrainType;
         this.NaturalResourcesInventory = naturalResourcesInventory;
+        this.StorageInventory = storageInventory;
         this.AdjacentHoldings = new List<Holding>();
         this.Buildings = new List<Building>();
+        this.Population = population;
     }
 
     public void BuildBuilding(Building building)

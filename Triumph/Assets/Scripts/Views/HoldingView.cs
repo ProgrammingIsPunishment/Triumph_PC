@@ -16,12 +16,16 @@ public class HoldingView : MonoBehaviour
     [SerializeField] public InventoryView unitSupplyTab;
     [SerializeField] public ImprovementsView improvementsTab;
     [SerializeField] public UnitView unitView;
+    [SerializeField] public PopulationView populationTab;
+    [SerializeField] public InventoryView storageTab;
 
     //Tab buttons
     [SerializeField] private HoldingDetailsTabButton summaryTabButton;
     [SerializeField] private HoldingDetailsTabButton naturalResourcesTabButton;
     [SerializeField] private HoldingDetailsTabButton unitInventoryTabButton;
     [SerializeField] private HoldingDetailsTabButton improvementsTabButton;
+    [SerializeField] private HoldingDetailsTabButton populationTabButton;
+    [SerializeField] private HoldingDetailsTabButton storageTabButton;
 
     public void Refresh(Holding holding, Unit unit)
     {
@@ -31,9 +35,14 @@ public class HoldingView : MonoBehaviour
         this.unitView.Refresh(holding,unit);
         this.summaryTabManager.UpdateView(holding);
         this.improvementsTab.Refresh(holding);
+        this.populationTab.Refresh(holding.Population);
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
             this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory);
+        }
+        if (holding.StorageInventory.ResourceItems.Count >= 1)
+        {
+            this.storageTab.Refresh(holding.StorageInventory);
         }
         if (unit != null)
         {
@@ -46,11 +55,17 @@ public class HoldingView : MonoBehaviour
         //Tab Buttons
         this.summaryTabButton.Enable();
         this.improvementsTabButton.Enable();
+        this.populationTabButton.Enable();
         this.naturalResourcesTabButton.Disable();
+        this.storageTabButton.Disable();
         this.unitInventoryTabButton.Disable();
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
             this.naturalResourcesTabButton.Enable();
+        }
+        if (holding.StorageInventory.ResourceItems.Count >= 1)
+        {
+            this.storageTabButton.Enable();
         }
         if (unit != null)
         {
@@ -64,6 +79,8 @@ public class HoldingView : MonoBehaviour
         this.naturalResourcesTab.Hide();
         this.unitSupplyTab.Hide();
         this.improvementsTab.Hide();
+        this.populationTab.Hide();
+        this.storageTab.Hide();
 
         switch (holdingDetailsTabType)
         {
@@ -78,6 +95,12 @@ public class HoldingView : MonoBehaviour
                 break;
             case HoldingDetailsTabType.Improvements:
                 this.improvementsTab.Show();
+                break;
+            case HoldingDetailsTabType.Population:
+                this.populationTab.Show();
+                break;
+            case HoldingDetailsTabType.Storage:
+                this.storageTab.Show();
                 break;
         }
     }
