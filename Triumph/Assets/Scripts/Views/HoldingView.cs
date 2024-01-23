@@ -42,7 +42,7 @@ public class HoldingView : MonoBehaviour
         }
         if (holding.StorageInventory.ResourceItems.Count >= 1)
         {
-            this.storageTab.Refresh(holding.StorageInventory);
+            this.storageTab.Refresh(holding.StorageInventory, holding.Population.GoodsTemplate);
         }
         if (unit != null)
         {

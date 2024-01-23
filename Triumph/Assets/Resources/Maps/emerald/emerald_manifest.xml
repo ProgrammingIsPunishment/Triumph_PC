@@ -31,6 +31,11 @@
 		</building>
 		<!-- <building guid="pillar" displayname="pillar" layoutsize="One" iconfilename="pillar" modelfilename="pillar"></building> -->
 	</buildings>
+	<goodstemplates>
+		<template guid="default" displayname="Basic Tribesman">
+			<good goodtype="Necessity" resourceguid="meat" requiredamount="1"></good>
+		</template>
+	</goodstemplates>
 	<civilizations>
 		<civilization guid="america" displayname="America" startinglocationguid="dubai2" leaderguid="abraham">
 			<supplies>
@@ -40,11 +45,6 @@
 					</attritions>
 				</supply>
 			</supplies>
-			<goodstemplates>
-				<template guid="tribalgoods" displayname="Tribal Goods">
-					<good goodtype="Necessity" resourceguid="meat" requiredamount="1"></good>
-				</template>
-			</goodstemplates>
 			<units>
 				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader" actionpointlimit="2">
 					<inventory>
@@ -56,6 +56,9 @@
 				<building templateguid="hut" displayname="Abraham's Hut" lot="1" locationguid="dubai2"></building>
 				<!-- <building templateguid="hut" displayname="Other Hut" lot="4" locationguid="dubai2"></building> -->
 			</buildings>
+			<goodstemplates>
+				<template goodstemplatesguid="basictribalgoods"></template>
+			</goodstemplates>
 		</civilization>
 	</civilizations>
 	<holdings>
@@ -132,9 +135,9 @@
 		<holding guid="berlin2" displayname="Berlin2" xposition="5" zposition="1" terraintype="Grassland"></holding>
 		<holding guid="cairo2" displayname="Cairo2" xposition="5" zposition="2" terraintype="Grassland"></holding>
 		<holding guid="dubai2" displayname="Dubai2" xposition="5" zposition="3" terraintype="Grassland">
-			<population amount="30"></population>
+			<population amount="30" goodstemplateguid="default"></population>
 			<storage>
-				<resourceitem guid="meat" amount="10"></resourceitem>
+				<resourceitem guid="meat" amount="5"></resourceitem>
 			</storage>
 		</holding>
 		<holding guid="istanbul2" displayname="Istanbul2" xposition="5" zposition="4" terraintype="Grassland"></holding>

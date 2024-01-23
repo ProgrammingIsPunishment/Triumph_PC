@@ -67,6 +67,29 @@ public class InventorySlotView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Population Goods
+    /// </summary>
+    /// <param name="resourceItem"></param>
+    /// <param name="attrition"></param>
+    public void Refresh(ResourceItem resourceItem, Good good)
+    {
+        this.resourceItem = resourceItem;
+        this.amountText.text = resourceItem.Amount.ToString();
+        this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
+        this.Enable();
+
+        if (good != null)
+        {
+            this.usageText.text = good.RequiredAmount.ToString();
+            this.usageText.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.usageText.gameObject.SetActive(false);
+        }
+    }
+
     public void Enable()
     {
         this.GetComponent<Button>().interactable = true;

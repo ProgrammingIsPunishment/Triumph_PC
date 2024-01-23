@@ -33,6 +33,11 @@ public class Holding
         this.Population = population;
     }
 
+    public void DetermineEffects()
+    {
+        
+    }
+
     public void BuildBuilding(Building building)
     {
         this.Buildings.Add(building);

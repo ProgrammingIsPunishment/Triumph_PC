@@ -20,6 +20,7 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.holdingView.naturalResourcesTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.storageTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.improvementsTab.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.populationTab.Initialize();
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)
@@ -55,6 +56,14 @@ public class InitializationController : MonoBehaviour
         }
     }
 
+    private void InitializeEffects(List<Holding> allHoldings)
+    {
+        foreach (Holding h in allHoldings)
+        {
+            h.Population.DetermineEffects();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +72,7 @@ public class InitializationController : MonoBehaviour
         this.InitializeViews();
         this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
+        this.InitializeEffects(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();
         //Oberkommando.UI_CONTROLLER.RefreshToDefault();
         Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.Initialize);

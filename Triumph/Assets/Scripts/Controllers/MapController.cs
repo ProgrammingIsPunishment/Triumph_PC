@@ -16,9 +16,9 @@ public class MapController
     //private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     //private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
-    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>> LoadMapFile(string mapName)
+    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>> LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>> result = null;
+        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>> result = null;
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         //var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
@@ -30,9 +30,12 @@ public class MapController
         var allBuildingElements = doc.Element("map").Elements("buildings").Elements("building");
         var allCivilizationsElements = doc.Element("map").Elements("civilizations").Elements("civilization");
         var allHoldingsElements = doc.Element("map").Elements("holdings").Elements("holding");
+        var allGoodsTemplatess = doc.Element("map").Elements("goodstemplates").Elements("template");
 
+        List<Effect> workingEffects = new List<Effect>();
         List<ResourceItem> workingResourceItems = new List<ResourceItem>();
         List<Holding> workingHoldings = new List<Holding>();
+        List<GoodsTemplate> workingGoodsTemplates = new List<GoodsTemplate>();
         List<Unit> workingUnits = new List<Unit>();
         List<Civilization> workingCivilizations = new List<Civilization>();
 
@@ -45,6 +48,8 @@ public class MapController
         ////this.holdingDictionary = this.ConvertToHoldingDictionary(allHoldingsElements);
         //this.spawnDictionary = this.ConvertToSpawnDictionary(allSpawnDefinitionElements);
 
+        workingEffects.AddRange(this.ConvertToEffects());
+
         //Loop through all the resource items
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
 
@@ -54,11 +59,14 @@ public class MapController
         //Loop through all buildings
         workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements));
 
+        //Loop through all the goods templates
+        workingGoodsTemplates.AddRange(this.ConvertToGoodsTemplates(allGoodsTemplatess));
+
         //Loop through all the holdings
-        workingHoldings.AddRange(this.ConvertToHoldings(allHoldingsElements, workingResourceItems));
+        workingHoldings.AddRange(this.ConvertToHoldings(allHoldingsElements, workingResourceItems, workingGoodsTemplates));
 
         //Loop through all the civilizations...generate units for the civilization as well
-        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople, workingResourceItems, workingBuildings));
+        workingCivilizations.AddRange(this.ConvertToCivilizations(allCivilizationsElements, workingHoldings, workingInfluencialPeople, workingResourceItems, workingBuildings, workingGoodsTemplates));
 
         //Loop through all units and add them to the complete list of units
         foreach (Civilization c in workingCivilizations) { workingUnits.AddRange(c.Units); }
@@ -68,7 +76,7 @@ public class MapController
         //this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
-        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings);
+        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings, workingEffects);
 
         return result;
     }
@@ -143,7 +151,48 @@ public class MapController
     //    return result;
     //}
 
-    private List<Holding> ConvertToHoldings(IEnumerable<XElement> holdingDefinitionElements, List<ResourceItem> allResourceItems)
+    private List<Effect> ConvertToEffects()
+    {
+        List<Effect> result = new List<Effect>();
+
+        result.Add(new Effect("deprived", "Deprived", "-2 Happiness from population (lose an additional every turn)", "deprived", EffectType.Happiness, false, 2f));
+        result.Add(new Effect("homeless", "Homeless", "-2 Happiness from population", "deprived", EffectType.Happiness, false, 2f));
+        result.Add(new Effect("starving", "Starving", "25% loss in population every season", "starving", EffectType.Population, false, .25f));
+        result.Add(new Effect("fulloflife", "Full Of Life", "5% Chance for population growth every season", "fulloflife", EffectType.Population, true, .05f));
+
+        return result;
+    }
+
+    private List<GoodsTemplate> ConvertToGoodsTemplates(IEnumerable<XElement> goodsTemplatesElements)
+    {
+        //Generate goods templates
+        List<GoodsTemplate> result = new List<GoodsTemplate>();
+
+        foreach (var gte in goodsTemplatesElements)
+        {
+            string goodsTemplateGUID = (string)gte.Attribute("guid").Value.ToLower();
+            string goodsTemplateDisplayName = (string)gte.Attribute("displayname").Value.ToLower();
+
+            List<Good> workingGoods = new List<Good>();
+            foreach (var g in gte.Elements("good"))
+            {
+                GoodType goodtype = Enum.Parse<GoodType>(g.Attribute("goodtype").Value);
+                string resourceguid = (string)g.Attribute("resourceguid").Value;
+                int requiredamount = int.Parse(g.Attribute("requiredamount").Value);
+
+                workingGoods.Add(new Good(goodtype, resourceguid, requiredamount));
+            }
+
+            GoodsTemplate workingGoodsTemplate = new GoodsTemplate(goodsTemplateDisplayName, workingGoods);
+            workingGoodsTemplate.GUID = goodsTemplateGUID;
+
+            result.Add(workingGoodsTemplate);
+        }
+
+        return result;
+    }
+
+    private List<Holding> ConvertToHoldings(IEnumerable<XElement> holdingDefinitionElements, List<ResourceItem> allResourceItems, List<GoodsTemplate> goodsTemplates)
     {
         List<Holding> result = new List<Holding>();
 
@@ -169,14 +218,18 @@ public class MapController
                 workingNaturalResourceItems.Add(tempResourceItem);
             }
 
-            Population workingPopulation = new Population(0);
-
             //Generate population
+            GoodsTemplate defaultGoodsTemplate = goodsTemplates.Find(gt => gt.GUID == "default");
+            Population workingPopulation = new Population(0, defaultGoodsTemplate);
             var pe = hd.Element("population");
             if (pe != null)
             {
                 int populationAmount = int.Parse(pe.Attribute("amount").Value);
-                workingPopulation = new Population(populationAmount);
+                string goodstemplateguid = (string)pe.Attribute("goodstemplateguid").Value;
+
+                GoodsTemplate workingGoodsTemplate = goodsTemplates.Find(gt=>gt.GUID == goodstemplateguid);
+
+                workingPopulation = new Population(populationAmount, workingGoodsTemplate);
             }
 
             //Loop through storage resources
@@ -410,7 +463,7 @@ public class MapController
         return result;
     }
 
-    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Building> allBuildings)
+    private List<Civilization> ConvertToCivilizations(IEnumerable<XElement> civilizationElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Building> allBuildings, List<GoodsTemplate> allGoodsTemplates)
     {
         List<Civilization> result = new List<Civilization>();
 
@@ -455,27 +508,13 @@ public class MapController
                 workingHolding.Buildings.Add(workingBuilding);
             }
 
-            //Generate goods templates
+            //Get the civilization's goods templates
             List<GoodsTemplate> workingGoodsTemplates = new List<GoodsTemplate>();
-            var goodsElements = c.Element("goodstemplates").Elements("template");
-            foreach (var ge in goodsElements)
+            var goodsTemplatesElements = c.Element("goodstemplates").Elements("template");
+            foreach (var gt in goodsTemplatesElements)
             {
-                string goodsTemplateGUID = (string)ge.Attribute("guid").Value.ToLower();
-                string goodsTemplateDisplayName = (string)ge.Attribute("displayname").Value.ToLower();
-
-                List<Good> workingGoods = new List<Good>();
-                foreach (var g in goodsElements.Elements("good"))
-                {
-                    GoodType goodtype = Enum.Parse<GoodType>(g.Attribute("goodtype").Value);
-                    string resourceguid = (string)g.Attribute("resourceguid").Value;
-                    int requiredamount = int.Parse(g.Attribute("requiredamount").Value);
-
-                    workingGoods.Add(new Good(goodtype,resourceguid,requiredamount));
-                }
-
-                GoodsTemplate workingGoodsTemplate = new GoodsTemplate(goodsTemplateDisplayName, workingGoods);
-                workingGoodsTemplate.GUID = goodsTemplateGUID;
-
+                string goodsTemplateGUID = (string)gt.Attribute("goodstemplatesguid").Value.ToLower();
+                GoodsTemplate workingGoodsTemplate = allGoodsTemplates.Find(agt=>agt.GUID == goodsTemplateGUID);
                 workingGoodsTemplates.Add(workingGoodsTemplate);
             }
 

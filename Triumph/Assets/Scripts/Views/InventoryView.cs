@@ -46,6 +46,22 @@ public class InventoryView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Population goods
+    /// </summary>
+    /// <param name="inventory"></param>
+    /// <param name="supplies"></param>
+    public void Refresh(Inventory inventory, GoodsTemplate goodsTemplate)
+    {
+        for (int i = 0; i < inventory.ResourceItems.Count; i++)
+        {
+            Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempGood);
+            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Show();
+        }
+    }
+
     public void HideAllSlots()
     {
         foreach (InventorySlotView isv in this.InventorySlotViews)

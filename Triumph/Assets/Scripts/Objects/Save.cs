@@ -14,6 +14,7 @@ public class Save
     public List<ResourceItem> AllResourceItems { get; set; }
     public List<Building> AllBuildings { get; set; }
     public List<Civilization> AllCivilizations { get; set; }
+    public List<Effect> AllEffects { get; set; }
 
     public Save(string name)
     {

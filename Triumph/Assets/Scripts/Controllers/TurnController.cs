@@ -8,6 +8,7 @@ public class TurnController
     public void EndTurn()
     {
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.Disable, null);
+        this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
         Oberkommando.SAVE.Turn++;
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
         //this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
@@ -19,6 +20,18 @@ public class TurnController
         {
             u.CalculateAttrition();
             u.Recover();
+        }
+    }
+
+    public void PopulationEvents(List<Holding> allHoldings)
+    {
+        //NEED TO DO...
+        foreach (Holding h in allHoldings)
+        {
+            h.Population.CalculateConsumption(h.StorageInventory);
+            h.DetermineEffects();
+            h.Population.DetermineEffects();
+            h.Population.ProcessEffects();
         }
     }
 
