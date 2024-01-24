@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class TurnController
 {
+    private bool seasonChangedFlag = false;
+
     public void EndTurn()
     {
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.Disable, null);
+        this.CheckSeasonForChange();
         this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
         Oberkommando.SAVE.Turn++;
-        this.ChangeSeason();
+        this.seasonChangedFlag = false;
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
         //this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
     }
@@ -31,16 +34,23 @@ public class TurnController
         {
             h.Population.CalculateConsumption(h.StorageInventory);
             h.PassEffectFromHolding();
-            h.Population.DetermineEffects();
-            h.Population.ProcessEffects();
+            h.Population.DetermineTurnEffects();
+            h.Population.ProcessTurnEffects();
+
+            if (this.seasonChangedFlag)
+            {
+                h.Population.DetermineSeasonalEffects();
+                h.Population.ProcessSeasonalEffects();
+            }
         }
     }
 
-    public void ChangeSeason()
+    public void CheckSeasonForChange()
     {
         Oberkommando.SAVE.Season.DaysLeft--;
         if (Oberkommando.SAVE.Season.DaysLeft <= 0)
         {
+            this.seasonChangedFlag = true;
             int nextSeasonOrder = Oberkommando.SAVE.Season.Order + 1;
             if (nextSeasonOrder > 4) { nextSeasonOrder = 1; }
             Oberkommando.SAVE.Season.ResetDaysLeft();

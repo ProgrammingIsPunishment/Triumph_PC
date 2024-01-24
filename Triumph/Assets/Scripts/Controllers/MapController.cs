@@ -171,7 +171,7 @@ public class MapController
         result.Add(new Effect("sated", "Sated", "+2 Happiness", "sated", EffectType.Happiness, true, 2f));
         result.Add(new Effect("starving", "Starving", "25% loss in population every season", "starving", EffectType.Population, false, .25f));
         result.Add(new Effect("housed", "Housed", "+2 Happiness", "housed", EffectType.Happiness, true, 2f));
-        result.Add(new Effect("fulloflife", "Full Of Life", "5% Chance for population growth every season", "fulloflife", EffectType.Population, true, .05f));
+        result.Add(new Effect("fulloflife", "Full Of Life", "+10% population growth every season", "fulloflife", EffectType.Population, true, .10f));
 
         return result;
     }

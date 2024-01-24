@@ -61,7 +61,7 @@ public class InitializationController : MonoBehaviour
         foreach (Holding h in allHoldings)
         {
             h.PassEffectFromHolding();
-            h.Population.DetermineEffects();
+            h.Population.DetermineTurnEffects();
         }
     }
 

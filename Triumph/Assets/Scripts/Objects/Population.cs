@@ -86,7 +86,7 @@ public class Population
         }
     }
 
-    public void DetermineEffects()
+    public void DetermineTurnEffects()
     {
         if (this.Amount > 0)
         {
@@ -107,19 +107,38 @@ public class Population
             {
                 this.RemoveEffect("sated");
 
-                if (!this.HasEffect("deprived"))
+                if (!this.HasEffect("starving"))
                 {
-                    this.AddEffect("deprived");
-                }
-                else
-                {
-                    this.Effects.Find(e => e.GUID == "deprived").Value += 1;
+                    if (!this.HasEffect("deprived"))
+                    {
+                        this.AddEffect("deprived");
+                    }
+                    else
+                    {
+                        this.Effects.Find(e => e.GUID == "deprived").Value += 1;
+                    }
                 }
             }
         }
     }
 
-    public void ProcessEffects()
+    public void DetermineSeasonalEffects()
+    {
+        if (this.Amount > 0)
+        {
+            if (this.HasEffect("deprived"))
+            {
+                this.RemoveEffect("deprived");
+                this.AddEffect("starving");
+            }
+            else if (this.HasEffect("sated"))
+            {
+                this.RemoveEffect("starving");
+            }
+        }
+    }
+
+    public void ProcessTurnEffects()
     {
         float workingHappiness = 10;
         float workingNecessities  = 10;
@@ -145,5 +164,45 @@ public class Population
             this.Happiness = workingHappiness;
             this.Necessities = workingNecessities ;
         }
+    }
+
+    public void ProcessSeasonalEffects()
+    {
+        if (this.Amount > 0)
+        {
+            foreach (Effect e in this.Effects)
+            {
+                switch (e.GUID)
+                {
+                    case "fulloflife":
+                        this.CalculatePopulationGrowth(e.Value);
+                        break;
+                    case "starving":
+                        this.CalculateStarvationDeath(e.Value);
+                        break;
+                    default:
+                        //Do nothing...
+                        break;
+                }
+            }
+        }
+    }
+
+    private void CalculatePopulationGrowth(float percentGain)
+    {
+        float workingPopulation = this.Amount;
+        float amountToGain = (float)Math.Ceiling(this.Amount * percentGain);
+        workingPopulation += amountToGain;
+
+        this.Amount = (int)workingPopulation;
+    }
+
+    private void CalculateStarvationDeath(float percentLoss)
+    {
+        float workingRemainingPopulation = this.Amount;
+        float amountToDie = (float)Math.Ceiling(this.Amount * percentLoss);
+        workingRemainingPopulation -= amountToDie;
+
+        this.Amount = (int)workingRemainingPopulation;
     }
 }
