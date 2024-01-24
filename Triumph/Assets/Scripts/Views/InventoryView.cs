@@ -22,6 +22,7 @@ public class InventoryView : MonoBehaviour
     /// <param name="inventory"></param>
     public void Refresh(Inventory inventory)
     {
+        this.HideAllSlots();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
             this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i]);
@@ -37,6 +38,7 @@ public class InventoryView : MonoBehaviour
     /// <param name="supplies"></param>
     public void Refresh(Inventory inventory, Supply supplies)
     {
+        this.HideAllSlots();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
             Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
@@ -53,6 +55,7 @@ public class InventoryView : MonoBehaviour
     /// <param name="supplies"></param>
     public void Refresh(Inventory inventory, GoodsTemplate goodsTemplate)
     {
+        this.HideAllSlots();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
             Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);

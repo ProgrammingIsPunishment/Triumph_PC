@@ -47,8 +47,12 @@ public class Unit
         this.ActionPoints--;
     }
 
-    public void Build()
+    public void Build(List<Tuple<string,int>> componentsToRemove)
     {
+        foreach (Tuple<string, int> ctr in componentsToRemove)
+        {
+            this.Inventory.RemoveResourceItem(ctr.Item1, ctr.Item2);
+        }
         this.ActionPoints--;
     }
 

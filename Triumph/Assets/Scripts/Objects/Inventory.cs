@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory
@@ -18,6 +20,36 @@ public class Inventory
             case InventoryType.NaturalResources:
                 this.AllowedResourceItemTypes = new List<ResourceItemType>() { ResourceItemType.Foliage, ResourceItemType.Fauna };
                 break;
+        }
+    }
+
+    public void RemoveResourceItem(string guid, int amount)
+    {
+        List<ResourceItem> tempResourceItems = this.ResourceItems.Where(ri => ri.GUID == guid).ToList();
+
+        foreach (ResourceItem ri in tempResourceItems)
+        {
+            if (ri.Amount >= amount)
+            {
+                ri.Amount -= amount;
+                amount = 0;
+            }
+            else
+            {
+                amount -= ri.Amount;
+                ri.Amount = 0;
+            }
+
+            //Remove item if it has been fully used up
+            if (ri.Amount <= 0)
+            {
+                this.ResourceItems.Remove(ri);
+            }
+
+            if (amount <= 0)
+            {
+                return;
+            }
         }
     }
 
@@ -52,6 +84,48 @@ public class Inventory
         {
             this.ResourceItems.Remove(tempResourceItem);
         }
+    }
+
+    private bool HasResourceAndQuantity(string resourceGUID, int resourceQuantity)
+    {
+        bool result = false;
+
+        int workingQuantity = 0;
+        bool hasResource = false;
+
+        foreach (ResourceItem ri in this.ResourceItems)
+        {
+            if (ri.GUID == resourceGUID)
+            {
+                hasResource = true;
+                workingQuantity += ri.Amount;
+            }
+        }
+
+        if (hasResource && (resourceQuantity <= workingQuantity))
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
+    public bool HasResourcesForConstruction(List<Tuple<string,int>> requiredComponents)
+    {
+        bool result = false;
+
+        List<bool> meetsRequirement = new List<bool>();
+        foreach (Tuple<string, int> rc in requiredComponents)
+        {
+            meetsRequirement.Add(this.HasResourceAndQuantity(rc.Item1,rc.Item2));
+        }
+
+        if (!meetsRequirement.Contains(false))
+        {
+            result = true;
+        }
+
+        return result;
     }
 
     public bool ContainsItem(string guid)

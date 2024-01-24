@@ -87,9 +87,17 @@ public class UIController : MonoBehaviour
                 this.holdingView.improvementsTab.ShowImprovableLots(true);
                 break;
             case UIState.LeaderBuild_End:
-                this.SelectedHolding.BuildBuilding(this.SelectedBuildingForBuild);
-                Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(this.SelectedHolding, this.SelectedBuildingForBuild);
-                this.SelectedUnit.Build();
+                if (this.SelectedUnit.Inventory.HasResourcesForConstruction(this.SelectedBuildingForBuild.Construction.RequiredComponents))
+                {
+                    this.SelectedHolding.BuildBuilding(this.SelectedBuildingForBuild);
+                    Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(this.SelectedHolding, this.SelectedBuildingForBuild);
+                    this.SelectedUnit.Build(this.SelectedBuildingForBuild.Construction.RequiredComponents);
+                }
+                else
+                {
+                    //NEED TO DO...do something else
+                    Debug.Log("Not enough resources");
+                }
                 this.ResetViews();
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);
@@ -119,6 +127,8 @@ public class UIController : MonoBehaviour
                 int tempPeopleToSettle = this.SelectedUnit.People;
                 this.SelectedUnit.Settle();
                 this.SelectedHolding.Population.Settle(tempPeopleToSettle);
+                this.SelectedHolding.PassEffectFromHolding();
+                this.SelectedHolding.Population.DetermineTurnEffects();
                 this.ResetViews();
                 this.ClearStateAndData();
                 this.HoldingDetailsData(tempHolding, tempUnit);

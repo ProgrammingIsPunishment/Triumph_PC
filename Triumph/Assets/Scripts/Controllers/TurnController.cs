@@ -48,7 +48,7 @@ public class TurnController
     public void CheckSeasonForChange()
     {
         Oberkommando.SAVE.Season.DaysLeft--;
-        if (Oberkommando.SAVE.Season.DaysLeft <= 0)
+        if (Oberkommando.SAVE.Season.DaysLeft < 0)
         {
             this.seasonChangedFlag = true;
             int nextSeasonOrder = Oberkommando.SAVE.Season.Order + 1;
