@@ -12,15 +12,18 @@ public class SaveController
 {
     public Save NewGame(Save save)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>> mapData = Oberkommando.MAP_CONTROLLER.LoadMapFile(save.MapName);
+        MapData mapData = Oberkommando.MAP_CONTROLLER.LoadMapFile(save.MapName);
 
-        save.AllResourceItems = mapData.Item1;
-        save.AllHoldings = mapData.Item2;
-        save.AllCivilizations = mapData.Item3;
-        save.AllUnits = mapData.Item4;
-        save.AllBuildings = mapData.Item5;
-        save.AllEffects = mapData.Item6;
-        save.AllAttributes = mapData.Item7;
+        save.AllResourceItems = mapData.AllResourceItems;
+        save.AllHoldings = mapData.AllHoldings;
+        save.AllCivilizations = mapData.AllCivilizations;
+        save.AllUnits = mapData.AllUnits;
+        save.AllBuildings = mapData.AllBuildings;
+        save.AllEffects = mapData.AllEffects;
+        save.AllAttributes = mapData.AllAttributes;
+        save.AllSeasons = mapData.AllSeasons;
+
+        save.Season = save.AllSeasons.Find(s=>s.Name == "Spring");
 
         return save;
     }

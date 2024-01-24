@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
 
     //Master Views
     [SerializeField] public HoldingView holdingView;
+    [SerializeField] public SeasonsView seasonsView;
 
     public void UpdateUIState(UIState newUIState)
     {

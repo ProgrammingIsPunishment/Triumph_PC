@@ -10,6 +10,7 @@ public class TurnController
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.Disable, null);
         this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
         Oberkommando.SAVE.Turn++;
+        this.ChangeSeason();
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
         //this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
     }
@@ -35,10 +36,23 @@ public class TurnController
         }
     }
 
+    public void ChangeSeason()
+    {
+        //VERY BASIC FOR TESTING...NEED TO DO...make not happen every single turn
+        int temp = Oberkommando.SAVE.Season.Order + 1;
+        if (temp > 4)
+        {
+            temp = 1;
+        }
+
+        Oberkommando.SAVE.Season = Oberkommando.SAVE.AllSeasons.Find(s=>s.Order == temp);
+    }
+
     public void StartTurn(Civilization currentCivilization)
     {
         //For player character only as NPCs don't need to actually "see" anything
         Oberkommando.UI_CONTROLLER.MapRefresh(currentCivilization);
+        Oberkommando.UI_CONTROLLER.seasonsView.Refresh(Oberkommando.SAVE.Season);
         this.UnitEvents(currentCivilization.Units);
         //NEED TO DO...do passover of holdings that are not currently fully visible
 

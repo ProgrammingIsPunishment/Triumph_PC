@@ -16,9 +16,9 @@ public class MapController
     //private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     //private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
-    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>> LoadMapFile(string mapName)
+    public MapData LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>> result = null;
+        MapData result = new MapData();
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         //var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
@@ -34,6 +34,7 @@ public class MapController
 
         List<Effect> workingEffects = new List<Effect>();
         List<Attribute> workingAttributes = new List<Attribute>();
+        List<Season> workingSeasons = new List<Season>();
         List<ResourceItem> workingResourceItems = new List<ResourceItem>();
         List<Holding> workingHoldings = new List<Holding>();
         List<GoodsTemplate> workingGoodsTemplates = new List<GoodsTemplate>();
@@ -51,6 +52,7 @@ public class MapController
 
         workingEffects.AddRange(this.ConvertToEffects());
         workingAttributes.AddRange(this.ConvertToAttributes());
+        workingSeasons.AddRange(this.ConvertToSeasons());
 
         //Loop through all the resource items
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
@@ -78,7 +80,14 @@ public class MapController
         //this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
-        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings, workingEffects, workingAttributes);
+        result.AllResourceItems = workingResourceItems;
+        result.AllHoldings = workingHoldings;
+        result.AllCivilizations = workingCivilizations;
+        result.AllUnits = workingUnits;
+        result.AllBuildings = workingBuildings;
+        result.AllEffects = workingEffects;
+        result.AllAttributes = workingAttributes;
+        result.AllSeasons = workingSeasons;
 
         return result;
     }
@@ -172,6 +181,18 @@ public class MapController
         List<Attribute> result = new List<Attribute>();
 
         result.Add(new Attribute("housing", "Housing", "Provides housing to 20 population", "housing", AttributeType.Housing, 20f));
+
+        return result;
+    }
+
+    private List<Season> ConvertToSeasons()
+    {
+        List<Season> result = new List<Season>();
+
+        result.Add(new Season("Spring", 1, "Season_SpringIcon"));
+        result.Add(new Season("Summer", 2, "Season_SummerIcon"));
+        result.Add(new Season("Autumn", 3, "Season_AutumnIcon"));
+        result.Add(new Season("Winter", 4, "Season_WinterIcon"));
 
         return result;
     }
