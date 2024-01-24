@@ -115,6 +115,17 @@ public class UIController : MonoBehaviour
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
+            case UIState.LeaderSettle_End:
+                int tempPeopleToSettle = this.SelectedUnit.People;
+                this.SelectedUnit.Settle();
+                this.SelectedHolding.Population.Settle(tempPeopleToSettle);
+                this.ResetViews();
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding, tempUnit);
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
             default:
                 break;
         }

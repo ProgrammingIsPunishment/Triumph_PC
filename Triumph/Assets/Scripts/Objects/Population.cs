@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Population
 {
-    public int Amount { get; set; }
+    public int People { get; set; }
     public GoodsTemplate GoodsTemplate { get; set; }
     public List<Effect> Effects { get; set; }
     public float Happiness { get; set; }
@@ -16,12 +16,17 @@ public class Population
 
     public Population(int amount, GoodsTemplate goodsTemplate)
     {
-        this.Amount = amount;
+        this.People = amount;
         this.GoodsTemplate = goodsTemplate;
         this.Effects = new List<Effect>();
         this.Happiness = 10;
         this.Necessities = 10;
         this.metNecessityRequirements = true;
+    }
+
+    public void Settle(int amount)
+    {
+        this.People += amount;
     }
 
     public bool HasEffect(string guid)
@@ -61,7 +66,7 @@ public class Population
 
     public void CalculateConsumption(Inventory storageInventory)
     {
-        if (this.Amount > 0)
+        if (this.People > 0)
         {
             foreach (Good g in this.GoodsTemplate.Goods)
             {
@@ -88,7 +93,7 @@ public class Population
 
     public void DetermineTurnEffects()
     {
-        if (this.Amount > 0)
+        if (this.People > 0)
         {
             if (this.Happiness >= 7)
             {
@@ -124,7 +129,7 @@ public class Population
 
     public void DetermineSeasonalEffects()
     {
-        if (this.Amount > 0)
+        if (this.People > 0)
         {
             if (this.HasEffect("deprived"))
             {
@@ -143,7 +148,7 @@ public class Population
         float workingHappiness = 10;
         float workingNecessities  = 10;
 
-        if (this.Amount > 0)
+        if (this.People > 0)
         {
             foreach (Effect e in this.Effects)
             {
@@ -168,7 +173,7 @@ public class Population
 
     public void ProcessSeasonalEffects()
     {
-        if (this.Amount > 0)
+        if (this.People > 0)
         {
             foreach (Effect e in this.Effects)
             {
@@ -190,19 +195,19 @@ public class Population
 
     private void CalculatePopulationGrowth(float percentGain)
     {
-        float workingPopulation = this.Amount;
-        float amountToGain = (float)Math.Ceiling(this.Amount * percentGain);
+        float workingPopulation = this.People;
+        float amountToGain = (float)Math.Ceiling(this.People * percentGain);
         workingPopulation += amountToGain;
 
-        this.Amount = (int)workingPopulation;
+        this.People = (int)workingPopulation;
     }
 
     private void CalculateStarvationDeath(float percentLoss)
     {
-        float workingRemainingPopulation = this.Amount;
-        float amountToDie = (float)Math.Ceiling(this.Amount * percentLoss);
+        float workingRemainingPopulation = this.People;
+        float amountToDie = (float)Math.Ceiling(this.People * percentLoss);
         workingRemainingPopulation -= amountToDie;
 
-        this.Amount = (int)workingRemainingPopulation;
+        this.People = (int)workingRemainingPopulation;
     }
 }

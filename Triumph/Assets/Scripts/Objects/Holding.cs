@@ -35,7 +35,7 @@ public class Holding
 
     public void PassEffectFromHolding()
     {
-        if (this.Population.Amount > 0)
+        if (this.Population.People > 0)
         {
             //Determine values from buildings
             float housingCount = 0;
@@ -59,7 +59,7 @@ public class Holding
             }
 
 
-            if (housingCount >= this.Population.Amount)
+            if (housingCount >= this.Population.People)
             {
                 this.Population.AddEffect("housed");
                 this.Population.RemoveEffect("homeless");

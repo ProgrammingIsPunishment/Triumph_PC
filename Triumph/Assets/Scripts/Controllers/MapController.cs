@@ -189,10 +189,10 @@ public class MapController
     {
         List<Season> result = new List<Season>();
 
-        result.Add(new Season("Spring", 1, "Season_SpringIcon", 3));    //7
-        result.Add(new Season("Summer", 2, "Season_SummerIcon", 3));    //8
-        result.Add(new Season("Autumn", 3, "Season_AutumnIcon", 3));    //6
-        result.Add(new Season("Winter", 4, "Season_WinterIcon", 3));    //7
+        result.Add(new Season("Spring", 1, "Season_SpringIcon", 7));    //7
+        result.Add(new Season("Summer", 2, "Season_SummerIcon", 8));    //8
+        result.Add(new Season("Autumn", 3, "Season_AutumnIcon", 6));    //6
+        result.Add(new Season("Winter", 4, "Season_WinterIcon", 7));    //7
 
         return result;
     }
@@ -589,6 +589,7 @@ public class MapController
             string supplyGUID = (string)u.Attribute("supplyguid").Value.ToLower();
             var inventoryResourceItems = u.Element("inventory").Elements("inventoryresourceitem");
             int actionPointLimit = int.Parse(u.Attribute("actionpointlimit").Value);
+            int people = int.Parse(u.Attribute("people").Value);
 
             Holding startingLocation = allHoldings.Find(h => h.GUID == startinglocationGUID);
             InfluentialPerson tempCommander = allInfluentialPeople.Find(ip => ip.GUID == commanderGUID);
@@ -609,7 +610,7 @@ public class MapController
 
             Inventory workingInventory = new Inventory(InventoryType.UnitSupply, workingResourceItems);
 
-            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType, actionPointLimit);
+            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType, actionPointLimit, people);
             workingUnit.GUID = guid;
             workingUnit.Commander = tempCommander;
             workingUnit.Inventory = workingInventory;

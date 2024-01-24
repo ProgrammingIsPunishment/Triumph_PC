@@ -7,6 +7,7 @@ public class UnitView : MonoBehaviour
 {
     [SerializeField] private TMP_InputField unitNameInput;
     [SerializeField] private TextMeshProUGUI unitActionPointText;
+    [SerializeField] private TextMeshProUGUI unitPopulationText;
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject noUnitContainer;
 
@@ -15,6 +16,7 @@ public class UnitView : MonoBehaviour
     [SerializeField] private GameObject gatherActionButton;
     [SerializeField] private GameObject buildActionButton;
     [SerializeField] private GameObject laborActionButton;
+    [SerializeField] private GameObject settleActionButton;
 
     public void Refresh(Holding holding, Unit unit)
     {
@@ -23,12 +25,14 @@ public class UnitView : MonoBehaviour
             this.unitNameInput.text = unit.DisplayName;
             this.unitContainer.SetActive(true);
             this.unitActionPointText.text = unit.ActionPoints.ToString();
+            this.unitPopulationText.text = unit.People.ToString();
 
             //Update Action Buttons
             this.moveActionButton.SetActive(false);
             this.gatherActionButton.SetActive(false);
             this.buildActionButton.SetActive(false);
             this.laborActionButton.SetActive(false);
+            this.settleActionButton.SetActive(false);
 
             if (unit.ActionPoints >= 1)
             {
@@ -52,7 +56,10 @@ public class UnitView : MonoBehaviour
                     this.laborActionButton.SetActive(true);
                 }
 
-                //holding.HasUnconstructedBuildings()...allow leader to apply labor 
+                if (holding.Population.People <= 0 && unit.People >= 1)
+                {
+                    this.settleActionButton.SetActive(true);
+                }
             }
         }
         else

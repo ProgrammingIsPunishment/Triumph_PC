@@ -10,6 +10,7 @@ public class PopulationView : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI populationAmountText;
     [SerializeField] private TextMeshProUGUI happinessAmountText;
+    [SerializeField] private GameObject noPopulationDisplay;
 
     public void Initialize()
     {
@@ -19,17 +20,25 @@ public class PopulationView : MonoBehaviour
 
     public void Refresh(Population population)
     {
-        this.populationAmountText.text = population.Amount.ToString();
-        this.happinessAmountText.text = population.Happiness.ToString();
-
-        this.HideAllEffects();
-
-        int index = 0;
-        foreach (Effect e in population.Effects)
+        if (population.People >= 1)
         {
-            this.EffectViews[index].Refresh(e);
-            this.EffectViews[index].Show();
-            index++;
+            this.noPopulationDisplay.SetActive(false);
+            this.populationAmountText.text = population.People.ToString();
+            this.happinessAmountText.text = population.Happiness.ToString();
+
+            this.HideAllEffects();
+
+            int index = 0;
+            foreach (Effect e in population.Effects)
+            {
+                this.EffectViews[index].Refresh(e);
+                this.EffectViews[index].Show();
+                index++;
+            }
+        }
+        else
+        {
+            this.noPopulationDisplay.SetActive(true);
         }
     }
 

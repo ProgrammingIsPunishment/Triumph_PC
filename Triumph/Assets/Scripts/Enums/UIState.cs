@@ -11,5 +11,6 @@ public enum UIState
     LeaderBuild_SelectLot,
     LeaderBuild_End,
     LeaderLabor_SelectImprovement,
-    LeaderLabor_End
+    LeaderLabor_End,
+    LeaderSettle_End
 }

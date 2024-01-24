@@ -16,10 +16,11 @@ public class Unit
     public InfluentialPerson Commander { get; set; }
     public Inventory Inventory { get; set; }
     public Supply Supply { get; set; }
+    public int People { get; set; }
 
     [NonSerialized] public UnitDisplayManager UnitDisplayManager;
 
-    public Unit(string displayName, int xPosition, int zPosition, UnitType unitType, int actionPointLimit)
+    public Unit(string displayName, int xPosition, int zPosition, UnitType unitType, int actionPointLimit, int people)
     {
         this.DisplayName = displayName;
         this.XPosition = xPosition;
@@ -28,6 +29,7 @@ public class Unit
         this.Commander = null;
         this.Inventory = new Inventory(InventoryType.UnitSupply,new List<ResourceItem>());
         this.ActionPointLimit = actionPointLimit;
+        this.People = people;
     }
 
     public void Move(int xPosition, int zPosition)
@@ -55,6 +57,12 @@ public class Unit
         this.ActionPoints--;
     }
 
+    public void Settle()
+    {
+        this.ActionPoints--;
+        this.People = 0;
+    }
+
     public void CalculateAttrition()
     {
         foreach (Attrition a in this.Supply.Attritions)
@@ -77,8 +85,8 @@ public class Unit
                 a.Decrease();
             }
 
-            Debug.Log(a.ResourceItemGUID + ": " + a.Amount.ToString());
-            Debug.Log(tempResourceItem.GUID + ": " + tempResourceItem.Amount.ToString());
+            //Debug.Log(a.ResourceItemGUID + ": " + a.Amount.ToString());
+            //Debug.Log(tempResourceItem.GUID + ": " + tempResourceItem.Amount.ToString());
         }
     }
 
