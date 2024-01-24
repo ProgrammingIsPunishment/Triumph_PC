@@ -38,14 +38,14 @@ public class TurnController
 
     public void ChangeSeason()
     {
-        //VERY BASIC FOR TESTING...NEED TO DO...make not happen every single turn
-        int temp = Oberkommando.SAVE.Season.Order + 1;
-        if (temp > 4)
+        Oberkommando.SAVE.Season.DaysLeft--;
+        if (Oberkommando.SAVE.Season.DaysLeft <= 0)
         {
-            temp = 1;
+            int nextSeasonOrder = Oberkommando.SAVE.Season.Order + 1;
+            if (nextSeasonOrder > 4) { nextSeasonOrder = 1; }
+            Oberkommando.SAVE.Season.ResetDaysLeft();
+            Oberkommando.SAVE.Season = Oberkommando.SAVE.AllSeasons.Find(s => s.Order == nextSeasonOrder);
         }
-
-        Oberkommando.SAVE.Season = Oberkommando.SAVE.AllSeasons.Find(s=>s.Order == temp);
     }
 
     public void StartTurn(Civilization currentCivilization)

@@ -189,10 +189,10 @@ public class MapController
     {
         List<Season> result = new List<Season>();
 
-        result.Add(new Season("Spring", 1, "Season_SpringIcon"));
-        result.Add(new Season("Summer", 2, "Season_SummerIcon"));
-        result.Add(new Season("Autumn", 3, "Season_AutumnIcon"));
-        result.Add(new Season("Winter", 4, "Season_WinterIcon"));
+        result.Add(new Season("Spring", 1, "Season_SpringIcon", 3));    //7
+        result.Add(new Season("Summer", 2, "Season_SummerIcon", 3));    //8
+        result.Add(new Season("Autumn", 3, "Season_AutumnIcon", 3));    //6
+        result.Add(new Season("Winter", 4, "Season_WinterIcon", 3));    //7
 
         return result;
     }
