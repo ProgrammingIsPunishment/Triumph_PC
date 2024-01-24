@@ -28,6 +28,9 @@
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>
+			<attributes>
+				<attribute attributeguid="housing"></attribute>
+			</attributes>
 		</building>
 		<!-- <building guid="pillar" displayname="pillar" layoutsize="One" iconfilename="pillar" modelfilename="pillar"></building> -->
 	</buildings>

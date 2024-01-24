@@ -14,10 +14,11 @@ public class Building
     public Construction Construction { get; set; }
     public LayoutSize LayoutSize { get; set; }
     public int Lot { get; set; }
+    public List<Attribute> Attributes { get; set; }
 
     [NonSerialized] public BuildingSlotView BuildingSlotView;
 
-    public Building(string guid, string displayName, LayoutSize layoutSize, string iconFileName, string modelFileName, Construction construction)
+    public Building(string guid, string displayName, LayoutSize layoutSize, string iconFileName, string modelFileName, Construction construction, List<Attribute> attributes)
     {
         this.GUID = guid;
         this.DisplayName = displayName;
@@ -25,12 +26,13 @@ public class Building
         this.IconFileName = iconFileName;
         this.ModelFileName = modelFileName;
         this.Construction = construction;
+        this.Attributes = attributes;
     }
 
     public Building CreateInstance(int lot)
     {
         Construction tempConstruction = new Construction(this.Construction.RequiredComponents);
-        Building tempBuilding = new Building(this.GUID, this.DisplayName, this.LayoutSize, this.IconFileName, this.ModelFileName, tempConstruction);
+        Building tempBuilding = new Building(this.GUID, this.DisplayName, this.LayoutSize, this.IconFileName, this.ModelFileName, tempConstruction, this.Attributes);
         tempBuilding.Lot = lot;
         return tempBuilding;
     }

@@ -16,9 +16,9 @@ public class MapController
     //private Dictionary<Tuple<int,int>, Tuple<string, string>> holdingDictionary = new Dictionary<Tuple<int, int>, Tuple<string, string>>();
     //private Dictionary<string, string> spawnDictionary = new Dictionary<string, string>();
 
-    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>> LoadMapFile(string mapName)
+    public Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>> LoadMapFile(string mapName)
     {
-        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>> result = null;
+        Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>> result = null;
         XDocument doc = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         //var allSpawnDefinitionElements = doc.Element("map").Elements("spawns").Elements("spawn");
@@ -33,6 +33,7 @@ public class MapController
         var allGoodsTemplatess = doc.Element("map").Elements("goodstemplates").Elements("template");
 
         List<Effect> workingEffects = new List<Effect>();
+        List<Attribute> workingAttributes = new List<Attribute>();
         List<ResourceItem> workingResourceItems = new List<ResourceItem>();
         List<Holding> workingHoldings = new List<Holding>();
         List<GoodsTemplate> workingGoodsTemplates = new List<GoodsTemplate>();
@@ -49,6 +50,7 @@ public class MapController
         //this.spawnDictionary = this.ConvertToSpawnDictionary(allSpawnDefinitionElements);
 
         workingEffects.AddRange(this.ConvertToEffects());
+        workingAttributes.AddRange(this.ConvertToAttributes());
 
         //Loop through all the resource items
         workingResourceItems.AddRange(this.ConvertToResourceItems(allResourceItemElements));
@@ -57,7 +59,7 @@ public class MapController
         workingInfluencialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
         //Loop through all buildings
-        workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements));
+        workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements, workingAttributes));
 
         //Loop through all the goods templates
         workingGoodsTemplates.AddRange(this.ConvertToGoodsTemplates(allGoodsTemplatess));
@@ -76,7 +78,7 @@ public class MapController
         //this.GenerateLeaderUnits(ref workingCivilizations, ref workingHoldings, ref workingResourceItems);
         this.AssignAdjacentHoldings(workingHoldings);
 
-        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings, workingEffects);
+        result = new Tuple<List<ResourceItem>, List<Holding>, List<Civilization>, List<Unit>, List<Building>, List<Effect>, List<Attribute>>(workingResourceItems, workingHoldings, workingCivilizations, workingUnits, workingBuildings, workingEffects, workingAttributes);
 
         return result;
     }
@@ -155,10 +157,21 @@ public class MapController
     {
         List<Effect> result = new List<Effect>();
 
-        result.Add(new Effect("deprived", "Deprived", "-2 Happiness from population (lose an additional every turn)", "deprived", EffectType.Happiness, false, 2f));
-        result.Add(new Effect("homeless", "Homeless", "-2 Happiness from population", "deprived", EffectType.Happiness, false, 2f));
+        result.Add(new Effect("deprived", "Deprived", "-2 Happiness (-1 additional every turn)", "deprived", EffectType.Happiness, false, 2f));
+        result.Add(new Effect("homeless", "Homeless", "-2 Happiness", "homeless", EffectType.Happiness, false, 2f));
+        result.Add(new Effect("sated", "Sated", "+2 Happiness", "sated", EffectType.Happiness, true, 2f));
         result.Add(new Effect("starving", "Starving", "25% loss in population every season", "starving", EffectType.Population, false, .25f));
+        result.Add(new Effect("housed", "Housed", "+2 Happiness", "housed", EffectType.Happiness, true, 2f));
         result.Add(new Effect("fulloflife", "Full Of Life", "5% Chance for population growth every season", "fulloflife", EffectType.Population, true, .05f));
+
+        return result;
+    }
+
+    private List<Attribute> ConvertToAttributes()
+    {
+        List<Attribute> result = new List<Attribute>();
+
+        result.Add(new Attribute("housing", "Housing", "Provides housing to 20 population", "housing", AttributeType.Housing, 20f));
 
         return result;
     }
@@ -430,7 +443,7 @@ public class MapController
         return result;
     }
 
-    private List<Building> ConvertToBuildings(IEnumerable<XElement> buildingElements)
+    private List<Building> ConvertToBuildings(IEnumerable<XElement> buildingElements, List<Attribute> allAttributes)
     {
         List<Building> result = new List<Building>();
 
@@ -454,10 +467,21 @@ public class MapController
                 resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
             }
 
+            //loop through attributes
+            var allAttributeElements = b.Elements("attributes").Elements("attribute");
+            List<Attribute> workingAttributes = new List<Attribute>();
+            foreach (var ae in allAttributeElements)
+            {
+                string attributeguid = (string)ae.Attribute("attributeguid").Value;
+                Attribute tempAttribute = allAttributes.Find(a=>a.GUID == attributeguid).CreateInstance();
+
+                workingAttributes.Add(tempAttribute);
+            }
+
             //Generate building construction
             Construction workingConstruction = new Construction(resourceItemComponents);
 
-            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, workingConstruction));
+            result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, workingConstruction, workingAttributes));
         }
 
         return result;

@@ -46,9 +46,18 @@ public class Population
 
     public void AddEffect(string guid)
     {
-        Effect tempEffectToAdd = Oberkommando.SAVE.AllEffects.Find(e => e.GUID == guid).CreateInstance();
-        this.Effects.Add(tempEffectToAdd);
+        if (!this.HasEffect(guid))
+        {
+            Effect tempEffectToAdd = Oberkommando.SAVE.AllEffects.Find(e => e.GUID == guid).CreateInstance();
+            this.Effects.Add(tempEffectToAdd);
+        }
     }
+
+    //public void AddStackableEffect(string guid)
+    //{
+    //    Effect tempEffectToAdd = Oberkommando.SAVE.AllEffects.Find(e => e.GUID == guid).CreateInstance();
+    //    this.Effects.Add(tempEffectToAdd);
+    //}
 
     public void CalculateConsumption(Inventory storageInventory)
     {
@@ -83,19 +92,28 @@ public class Population
         {
             if (this.Happiness >= 7)
             {
-                if (!this.HasEffect("fulloflife")) { this.AddEffect("fulloflife"); }
+                this.AddEffect("fulloflife");
             }
-            else { this.RemoveEffect("fulloflife"); }
+            else 
+            { 
+                this.RemoveEffect("fulloflife"); 
+            }
 
-            if (!this.metNecessityRequirements)
+            if (this.metNecessityRequirements)
             {
+                this.AddEffect("sated");
+            }
+            else
+            {
+                this.RemoveEffect("sated");
+
                 if (!this.HasEffect("deprived"))
                 {
                     this.AddEffect("deprived");
                 }
                 else
                 {
-                    this.Effects.Find(e=>e.GUID == "deprived").Value+=1;
+                    this.Effects.Find(e => e.GUID == "deprived").Value += 1;
                 }
             }
         }

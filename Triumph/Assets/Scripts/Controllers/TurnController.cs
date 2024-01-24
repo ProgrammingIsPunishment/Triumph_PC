@@ -29,7 +29,7 @@ public class TurnController
         foreach (Holding h in allHoldings)
         {
             h.Population.CalculateConsumption(h.StorageInventory);
-            h.DetermineEffects();
+            h.PassEffectFromHolding();
             h.Population.DetermineEffects();
             h.Population.ProcessEffects();
         }

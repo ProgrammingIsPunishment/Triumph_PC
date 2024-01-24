@@ -33,9 +33,43 @@ public class Holding
         this.Population = population;
     }
 
-    public void DetermineEffects()
+    public void PassEffectFromHolding()
     {
-        
+        if (this.Population.Amount > 0)
+        {
+            //Determine values from buildings
+            float housingCount = 0;
+            foreach (Building b in this.Buildings)
+            {
+                if (b.Construction.IsCompleted)
+                {
+                    foreach (Attribute a in b.Attributes)
+                    {
+                        switch (a.AttributeType)
+                        {
+                            case AttributeType.Housing:
+                                housingCount += a.Value;
+                                break;
+                            default:
+                                //Do nothing...
+                                break;
+                        }
+                    }
+                }
+            }
+
+
+            if (housingCount >= this.Population.Amount)
+            {
+                this.Population.AddEffect("housed");
+                this.Population.RemoveEffect("homeless");
+            }
+            else
+            {
+                this.Population.RemoveEffect("housed");
+                this.Population.AddEffect("homeless");
+            }
+        }
     }
 
     public void BuildBuilding(Building building)
