@@ -46,6 +46,7 @@ public class UIController : MonoBehaviour
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 this.holdingView.ShowDefaultTab();
+                this.holdingView.unitView.ShowDefaultTab();
                 this.holdingView.Show();
                 break;
             case UIState.HoldingDetails_End:
@@ -177,8 +178,9 @@ public class UIController : MonoBehaviour
     private void UncoupleViews()
     {
         this.holdingView.naturalResourcesTab.UncoupleView();
-        this.holdingView.unitSupplyTab.UncoupleView();
         this.holdingView.improvementsTab.UncoupleView();
+
+        this.holdingView.unitView.unitInventoryView.UncoupleView();
     }
 
     private void HideAll()

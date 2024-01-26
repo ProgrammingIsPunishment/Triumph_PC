@@ -13,7 +13,6 @@ public class HoldingView : MonoBehaviour
     //Views
     [SerializeField] public SummaryTabManager summaryTabManager;
     [SerializeField] public InventoryView naturalResourcesTab;
-    [SerializeField] public InventoryView unitSupplyTab;
     [SerializeField] public ImprovementsView improvementsTab;
     [SerializeField] public UnitView unitView;
     [SerializeField] public PopulationView populationTab;
@@ -46,10 +45,10 @@ public class HoldingView : MonoBehaviour
         }
         if (unit != null)
         {
-            if (unit.Inventory.ResourceItems.Count >= 1)
-            {
-                this.unitSupplyTab.Refresh(unit.Inventory, unit.Supply);
-            }
+            //if (unit.Inventory.ResourceItems.Count >= 1)
+            //{
+            //    this.unitSupplyTab.Refresh(unit.Inventory, unit.Supply);
+            //}
         }
 
         //Tab Buttons
@@ -58,7 +57,6 @@ public class HoldingView : MonoBehaviour
         this.populationTabButton.Enable();
         this.naturalResourcesTabButton.Disable();
         this.storageTabButton.Disable();
-        this.unitInventoryTabButton.Disable();
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
             this.naturalResourcesTabButton.Enable();
@@ -67,17 +65,12 @@ public class HoldingView : MonoBehaviour
         {
             this.storageTabButton.Enable();
         }
-        if (unit != null)
-        {
-            this.unitInventoryTabButton.Enable();
-        }
     }
 
     public void SwitchTab(HoldingDetailsTabType holdingDetailsTabType)
     {
         this.summaryTabManager.Hide();
         this.naturalResourcesTab.Hide();
-        this.unitSupplyTab.Hide();
         this.improvementsTab.Hide();
         this.populationTab.Hide();
         this.storageTab.Hide();
@@ -89,9 +82,6 @@ public class HoldingView : MonoBehaviour
                 break;
             case HoldingDetailsTabType.NaturalResources:
                 this.naturalResourcesTab.Show();
-                break;
-            case HoldingDetailsTabType.Unit:
-                this.unitSupplyTab.Show();
                 break;
             case HoldingDetailsTabType.Improvements:
                 this.improvementsTab.Show();

@@ -16,11 +16,12 @@ public class InitializationController : MonoBehaviour
     private void InitializeViews()
     {
         Oberkommando.UI_CONTROLLER.holdingView.summaryTabManager.Initialize();
-        Oberkommando.UI_CONTROLLER.holdingView.unitSupplyTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.naturalResourcesTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.storageTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.improvementsTab.Initialize();
         Oberkommando.UI_CONTROLLER.holdingView.populationTab.Initialize();
+
+        Oberkommando.UI_CONTROLLER.holdingView.unitView.unitInventoryView.Initialize();
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)

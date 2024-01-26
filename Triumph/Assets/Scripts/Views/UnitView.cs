@@ -9,7 +9,12 @@ public class UnitView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI unitActionPointText;
     [SerializeField] private TextMeshProUGUI unitPopulationText;
     [SerializeField] private GameObject unitContainer;
+    [SerializeField] private GameObject unitStorageContainer;
+    [SerializeField] private GameObject unitSupplyContainer;
     [SerializeField] private GameObject noUnitContainer;
+    [SerializeField] private GameObject unitTabButtonsContainer;
+
+    [SerializeField] public InventoryView unitInventoryView;
 
     //Action Buttons
     [SerializeField] private GameObject moveActionButton;
@@ -23,7 +28,6 @@ public class UnitView : MonoBehaviour
         if (unit != null)
         {
             this.unitNameInput.text = unit.DisplayName;
-            this.unitContainer.SetActive(true);
             this.unitActionPointText.text = unit.ActionPoints.ToString();
             this.unitPopulationText.text = unit.People.ToString();
 
@@ -33,6 +37,11 @@ public class UnitView : MonoBehaviour
             this.buildActionButton.SetActive(false);
             this.laborActionButton.SetActive(false);
             this.settleActionButton.SetActive(false);
+
+            if (unit.Inventory.ResourceItems.Count >= 1)
+            {
+                this.unitInventoryView.Refresh(unit.Inventory, unit.Supply);
+            }
 
             if (unit.ActionPoints >= 1)
             {
@@ -61,10 +70,36 @@ public class UnitView : MonoBehaviour
                     this.settleActionButton.SetActive(true);
                 }
             }
+
+            this.unitContainer.SetActive(true);
+            this.unitTabButtonsContainer.SetActive(true);
+            this.noUnitContainer.SetActive(false);
         }
         else
         {
             this.unitContainer.SetActive(false);
+            this.unitTabButtonsContainer.SetActive(false);
+            this.noUnitContainer.SetActive(true);
         }
+    }
+
+    public void SwitchTab(UnitTabType unitTabType)
+    {
+        //Hide all tabs
+        this.unitContainer.SetActive(false);
+        this.unitStorageContainer.SetActive(false);
+        this.unitSupplyContainer.SetActive(false);
+
+        switch (unitTabType)
+        {
+            case UnitTabType.Summary: this.unitContainer.SetActive(true); break;
+            case UnitTabType.Inventory: this.unitStorageContainer.SetActive(true); break;
+            case UnitTabType.Supply: this.unitSupplyContainer.SetActive(true); break;
+        }
+    }
+
+    public void ShowDefaultTab()
+    {
+        this.SwitchTab(UnitTabType.Summary);
     }
 }
