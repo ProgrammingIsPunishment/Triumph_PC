@@ -72,21 +72,25 @@ public class Unit
         foreach (Attrition a in this.Supply.Attritions)
         {
             ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri=>ri.GUID == a.ResourceItemGUID);
-            if (tempResourceItem.Amount >= a.PerTurnConsumption)
-            {
-                //There is enouch to increase the attrition
-                tempResourceItem.Consume(a.PerTurnConsumption);
-                a.Increase();
-            }
-            else
-            {
-                //There is not the amount that the unit needs
-                if (tempResourceItem.Amount > 0)
-                {
-                    tempResourceItem.Consume(tempResourceItem.Amount);
-                }
 
-                a.Decrease();
+            if (tempResourceItem != null)
+            {
+                if (tempResourceItem.Amount >= a.PerTurnConsumption)
+                {
+                    //There is enouch to increase the attrition
+                    tempResourceItem.Consume(a.PerTurnConsumption);
+                    a.Increase();
+                }
+                else
+                {
+                    //There is not the amount that the unit needs
+                    if (tempResourceItem.Amount > 0)
+                    {
+                        tempResourceItem.Consume(tempResourceItem.Amount);
+                    }
+
+                    a.Decrease();
+                }
             }
 
             //Debug.Log(a.ResourceItemGUID + ": " + a.Amount.ToString());

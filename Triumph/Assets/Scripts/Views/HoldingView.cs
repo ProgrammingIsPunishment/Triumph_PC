@@ -37,12 +37,16 @@ public class HoldingView : MonoBehaviour
         this.populationTab.Refresh(holding.Population);
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
+            this.naturalResourcesTab.Couple(holding.NaturalResourcesInventory);
             this.naturalResourcesTab.Refresh(holding.NaturalResourcesInventory);
         }
-        if (holding.StorageInventory.ResourceItems.Count >= 1)
-        {
-            this.storageTab.Refresh(holding.StorageInventory, holding.Population.GoodsTemplate);
-        }
+        //if (holding.StorageInventory.ResourceItems.Count >= 1)
+        //{
+        //    this.storageTab.Couple(holding.StorageInventory);
+        //    this.storageTab.Refresh(holding.StorageInventory, holding.Population.GoodsTemplate);
+        //}
+        this.storageTab.Couple(holding.StorageInventory);
+        this.storageTab.Refresh(holding.StorageInventory, holding.Population.GoodsTemplate);
         if (unit != null)
         {
             //if (unit.Inventory.ResourceItems.Count >= 1)
@@ -56,15 +60,15 @@ public class HoldingView : MonoBehaviour
         this.improvementsTabButton.Enable();
         this.populationTabButton.Enable();
         this.naturalResourcesTabButton.Disable();
-        this.storageTabButton.Disable();
+        this.storageTabButton.Enable();
         if (holding.NaturalResourcesInventory.ResourceItems.Count >= 1)
         {
             this.naturalResourcesTabButton.Enable();
         }
-        if (holding.StorageInventory.ResourceItems.Count >= 1)
-        {
-            this.storageTabButton.Enable();
-        }
+        //if (holding.StorageInventory.ResourceItems.Count >= 1)
+        //{
+        //    this.storageTabButton.Enable();
+        //}
     }
 
     public void SwitchTab(HoldingDetailsTabType holdingDetailsTabType)

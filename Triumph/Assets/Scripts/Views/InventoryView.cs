@@ -9,11 +9,22 @@ using UnityEngine.UI;
 public class InventoryView : MonoBehaviour
 {
     private List<InventorySlotView> InventorySlotViews = new List<InventorySlotView>();
+    public Inventory Inventory { get; set; }
 
     public void Initialize()
     {
         this.InventorySlotViews.AddRange(this.GetComponentsInChildren<InventorySlotView>());
         this.ShowAllSlotsEmpty();
+    }
+
+    public void Couple(Inventory inventory)
+    {
+        this.Inventory = inventory;
+    }
+
+    public void Uncouple()
+    {
+        this.Inventory = null;
     }
 
     /// <summary>

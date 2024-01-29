@@ -22,7 +22,7 @@ public class InventorySlotView : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("HIT!!!!!!!!!!ASDASDASD!");
+        Debug.Log("OnDrop");
         if (transform.childCount == 0)
         {
             GameObject dropped = eventData.pointerDrag;

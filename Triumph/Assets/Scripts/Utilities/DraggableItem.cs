@@ -8,6 +8,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     //public Image image;
     [HideInInspector] public Transform parentAfterDrag;
+    //[HideInInspector] public Transform currentparent;
+    [HideInInspector] public Inventory currentInventory;
     [SerializeField] private CanvasGroup canvasGroup;
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -16,6 +18,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         //transform.SetParent(Oberkommando.UI_CONTROLLER.holdingView.transform);
         //Oberkommando.UI_CONTROLLER.MoveInventoriesTopLayer(true);
         parentAfterDrag = transform.parent;
+        //this.currentparent = this.transform.parent;
+        this.currentInventory = this.gameObject.GetComponentInParent<InventoryView>().Inventory;
         //transform.SetParent(transform.root);
         transform.SetParent(Oberkommando.UI_CONTROLLER.holdingView.transform);
         //transform.SetAsLastSibling();
@@ -34,8 +38,19 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         Debug.Log("End drag");
         //Debug.Log($"{parentAfterDrag.name}");
-        transform.SetParent(parentAfterDrag);
+        transform.SetParent(this.parentAfterDrag);
+        Inventory inventory = this.parentAfterDrag.GetComponentInParent<InventoryView>().Inventory;
+        ResourceItem resourceItem = this.gameObject.GetComponent<InventorySlotItemView>().GetResourceItem();
         //image.raycastTarget = true;
+
+        if (inventory != this.currentInventory)
+        {
+            this.currentInventory.ResourceItems.Remove(resourceItem);
+            inventory.ResourceItems.Add(resourceItem);
+            this.currentInventory = inventory;
+        }
+
+
         canvasGroup.alpha = 1f;
         this.canvasGroup.blocksRaycasts = true;
         //Oberkommando.UI_CONTROLLER.MoveInventoriesTopLayer(false);

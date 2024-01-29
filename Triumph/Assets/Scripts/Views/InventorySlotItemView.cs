@@ -16,7 +16,7 @@ public class InventorySlotItemView : MonoBehaviour
 
     [NonSerialized] private bool IsSelectableForGather = false;
 
-    public bool IsUsed = false;
+    [NonSerialized] public bool IsUsed = false;
 
     public void Couple(ResourceItem resourceItem)
     {
@@ -93,6 +93,11 @@ public class InventorySlotItemView : MonoBehaviour
         {
             this.usageText.gameObject.SetActive(false);
         }
+    }
+
+    public ResourceItem GetResourceItem()
+    {
+        return this.resourceItem;
     }
 
     public void Enable()
