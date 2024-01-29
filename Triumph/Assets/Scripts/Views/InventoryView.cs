@@ -13,7 +13,7 @@ public class InventoryView : MonoBehaviour
     public void Initialize()
     {
         this.InventorySlotViews.AddRange(this.GetComponentsInChildren<InventorySlotView>());
-        this.HideAllSlots();
+        this.ShowAllSlotsEmpty();
     }
 
     /// <summary>
@@ -25,9 +25,15 @@ public class InventoryView : MonoBehaviour
         this.HideAllSlots();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
-            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i]);
-            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
-            this.InventorySlotViews[i].Show();
+            //this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i]);
+            //this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
+            //this.InventorySlotViews[i].ShowFull();
+
+            InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
+            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i]);
+            workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
+            this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
         }
     }
 
@@ -38,13 +44,19 @@ public class InventoryView : MonoBehaviour
     /// <param name="supplies"></param>
     public void Refresh(Inventory inventory, Supply supplies)
     {
-        this.HideAllSlots();
+        this.ShowAllSlotsEmpty();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
+            InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
             Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
-            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempAttrition);
-            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
-            this.InventorySlotViews[i].Show();
+            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempAttrition);
+            workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
+            this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
+            //Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            //this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempAttrition);
+            //this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
+            //this.InventorySlotViews[i].ShowFull();
         }
     }
 
@@ -55,22 +67,37 @@ public class InventoryView : MonoBehaviour
     /// <param name="supplies"></param>
     public void Refresh(Inventory inventory, GoodsTemplate goodsTemplate)
     {
-        this.HideAllSlots();
+        this.ShowAllSlotsEmpty();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
+            //Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            //this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempGood);
+            //this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
+            //this.InventorySlotViews[i].ShowFull();
+
+            InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
             Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
-            this.InventorySlotViews[i].Refresh(inventory.ResourceItems[i], tempGood);
-            this.InventorySlotViews[i].Couple(inventory.ResourceItems[i]);
-            this.InventorySlotViews[i].Show();
+            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempGood);
+            workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
+            this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
         }
     }
 
     public void HideAllSlots()
     {
-        foreach (InventorySlotView isv in this.InventorySlotViews)
-        {
-            isv.Hide();
-        }
+        //foreach (InventorySlotView isv in this.InventorySlotViews)
+        //{
+        //    isv.Hide();
+        //}
+    }
+
+    public void ShowAllSlotsEmpty()
+    {
+        //foreach (InventorySlotView isv in this.InventorySlotViews)
+        //{
+        //    isv.ShowEmpty();
+        //}
     }
 
     public void Show()
@@ -85,30 +112,36 @@ public class InventoryView : MonoBehaviour
 
     public void UncoupleView()
     {
-        foreach (InventorySlotView isv in this.InventorySlotViews)
-        {
-            isv.Uncouple();
-        }
+        //foreach (InventorySlotView isv in this.InventorySlotViews)
+        //{
+        //    isv.Uncouple();
+        //}
     }
 
     public void ShowGatherableResources(bool isBeingShown)
     {
         if (isBeingShown)
         {
-            //Eventually will need to disable and enable only items that the unit can gather
-            //For right now, everything is enabled for the sake of testing
+            ////Eventually will need to disable and enable only items that the unit can gather
+            ////For right now, everything is enabled for the sake of testing
             foreach (InventorySlotView isv in this.InventorySlotViews)
             {
-                isv.Enable();
-                isv.ShowSelectable(true);
+                //isv.Enable();
+                if (isv.inventorySlotItemView != null)
+                {
+                    isv.inventorySlotItemView.SetSelectable(true);
+                }
             }
         }
         else
         {
             foreach (InventorySlotView isv in this.InventorySlotViews)
             {
-                isv.Disable();
-                isv.ShowSelectable(false);
+                //isv.Disable();
+                if (isv.inventorySlotItemView != null)
+                {
+                    isv.inventorySlotItemView.SetSelectable(false);
+                }
             }
         }
     }

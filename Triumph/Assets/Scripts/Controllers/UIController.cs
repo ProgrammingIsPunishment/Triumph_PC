@@ -31,11 +31,13 @@ public class UIController : MonoBehaviour
         switch (newUIState)
         {
             case UIState.Initialize:
+                this.ReturnAllToColdStorage();
                 this.HideAll();
                 this.ClearStateAndData();
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.EndTurn:
+                this.ReturnAllToColdStorage();
                 this.HideAll();
                 this.ResetViews();
                 this.UncoupleViews();
@@ -43,6 +45,7 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.HoldingDetails_SelectHolding:
+                this.ReturnAllToColdStorage();
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
                 this.holdingView.ShowDefaultTab();
@@ -50,6 +53,7 @@ public class UIController : MonoBehaviour
                 this.holdingView.Show();
                 break;
             case UIState.HoldingDetails_End:
+                this.ReturnAllToColdStorage();
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 this.holdingView.Hide();
                 this.ResetViews();
@@ -60,6 +64,7 @@ public class UIController : MonoBehaviour
                 this.ShowHoldingsWithinRange(true, this.SelectedHolding);
                 break;
             case UIState.LeaderMove_End:
+                this.ReturnAllToColdStorage();
                 this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
                 this.SelectedDestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
                 this.holdingView.Refresh(this.SelectedDestinationHolding, this.SelectedUnit);
@@ -75,6 +80,7 @@ public class UIController : MonoBehaviour
                 this.holdingView.SwitchTab(HoldingDetailsTabType.NaturalResources);
                 break;
             case UIState.LeaderGather_End:
+                this.ReturnAllToColdStorage();
                 this.SelectedUnit.Gather(this.SelectedResourceItemForGather);
                 this.ResetViews();
                 this.ClearStateAndData();
@@ -88,6 +94,7 @@ public class UIController : MonoBehaviour
                 this.holdingView.improvementsTab.ShowImprovableLots(true);
                 break;
             case UIState.LeaderBuild_End:
+                this.ReturnAllToColdStorage();
                 if (this.SelectedUnit.Inventory.HasResourcesForConstruction(this.SelectedBuildingForBuild.Construction.RequiredComponents))
                 {
                     this.SelectedHolding.BuildBuilding(this.SelectedBuildingForBuild);
@@ -111,6 +118,7 @@ public class UIController : MonoBehaviour
                 this.holdingView.improvementsTab.ShowNeededLabor(true);
                 break;
             case UIState.LeaderLabor_End:
+                this.ReturnAllToColdStorage();
                 this.SelectedBuildingForLabor.Construction.Labor();
                 if (this.SelectedBuildingForLabor.Construction.IsCompleted)
                 {
@@ -125,6 +133,7 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderSettle_End:
+                this.ReturnAllToColdStorage();
                 int tempPeopleToSettle = this.SelectedUnit.People;
                 this.SelectedUnit.Settle();
                 this.SelectedHolding.Population.Settle(tempPeopleToSettle);
@@ -173,6 +182,11 @@ public class UIController : MonoBehaviour
             this.holdingView.improvementsTab.ShowImprovableLots(false);
             this.holdingView.improvementsTab.ShowNeededLabor(false);
         }
+    }
+
+    private void ReturnAllToColdStorage()
+    {
+        Oberkommando.COLDSTORAGE_CONTROLLER.ReturnAllInventoryItemViews();
     }
 
     private void UncoupleViews()
@@ -246,6 +260,20 @@ public class UIController : MonoBehaviour
             }
         }
     }
+
+    //public void MoveInventoriesTopLayer(bool moveTopLayer)
+    //{
+    //    if (moveTopLayer)
+    //    {
+    //        this.holdingView.unitView.unitInventoryView.transform.SetParent(this.holdingView.transform);
+    //        this.holdingView.storageTab.transform.SetParent(this.holdingView.transform);
+    //    }
+    //    else
+    //    {
+    //        this.holdingView.unitView.unitInventoryView.transform.SetParent(this.holdingView.unitView.transform);
+    //        this.holdingView.storageTab.transform.SetParent(this.holdingView.transform);
+    //    }
+    //}
 
     //public void ShowDiscoveredHoldings(Civilization civilization)
     //{

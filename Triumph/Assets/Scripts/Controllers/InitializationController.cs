@@ -11,6 +11,12 @@ public class InitializationController : MonoBehaviour
         Oberkommando.PREFAB_CONTROLLER = this.gameObject.GetComponent<PrefabController>();
         Oberkommando.GAME_CONTROLLER = this.gameObject.GetComponent<GameController>();
         Oberkommando.UI_CONTROLLER = this.gameObject.GetComponent<UIController>();
+        Oberkommando.COLDSTORAGE_CONTROLLER = this.gameObject.GetComponent<ColdStorageController>();
+    }
+
+    public void InitializeControllers()
+    {
+        Oberkommando.COLDSTORAGE_CONTROLLER.Initialize();
     }
 
     private void InitializeViews()
@@ -71,6 +77,7 @@ public class InitializationController : MonoBehaviour
     {
         //Order very important
         this.AssignControllers();
+        this.InitializeControllers();
         this.InitializeViews();
         this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);

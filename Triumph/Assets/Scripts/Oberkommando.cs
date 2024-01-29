@@ -13,6 +13,7 @@ public static class Oberkommando
     public static PrefabController PREFAB_CONTROLLER;
     public static GameController GAME_CONTROLLER;
     public static UIController UI_CONTROLLER;
+    public static ColdStorageController COLDSTORAGE_CONTROLLER;
 
     public static CameraManager CAMERA_MANAGER;
 
