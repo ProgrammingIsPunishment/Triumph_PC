@@ -13,6 +13,7 @@ public class ColdStorageController : MonoBehaviour
     public void Initialize()
     {
         this.AllInventorySlotItemViews = this.ColdStorageContainer.GetComponentsInChildren<InventorySlotItemView>().ToList();
+        foreach (InventorySlotItemView isiv in this.AllInventorySlotItemViews) { isiv.DraggableItem.SetDraggable(false); }
     }
 
     public InventorySlotItemView GetInventorySlotItemView()

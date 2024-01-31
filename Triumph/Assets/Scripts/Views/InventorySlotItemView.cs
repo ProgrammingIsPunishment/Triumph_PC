@@ -11,12 +11,14 @@ public class InventorySlotItemView : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private TextMeshProUGUI usageText;
+    [SerializeField] public DraggableItem DraggableItem;
 
     [NonSerialized] private ResourceItem resourceItem = null;
 
     [NonSerialized] private bool IsSelectableForGather = false;
 
     [NonSerialized] public bool IsUsed = false;
+
 
     public void Couple(ResourceItem resourceItem)
     {

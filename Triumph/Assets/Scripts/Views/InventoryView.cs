@@ -43,8 +43,10 @@ public class InventoryView : MonoBehaviour
             InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
             workingInventorySlotItemView.Refresh(inventory.ResourceItems[i]);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            workingInventorySlotItemView.DraggableItem.SetDraggable(false);
             this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
             this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
+            this.InventorySlotViews[i].Show();
         }
     }
 
@@ -62,6 +64,7 @@ public class InventoryView : MonoBehaviour
             Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
             workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempAttrition);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            workingInventorySlotItemView.DraggableItem.SetDraggable(true);
             this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
             this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
             //Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
@@ -90,6 +93,7 @@ public class InventoryView : MonoBehaviour
             Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
             workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempGood);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
+            workingInventorySlotItemView.DraggableItem.SetDraggable(true);
             this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
             this.InventorySlotViews[i].AddInventorySlotItemView(workingInventorySlotItemView);
         }
@@ -97,10 +101,10 @@ public class InventoryView : MonoBehaviour
 
     public void HideAllSlots()
     {
-        //foreach (InventorySlotView isv in this.InventorySlotViews)
-        //{
-        //    isv.Hide();
-        //}
+        foreach (InventorySlotView isv in this.InventorySlotViews)
+        {
+            isv.Hide();
+        }
     }
 
     public void ShowAllSlotsEmpty()

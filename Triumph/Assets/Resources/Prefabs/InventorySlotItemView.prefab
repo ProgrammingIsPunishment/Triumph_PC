@@ -217,7 +217,7 @@ MonoBehaviour:
   iconImage: {fileID: 8480684886765900593}
   amountText: {fileID: 7790806051523914753}
   usageText: {fileID: 2358911819604363862}
-  IsUsed: 0
+  DraggableItem: {fileID: 5999130848533495823}
 --- !u!114 &2768450352824125444
 MonoBehaviour:
   m_ObjectHideFlags: 0
