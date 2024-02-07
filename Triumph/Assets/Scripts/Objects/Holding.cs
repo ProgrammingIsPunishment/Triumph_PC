@@ -72,6 +72,18 @@ public class Holding
         }
     }
 
+    public void CalculateSeasonalGrowth()
+    {
+        foreach (ResourceItem ri in this.NaturalResourcesInventory.ResourceItems)
+        {
+            if (ri.ResourceItemType == ResourceItemType.Foliage || ri.ResourceItemType == ResourceItemType.Fauna)
+            {
+                int workingAmount = (int)Math.Ceiling(ri.Amount * .25);
+                ri.AddToStack(workingAmount);
+            }
+        }
+    }
+
     public void BuildBuilding(Building building)
     {
         this.Buildings.Add(building);

@@ -11,9 +11,8 @@ public class TurnController
     {
         //Oberkommando.UI_CONTROLLER.NewUIState(UIState.Disable, null);
         this.CheckSeasonForChange();
-        this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
         Oberkommando.SAVE.Turn++;
-        this.seasonChangedFlag = false;
+        //this.seasonChangedFlag = false;
         Debug.Log(Oberkommando.SAVE.Turn.ToString());
         //this.RefreshActionPoints(Oberkommando.SAVE.AllCivilizations[0]);
     }
@@ -33,7 +32,7 @@ public class TurnController
         foreach (Holding h in allHoldings)
         {
             h.Population.CalculateConsumption(h.StorageInventory);
-            h.PassEffectFromHolding();
+            //h.PassEffectFromHolding();
             h.Population.DetermineTurnEffects();
             h.Population.ProcessTurnEffects();
 
@@ -41,6 +40,24 @@ public class TurnController
             {
                 h.Population.DetermineSeasonalEffects();
                 h.Population.ProcessSeasonalEffects();
+                //h.CalculateSeasonalGrowth();
+            }
+        }
+    }
+
+    public void HoldingEvents(List<Holding> allHoldings)
+    {
+        foreach (Holding h in allHoldings)
+        {
+            h.PassEffectFromHolding();
+
+            if (this.seasonChangedFlag)
+            {
+                List<string> growthSeasons = new List<string>() { "Spring", "Summer", "Autumn" };
+                if (growthSeasons.Contains(Oberkommando.SAVE.Season.Name))
+                {
+                    h.CalculateSeasonalGrowth();
+                }
             }
         }
     }
@@ -61,9 +78,12 @@ public class TurnController
     public void StartTurn(Civilization currentCivilization)
     {
         //For player character only as NPCs don't need to actually "see" anything
+        this.HoldingEvents(Oberkommando.SAVE.AllHoldings);
+        this.UnitEvents(currentCivilization.Units);
+        this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
+        this.seasonChangedFlag = false;
         Oberkommando.UI_CONTROLLER.MapRefresh(currentCivilization);
         Oberkommando.UI_CONTROLLER.seasonsView.Refresh(Oberkommando.SAVE.Season);
-        this.UnitEvents(currentCivilization.Units);
         //NEED TO DO...do passover of holdings that are not currently fully visible
 
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);
