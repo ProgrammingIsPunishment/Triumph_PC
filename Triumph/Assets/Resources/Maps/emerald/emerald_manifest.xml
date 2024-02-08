@@ -24,7 +24,7 @@
 		<influentialperson guid="abraham" displayname="Abraham"></influentialperson>
 	</influentialpeople>
 	<buildings>
-		<building guid="hut" displayname="hut" layoutsize="One" iconfilename="hut" modelfilename="hut">
+		<building guid="hut" displayname="Tribal Hut" layoutsize="One" iconfilename="hut" modelfilename="hut">
 			<resourceitemcomponents>
 				<resourceitemcomponent guid="log" amount="2"></resourceitemcomponent>
 			</resourceitemcomponents>

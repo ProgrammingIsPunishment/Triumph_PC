@@ -41,7 +41,7 @@ public class UnitView : MonoBehaviour
             if (unit.Inventory.ResourceItems.Count >= 1)
             {
                 this.unitInventoryView.Couple(unit.Inventory);
-                this.unitInventoryView.Refresh(unit.Inventory, unit.Supply);
+                this.unitInventoryView.Refresh(unit.Inventory, unit);
             }
 
             if (unit.ActionPoints >= 1)

@@ -55,13 +55,19 @@ public class InventoryView : MonoBehaviour
     /// </summary>
     /// <param name="inventory"></param>
     /// <param name="supplies"></param>
-    public void Refresh(Inventory inventory, Supply supplies)
+    public void Refresh(Inventory inventory, Unit unit)
     {
         this.ShowAllSlotsEmpty();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
         {
             InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
-            Attrition tempAttrition = supplies.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+
+            Attrition tempAttrition = null;
+            if (unit.HasPeople())
+            {
+                tempAttrition = unit.Supply.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            }
+            
             workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempAttrition);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
             workingInventorySlotItemView.DraggableItem.SetDraggable(true);

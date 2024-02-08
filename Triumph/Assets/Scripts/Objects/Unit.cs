@@ -102,4 +102,13 @@ public class Unit
     {
         this.ActionPoints = this.ActionPointLimit;
     }
+
+    public bool HasPeople()
+    {
+        bool result = false;
+
+        if (this.People >= 1) { result = true; }
+
+        return result;
+    }
 }

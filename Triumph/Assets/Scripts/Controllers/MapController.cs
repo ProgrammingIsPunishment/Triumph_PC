@@ -180,7 +180,7 @@ public class MapController
     {
         List<Attribute> result = new List<Attribute>();
 
-        result.Add(new Attribute("housing", "Housing", "Provides housing to 20 population", "housing", AttributeType.Housing, 20f));
+        result.Add(new Attribute("housing", "Housing", "Provides housing to 20 population", "housing", AttributeType.Housing, 50f));
 
         return result;
     }
