@@ -82,8 +82,10 @@ public class TurnController
         this.UnitEvents(currentCivilization.Units);
         this.PopulationEvents(Oberkommando.SAVE.AllHoldings);
         this.seasonChangedFlag = false;
+        currentCivilization.ReplenishPoliticalPower();
         Oberkommando.UI_CONTROLLER.MapRefresh(currentCivilization);
         Oberkommando.UI_CONTROLLER.seasonsView.Refresh(Oberkommando.SAVE.Season);
+        Oberkommando.UI_CONTROLLER.politicalPowerView.Refresh(currentCivilization.PoliticalPower);
         //NEED TO DO...do passover of holdings that are not currently fully visible
 
         //Oberkommando.UI_CONTROLLER.ShowDiscoveredHoldings(currentCivilization);

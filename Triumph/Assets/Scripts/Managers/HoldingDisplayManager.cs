@@ -9,6 +9,7 @@ public class HoldingDisplayManager : MonoBehaviour
     [SerializeField] private GameObject unexploredObject;
     [SerializeField] private GameObject selectedObject;
     [SerializeField] private GameObject selectableObject;
+    [SerializeField] private GameObject borderObject;
 
     [NonSerialized] public GameObject terrainObject = null;
     [NonSerialized] public GameObject resourceObject = null;
@@ -43,6 +44,7 @@ public class HoldingDisplayManager : MonoBehaviour
             {
                 this.resourceObject.SetActive(true);
             }
+            //this.borderObject.SetActive(true);
         }
         else
         {
@@ -74,6 +76,11 @@ public class HoldingDisplayManager : MonoBehaviour
     {
         if (isSelected) { this.selectedObject.SetActive(true); }
         else { this.selectedObject.SetActive(false); }
+    }
+
+    public void ShowBorder(bool isBeingShown)
+    {
+        this.borderObject.SetActive(isBeingShown);
     }
 
     public void OnClickEvent()

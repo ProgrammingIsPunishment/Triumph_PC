@@ -22,6 +22,7 @@ public class UnitView : MonoBehaviour
     [SerializeField] private GameObject buildActionButton;
     [SerializeField] private GameObject laborActionButton;
     [SerializeField] private GameObject settleActionButton;
+    [SerializeField] private GameObject claimActionButton;
 
     public void Refresh(Holding holding, Unit unit)
     {
@@ -37,6 +38,7 @@ public class UnitView : MonoBehaviour
             this.buildActionButton.SetActive(false);
             this.laborActionButton.SetActive(false);
             this.settleActionButton.SetActive(false);
+            this.claimActionButton.SetActive(false);
 
             if (unit.Inventory.ResourceItems.Count >= 1)
             {
@@ -66,9 +68,13 @@ public class UnitView : MonoBehaviour
                     this.laborActionButton.SetActive(true);
                 }
 
-                if (holding.Population.People <= 0 && unit.People >= 1)
+                if (holding.Population.People <= 0 && unit.People >= 1 && Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding))
                 {
                     this.settleActionButton.SetActive(true);
+                }
+                if (!Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding) && Oberkommando.SAVE.AllCivilizations[0].HasPoliticalPower())
+                {
+                    this.claimActionButton.SetActive(true);
                 }
             }
 

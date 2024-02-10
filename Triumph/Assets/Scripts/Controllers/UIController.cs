@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
     //Master Views
     [SerializeField] public HoldingView holdingView;
     [SerializeField] public SeasonsView seasonsView;
+    [SerializeField] public PoliticalPowerView politicalPowerView;
 
     public void UpdateUIState(UIState newUIState)
     {
@@ -65,9 +66,18 @@ public class UIController : MonoBehaviour
                 break;
             case UIState.LeaderMove_End:
                 this.ReturnAllToColdStorage();
-                this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
                 this.SelectedDestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
-                this.holdingView.Refresh(this.SelectedDestinationHolding, this.SelectedUnit);
+                Unit unitToPass = this.SelectedUnit;
+                if (this.SelectedDestinationHolding.HasPassableTerrain())
+                {
+                    this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition, this.SelectedDestinationHolding.ZPosition);
+                }
+                else
+                {
+                    unitToPass = null;
+                }
+                //this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
+                this.holdingView.Refresh(this.SelectedDestinationHolding, unitToPass);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
                 this.ResetViews();
                 this.ClearStateAndData();
@@ -144,6 +154,18 @@ public class UIController : MonoBehaviour
                 this.HoldingDetailsData(tempHolding, tempUnit);
                 this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                newUIState = UIState.HoldingDetails_SelectHolding;
+                break;
+            case UIState.LeaderClaim_End:
+                this.SelectedHolding.ClaimTerritory(Oberkommando.SAVE.AllCivilizations[0]);
+                Oberkommando.SAVE.AllCivilizations[0].UsePoliticalPower(1);
+                this.politicalPowerView.Refresh(Oberkommando.SAVE.AllCivilizations[0].PoliticalPower);
+                this.ResetViews();
+                this.ClearStateAndData();
+                this.HoldingDetailsData(tempHolding, tempUnit);
+                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                this.SelectedHolding.HoldingDisplayManager.ShowBorder(true);
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             default:

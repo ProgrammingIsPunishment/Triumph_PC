@@ -108,6 +108,11 @@ public class Holding
         }
     }
 
+    public void ClaimTerritory(Civilization civilization)
+    {
+        civilization.TerritorialHoldings.Add(this);
+    }
+
     public bool HasUnconstructedBuildings()
     {
         bool result = false;
@@ -129,6 +134,20 @@ public class Holding
 
         //NEED TO DO...needs to be more robust as some building take up multiple slots
         if (this.Buildings.Count < 4) { result = true; }
+
+        return result;
+    }
+
+    public bool HasPassableTerrain()
+    {
+        bool result = false;
+
+        switch (this.TerrainType)
+        {
+            case TerrainType.Mountain: result = false; break;
+            case TerrainType.Ocean: result = false; break;
+            default: result = true; break;
+        }
 
         return result;
     }
