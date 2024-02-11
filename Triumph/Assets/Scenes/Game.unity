@@ -15686,6 +15686,7 @@ MonoBehaviour:
   noUnitContainer: {fileID: 1696957564}
   unitTabButtonsContainer: {fileID: 686653979}
   unitInventoryView: {fileID: 1545124509}
+  moveLeaderButton: {fileID: 2250716}
   moveActionButton: {fileID: 2250711}
   gatherActionButton: {fileID: 91041331}
   buildActionButton: {fileID: 1696108530}

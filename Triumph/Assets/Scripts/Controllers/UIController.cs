@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
@@ -23,13 +24,20 @@ public class UIController : MonoBehaviour
     [SerializeField] public PoliticalPowerView politicalPowerView;
 
     public event EventHandler OnNewHoldingClickForSelection;
+    public event EventHandler OnHoldingClickForMovement;
+
+    private Holding selectedHolding = null;
+    private Unit selectedUnit = null;
 
     public void Initialize()
     {
         foreach (Holding h in Oberkommando.SAVE.AllHoldings)
         {
             h.HoldingDisplayManager.OnHoldingClickForSelection += EventHandler_HoldingSelected;
+            h.HoldingDisplayManager.OnHoldingClickForMovement += EventHandler_HoldingClickedForMovement;
         }
+
+        this.holdingView.unitView.moveLeaderButton.OnMoveLeaderButtonClick += EventHandler_MoveLeaderButtonClicked;
     }
 
     private void EventHandler_HoldingSelected(object sender, EventArgs eventArgs)
@@ -37,15 +45,47 @@ public class UIController : MonoBehaviour
         OnNewHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
 
         HoldingDisplayManager holdingDisplayManager = (HoldingDisplayManager)sender;
-        Unit tempUnit = holdingDisplayManager.GetUnitAtThisLocation();
+
+        this.selectedHolding = holdingDisplayManager.holding;
+        this.selectedUnit = holdingDisplayManager.GetUnitAtThisLocation();
 
         this.ReturnAllToColdStorage();
-        this.holdingView.Refresh(holdingDisplayManager.holding, tempUnit);
-        holdingDisplayManager.ShowSelected(true);
+        this.holdingView.Refresh(holdingDisplayManager.holding, this.selectedUnit);
+        this.selectedHolding.HoldingDisplayManager.ShowSelected(true);
 
         this.holdingView.ShowDefaultTab();
         this.holdingView.unitView.ShowDefaultTab();
         this.holdingView.Show();
+    }
+
+    private void EventHandler_HoldingClickedForMovement(object sender, EventArgs eventArgs)
+    {
+        HoldingDisplayManager holdingDisplayManager = (HoldingDisplayManager)sender;
+
+        holdingDisplayManager.holding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
+
+        bool tempUnitMoved = this.selectedUnit.Move(holdingDisplayManager.holding, holdingDisplayManager.holding.XPosition, holdingDisplayManager.holding.ZPosition);
+
+        this.ShowHoldingsWithinRange(false, this.selectedHolding);
+
+        if (tempUnitMoved)
+        {
+            this.selectedHolding.HoldingDisplayManager.ShowSelected(false);
+        }
+        else
+        {
+            this.selectedHolding.HoldingDisplayManager.ShowSelected(false);
+            this.selectedUnit = null;
+        }
+
+        this.selectedHolding = holdingDisplayManager.holding;
+        this.selectedHolding.HoldingDisplayManager.ShowSelected(true);
+        this.holdingView.Refresh(holdingDisplayManager.holding, this.selectedUnit);
+    }
+
+    private void EventHandler_MoveLeaderButtonClicked(object sender, EventArgs eventArgs)
+    {
+        this.ShowHoldingsWithinRange(true, this.selectedHolding);
     }
 
     public void UpdateUIState(UIState newUIState)
@@ -94,14 +134,14 @@ public class UIController : MonoBehaviour
                 this.ReturnAllToColdStorage();
                 this.SelectedDestinationHolding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
                 Unit unitToPass = this.SelectedUnit;
-                if (this.SelectedDestinationHolding.HasPassableTerrain())
-                {
-                    this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition, this.SelectedDestinationHolding.ZPosition);
-                }
-                else
-                {
-                    unitToPass = null;
-                }
+                //if (this.SelectedDestinationHolding.HasPassableTerrain())
+                //{
+                //    this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition, this.SelectedDestinationHolding.ZPosition);
+                //}
+                //else
+                //{
+                //    unitToPass = null;
+                //}
                 //this.SelectedUnit.Move(this.SelectedDestinationHolding.XPosition,this.SelectedDestinationHolding.ZPosition);
                 this.holdingView.Refresh(this.SelectedDestinationHolding, unitToPass);
                 this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);

@@ -18,6 +18,7 @@ public class InitializationController : MonoBehaviour
     {
         Oberkommando.COLDSTORAGE_CONTROLLER.Initialize();
         Oberkommando.UI_CONTROLLER.Initialize();
+        Oberkommando.UI_CONTROLLER.holdingView.unitView.Initialize();
     }
 
     private void InitializeViews()

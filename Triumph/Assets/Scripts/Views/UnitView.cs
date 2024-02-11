@@ -17,12 +17,19 @@ public class UnitView : MonoBehaviour
     [SerializeField] public InventoryView unitInventoryView;
 
     //Action Buttons
-    [SerializeField] private GameObject moveActionButton;
+    [SerializeField] public MoveLeaderButton moveLeaderButton;
+
+    [SerializeField] public GameObject moveActionButton;
     [SerializeField] private GameObject gatherActionButton;
     [SerializeField] private GameObject buildActionButton;
     [SerializeField] private GameObject laborActionButton;
     [SerializeField] private GameObject settleActionButton;
     [SerializeField] private GameObject claimActionButton;
+
+    public void Initialize()
+    {
+
+    }
 
     public void Refresh(Holding holding, Unit unit)
     {

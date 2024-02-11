@@ -23,6 +23,7 @@ public class HoldingDisplayManager : MonoBehaviour
     [NonSerialized] private bool IsSelectableForMovement = false;
 
     public event EventHandler OnHoldingClickForSelection;
+    public event EventHandler OnHoldingClickForMovement;
 
     public void Initialize()
     {
@@ -97,7 +98,14 @@ public class HoldingDisplayManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
+        if (this.IsSelectableForMovement)
+        {
+            OnHoldingClickForMovement?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
+        }
 
 
         //Unit tempUnit = null;

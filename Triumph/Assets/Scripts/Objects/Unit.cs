@@ -32,12 +32,20 @@ public class Unit
         this.People = people;
     }
 
-    public void Move(int xPosition, int zPosition)
+    public bool Move(Holding holding, int xPosition, int zPosition)
     {
-        this.UnitDisplayManager.transform.localPosition = new Vector3(xPosition*10, 0f, zPosition*10);
-        this.XPosition = xPosition;
-        this.ZPosition = zPosition;
-        this.ActionPoints--;
+        bool unitMoved = false;
+
+        if (holding.HasPassableTerrain())
+        {
+            this.UnitDisplayManager.transform.localPosition = new Vector3(xPosition * 10, 0f, zPosition * 10);
+            this.XPosition = xPosition;
+            this.ZPosition = zPosition;
+            this.ActionPoints--;
+            unitMoved = true;
+        }
+
+        return unitMoved;
     }
 
     public void Gather(ResourceItem gatheredResourceItem)
