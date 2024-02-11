@@ -22,6 +22,18 @@ public class HoldingDisplayManager : MonoBehaviour
 
     [NonSerialized] private bool IsSelectableForMovement = false;
 
+    public event EventHandler OnHoldingClickForSelection;
+
+    public void Initialize()
+    {
+        Oberkommando.UI_CONTROLLER.OnNewHoldingClickForSelection += EventHandler_NewHoldingClickForSelection;
+    }
+
+    private void EventHandler_NewHoldingClickForSelection(object sender, EventArgs eventArgs)
+    {
+        this.ShowSelected(false);
+    }
+
     public void Couple(Holding holdingToCouple)
     {
         this.holding = holdingToCouple;
@@ -85,26 +97,29 @@ public class HoldingDisplayManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        Unit tempUnit = null;
+        OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
 
-        switch (Oberkommando.UI_CONTROLLER.CurrentUIState())
-        {
-            case UIState.HoldingDetails_SelectHolding:
-                tempUnit = this.GetUnitAtThisLocation();
-                Oberkommando.UI_CONTROLLER.HoldingDetailsData(this.holding,tempUnit);
-                Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_SelectHolding);
-                break;
-            case UIState.LeaderMove_SelectHolding:
-                if (this.IsSelectableForMovement)
-                {
-                    Oberkommando.UI_CONTROLLER.LeaderMoveData(this.holding);
-                    Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_End);
-                }
-                break;
-            default: 
-                /*Do nothing...*/ 
-                break;
-        }
+
+        //Unit tempUnit = null;
+
+        //switch (Oberkommando.UI_CONTROLLER.CurrentUIState())
+        //{
+        //    case UIState.HoldingDetails_SelectHolding:
+        //        tempUnit = this.GetUnitAtThisLocation();
+        //        Oberkommando.UI_CONTROLLER.HoldingDetailsData(this.holding,tempUnit);
+        //        Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.HoldingDetails_SelectHolding);
+        //        break;
+        //    case UIState.LeaderMove_SelectHolding:
+        //        if (this.IsSelectableForMovement)
+        //        {
+        //            Oberkommando.UI_CONTROLLER.LeaderMoveData(this.holding);
+        //            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_End);
+        //        }
+        //        break;
+        //    default: 
+        //        /*Do nothing...*/ 
+        //        break;
+        //}
     }
 
     public void UpdateBuildingModel(int lot, GameObject modelObject)
@@ -130,7 +145,7 @@ public class HoldingDisplayManager : MonoBehaviour
         }
     }
 
-    private Unit GetUnitAtThisLocation()
+    public Unit GetUnitAtThisLocation()
     {
         Unit result = Oberkommando.SAVE.AllUnits.Find(u => u.XPosition == this.holding.XPosition && u.ZPosition == this.holding.ZPosition);
 

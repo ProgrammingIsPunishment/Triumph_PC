@@ -17,6 +17,7 @@ public class InitializationController : MonoBehaviour
     public void InitializeControllers()
     {
         Oberkommando.COLDSTORAGE_CONTROLLER.Initialize();
+        Oberkommando.UI_CONTROLLER.Initialize();
     }
 
     private void InitializeViews()
@@ -77,9 +78,9 @@ public class InitializationController : MonoBehaviour
     {
         //Order very important
         this.AssignControllers();
+        this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeControllers();
         this.InitializeViews();
-        this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
         this.InitializeEffects(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();

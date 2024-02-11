@@ -22,6 +22,32 @@ public class UIController : MonoBehaviour
     [SerializeField] public SeasonsView seasonsView;
     [SerializeField] public PoliticalPowerView politicalPowerView;
 
+    public event EventHandler OnNewHoldingClickForSelection;
+
+    public void Initialize()
+    {
+        foreach (Holding h in Oberkommando.SAVE.AllHoldings)
+        {
+            h.HoldingDisplayManager.OnHoldingClickForSelection += EventHandler_HoldingSelected;
+        }
+    }
+
+    private void EventHandler_HoldingSelected(object sender, EventArgs eventArgs)
+    {
+        OnNewHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
+
+        HoldingDisplayManager holdingDisplayManager = (HoldingDisplayManager)sender;
+        Unit tempUnit = holdingDisplayManager.GetUnitAtThisLocation();
+
+        this.ReturnAllToColdStorage();
+        this.holdingView.Refresh(holdingDisplayManager.holding, tempUnit);
+        holdingDisplayManager.ShowSelected(true);
+
+        this.holdingView.ShowDefaultTab();
+        this.holdingView.unitView.ShowDefaultTab();
+        this.holdingView.Show();
+    }
+
     public void UpdateUIState(UIState newUIState)
     {
         Holding tempDestinationHolding = this.SelectedDestinationHolding;

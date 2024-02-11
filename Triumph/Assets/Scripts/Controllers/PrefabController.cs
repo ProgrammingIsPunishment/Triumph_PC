@@ -14,6 +14,7 @@ public class PrefabController : MonoBehaviour
         tempHoldingObject.GetComponent<HoldingDisplayManager>().Couple(holding);
         tempHoldingObject.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
 
+        holding.HoldingDisplayManager.Initialize();
         holding.HoldingDisplayManager.Show(false);
         //tempHoldingObject.(false);
     }
