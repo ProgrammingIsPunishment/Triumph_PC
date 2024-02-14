@@ -26,6 +26,8 @@ public class HoldingView : MonoBehaviour
     [SerializeField] private HoldingDetailsTabButton populationTabButton;
     [SerializeField] private HoldingDetailsTabButton storageTabButton;
 
+    [SerializeField] public CloseHoldingViewButton closeHoldingViewButton;
+
     public void Refresh(Holding holding, Unit unit)
     {
         this.holdingNameInput.text = holding.DisplayName;

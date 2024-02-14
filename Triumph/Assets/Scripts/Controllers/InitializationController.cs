@@ -30,6 +30,14 @@ public class InitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.holdingView.populationTab.Initialize();
 
         Oberkommando.UI_CONTROLLER.holdingView.unitView.unitInventoryView.Initialize();
+
+        Oberkommando.UI_CONTROLLER.buildingSelectionView.Initialize();
+    }
+
+    private void DisplayDefaultViews()
+    {
+        Oberkommando.UI_CONTROLLER.holdingView.Hide();
+        Oberkommando.UI_CONTROLLER.buildingSelectionView.Display(false);
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)
@@ -80,8 +88,9 @@ public class InitializationController : MonoBehaviour
         //Order very important
         this.AssignControllers();
         this.InitializeHoldingModels(Oberkommando.SAVE.AllHoldings);
-        this.InitializeControllers();
         this.InitializeViews();
+        this.InitializeControllers();
+        this.DisplayDefaultViews();
         this.InitializeUnitModels(Oberkommando.SAVE.AllUnits);
         this.InitializeEffects(Oberkommando.SAVE.AllHoldings);
         //Oberkommando.CAMERA_MANAGER.CenterCameraOnHolding();

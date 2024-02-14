@@ -10,6 +10,5 @@ public class MoveLeaderButton : MonoBehaviour
     public void OnClickEvent()
     {
         OnMoveLeaderButtonClick?.Invoke(this, EventArgs.Empty);
-        //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderMove_SelectHolding);
     }
 }

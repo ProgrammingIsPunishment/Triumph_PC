@@ -20,6 +20,8 @@ public class BuildingSlotView : MonoBehaviour
     [NonSerialized] private bool IsSelectableForImprovement = false;
     [NonSerialized] private bool IsSelectableForLabor = false;
 
+    public event EventHandler OnBuildingSlotButtonClick;
+
     public void Couple(Building building)
     {
         this.building = building;
@@ -137,15 +139,16 @@ public class BuildingSlotView : MonoBehaviour
     {
         if (this.IsSelectableForImprovement)
         {
+            OnBuildingSlotButtonClick?.Invoke(this, EventArgs.Empty);
             //NEED TO DO...allow selection of building
-            Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);
-            Oberkommando.UI_CONTROLLER.LeaderBuildData(this.lot, tempBuilding);
-            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderBuild_End);
+            //Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);
+            //Oberkommando.UI_CONTROLLER.LeaderBuildData(this.lot, tempBuilding);
+            //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderBuild_End);
         }
         else if (this.IsSelectableForLabor)
         {
-            Oberkommando.UI_CONTROLLER.LeaderLaborData(this.building);
-            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderLabor_End);
+            //Oberkommando.UI_CONTROLLER.LeaderLaborData(this.building);
+            //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderLabor_End);
         }
     }
 }

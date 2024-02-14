@@ -18,6 +18,8 @@ public class UnitView : MonoBehaviour
 
     //Action Buttons
     [SerializeField] public MoveLeaderButton moveLeaderButton;
+    [SerializeField] public ClaimLeaderButton claimLeaderButton;
+    [SerializeField] public BuildLeaderButton buildLeaderButton;
 
     [SerializeField] public GameObject moveActionButton;
     [SerializeField] private GameObject gatherActionButton;

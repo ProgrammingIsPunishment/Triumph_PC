@@ -22,12 +22,14 @@ public class UIController : MonoBehaviour
     [SerializeField] public HoldingView holdingView;
     [SerializeField] public SeasonsView seasonsView;
     [SerializeField] public PoliticalPowerView politicalPowerView;
-
-    public event EventHandler OnNewHoldingClickForSelection;
-    public event EventHandler OnHoldingClickForMovement;
+    [SerializeField] public BuildingSelectionView buildingSelectionView;
 
     private Holding selectedHolding = null;
     private Unit selectedUnit = null;
+
+    public event EventHandler OnNewHoldingClickForSelection;
+    public event EventHandler OnHoldingClickForMovement;
+    public event EventHandler OnBuildingSlotClickForBuild;
 
     public void Initialize()
     {
@@ -37,7 +39,16 @@ public class UIController : MonoBehaviour
             h.HoldingDisplayManager.OnHoldingClickForMovement += EventHandler_HoldingClickedForMovement;
         }
 
+        foreach (BuildingSlotView bsv in this.holdingView.improvementsTab.BuildingSlotViews)
+        {
+            bsv.OnBuildingSlotButtonClick += EventHandler_BuildingSlotClickedForBuild;
+        }
+
+        this.holdingView.closeHoldingViewButton.OnHoldingViewCloseEvent += EventHandler_HoldingViewCloseClicked;
+
         this.holdingView.unitView.moveLeaderButton.OnMoveLeaderButtonClick += EventHandler_MoveLeaderButtonClicked;
+        this.holdingView.unitView.claimLeaderButton.OnClaimLeaderButtonClick += EventHandler_ClaimLeaderButtonClicked;
+        this.holdingView.unitView.buildLeaderButton.OnBuildLeaderButtonClick += EventHandler_BuildLeaderButtonClicked;
     }
 
     private void EventHandler_HoldingSelected(object sender, EventArgs eventArgs)
@@ -86,6 +97,44 @@ public class UIController : MonoBehaviour
     private void EventHandler_MoveLeaderButtonClicked(object sender, EventArgs eventArgs)
     {
         this.ShowHoldingsWithinRange(true, this.selectedHolding);
+    }
+
+    private void EventHandler_ClaimLeaderButtonClicked(object sender, EventArgs eventArgs)
+    {
+        this.selectedHolding.ClaimTerritory(Oberkommando.SAVE.AllCivilizations[0]);
+        Oberkommando.SAVE.AllCivilizations[0].UsePoliticalPower(1);
+
+        this.politicalPowerView.Refresh(Oberkommando.SAVE.AllCivilizations[0].PoliticalPower);
+        this.holdingView.Refresh(this.selectedHolding, this.selectedUnit);
+
+        this.selectedHolding.HoldingDisplayManager.ShowSelected(true);
+        this.selectedHolding.HoldingDisplayManager.ShowBorder(true);
+    }
+
+    private void EventHandler_HoldingViewCloseClicked(object sender, EventArgs eventArgs)
+    {
+        this.holdingView.Hide();
+        this.buildingSelectionView.Display(false);
+        this.ShowHoldingsWithinRange(false,this.selectedHolding);
+        this.selectedHolding.HoldingDisplayManager.ShowSelected(false);
+
+        this.selectedHolding = null;
+        this.selectedUnit = null;
+    }
+
+    private void EventHandler_BuildLeaderButtonClicked(object sender, EventArgs eventArgs)
+    {
+        this.holdingView.SwitchTab(HoldingDetailsTabType.Improvements);
+        this.holdingView.improvementsTab.ShowImprovableLots(true);
+
+        //this.buildingSelectionView.Display(true);
+        //this.buildingSelectionView.Refresh(Oberkommando.SAVE.AllBuildings);
+    }
+
+    private void EventHandler_BuildingSlotClickedForBuild(object sender, EventArgs eventArgs)
+    {
+        this.buildingSelectionView.Display(true);
+        this.buildingSelectionView.Refresh(Oberkommando.SAVE.AllBuildings);
     }
 
     public void UpdateUIState(UIState newUIState)
