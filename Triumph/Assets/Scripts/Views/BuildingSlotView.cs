@@ -139,6 +139,7 @@ public class BuildingSlotView : MonoBehaviour
     {
         if (this.IsSelectableForImprovement)
         {
+            Oberkommando.SELECTED_LOT = this.lot;
             OnBuildingSlotButtonClick?.Invoke(this, EventArgs.Empty);
             //NEED TO DO...allow selection of building
             //Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);

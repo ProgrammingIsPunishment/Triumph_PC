@@ -32,4 +32,6 @@ public class BuildingSelectionView : MonoBehaviour
     {
         this.buildingScrollOptionButtons = this.GetComponentsInChildren<BuildingScrollOptionButton>().ToList();
     }
+
+
 }

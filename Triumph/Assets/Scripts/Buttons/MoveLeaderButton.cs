@@ -9,6 +9,7 @@ public class MoveLeaderButton : MonoBehaviour
 
     public void OnClickEvent()
     {
-        OnMoveLeaderButtonClick?.Invoke(this, EventArgs.Empty);
+        Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.DisplayHoldingsWithinRange(true);
+        //OnMoveLeaderButtonClick?.Invoke(this, EventArgs.Empty);
     }
 }

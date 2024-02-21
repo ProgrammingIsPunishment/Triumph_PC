@@ -100,10 +100,33 @@ public class HoldingDisplayManager : MonoBehaviour
     {
         if (this.IsSelectableForMovement)
         {
-            OnHoldingClickForMovement?.Invoke(this, EventArgs.Empty);
+            this.holding.UpdateVisibility(Oberkommando.SAVE.AllCivilizations[0]);
+
+            bool tempUnitMoved = Oberkommando.SELECTED_UNIT.Move(this.holding, this.holding.XPosition, this.holding.ZPosition);
+
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.DisplayHoldingsWithinRange(false);
+
+            if (tempUnitMoved)
+            {
+                Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);
+            }
+            else
+            {
+                Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);
+                Oberkommando.SELECTED_UNIT = null;
+            }
+
+            Oberkommando.SELECTED_HOLDING = this.holding;
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(true);
+            Oberkommando.UI_CONTROLLER.holdingView.Refresh(Oberkommando.SELECTED_HOLDING, Oberkommando.SELECTED_UNIT);
+
+            //OnHoldingClickForMovement?.Invoke(this, EventArgs.Empty);
         }
         else
         {
+            Oberkommando.SELECTED_HOLDING = this.holding;
+            Oberkommando.SELECTED_UNIT = this.GetUnitAtThisLocation();
+
             OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
         }
 
@@ -128,6 +151,24 @@ public class HoldingDisplayManager : MonoBehaviour
         //        /*Do nothing...*/ 
         //        break;
         //}
+    }
+
+    public void DisplayHoldingsWithinRange(bool isBeingShown)
+    {
+        if (isBeingShown)
+        {
+            foreach (Holding h in this.holding.AdjacentHoldings)
+            {
+                h.HoldingDisplayManager.ShowSelectable(true);
+            }
+        }
+        else
+        {
+            foreach (Holding h in this.holding.AdjacentHoldings)
+            {
+                h.HoldingDisplayManager.ShowSelectable(false);
+            }
+        }
     }
 
     public void UpdateBuildingModel(int lot, GameObject modelObject)

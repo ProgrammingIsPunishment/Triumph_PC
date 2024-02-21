@@ -24,8 +24,8 @@ public class UIController : MonoBehaviour
     [SerializeField] public PoliticalPowerView politicalPowerView;
     [SerializeField] public BuildingSelectionView buildingSelectionView;
 
-    private Holding selectedHolding = null;
-    private Unit selectedUnit = null;
+    public Holding selectedHolding = null;
+    public Unit selectedUnit = null;
 
     public event EventHandler OnNewHoldingClickForSelection;
     public event EventHandler OnHoldingClickForMovement;
@@ -432,6 +432,14 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void HideAllSelections()
+    {
+        if (Oberkommando.SELECTED_HOLDING != null)
+        {
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.DisplayHoldingsWithinRange(false);
+        }
+    }
 
     private void ShowHoldingsWithinRange(bool isBeingShown, Holding holding)
     {

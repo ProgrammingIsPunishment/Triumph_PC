@@ -18,4 +18,15 @@ public static class Oberkommando
     public static CameraManager CAMERA_MANAGER;
 
     public static Save SAVE;
+
+    public static Holding SELECTED_HOLDING = null;
+    public static Unit SELECTED_UNIT = null;
+    public static int SELECTED_LOT = 0;
+
+    public static void ClearSelections()
+    {
+        SELECTED_HOLDING = null;
+        SELECTED_UNIT = null;
+        SELECTED_LOT = 0;
+    }
 }
