@@ -27,7 +27,7 @@ public class HoldingDisplayManager : MonoBehaviour
 
     public void Initialize()
     {
-        Oberkommando.UI_CONTROLLER.OnNewHoldingClickForSelection += EventHandler_NewHoldingClickForSelection;
+        //Oberkommando.UI_CONTROLLER.OnNewHoldingClickForSelection += EventHandler_NewHoldingClickForSelection;
     }
 
     private void EventHandler_NewHoldingClickForSelection(object sender, EventArgs eventArgs)
@@ -124,10 +124,20 @@ public class HoldingDisplayManager : MonoBehaviour
         }
         else
         {
+            if (Oberkommando.SELECTED_HOLDING != null)
+            {
+                Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);
+            }
+
             Oberkommando.SELECTED_HOLDING = this.holding;
             Oberkommando.SELECTED_UNIT = this.GetUnitAtThisLocation();
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(true);
+            Oberkommando.UI_CONTROLLER.holdingView.Refresh(Oberkommando.SELECTED_HOLDING, Oberkommando.SELECTED_UNIT);
+            Oberkommando.UI_CONTROLLER.holdingView.ShowDefaultTab();
+            Oberkommando.UI_CONTROLLER.holdingView.unitView.ShowDefaultTab();
+            Oberkommando.UI_CONTROLLER.holdingView.Show();
 
-            OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
+            //OnHoldingClickForSelection?.Invoke(this, EventArgs.Empty);
         }
 
 

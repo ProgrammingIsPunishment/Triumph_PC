@@ -9,6 +9,10 @@ public class CloseHoldingViewButton : MonoBehaviour
 
     public void OnClickEvent()
     {
-        OnHoldingViewCloseEvent?.Invoke(this, EventArgs.Empty);
+        //OnHoldingViewCloseEvent?.Invoke(this, EventArgs.Empty);
+        Oberkommando.UI_CONTROLLER.HideAllSelections();
+        Oberkommando.UI_CONTROLLER.holdingView.Display(false);
+
+        Oberkommando.ClearSelections();
     }
 }

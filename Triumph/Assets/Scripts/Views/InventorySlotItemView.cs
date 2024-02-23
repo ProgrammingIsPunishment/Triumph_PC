@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class InventorySlotItemView : MonoBehaviour
 {
@@ -132,8 +133,16 @@ public class InventorySlotItemView : MonoBehaviour
     {
         if (this.IsSelectableForGather)
         {
-            Oberkommando.UI_CONTROLLER.LeaderGatherData(this.resourceItem);
-            Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderGather_End);
+            //Oberkommando.UI_CONTROLLER.LeaderGatherData(this.resourceItem);
+            //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderGather_End);
+
+            //this.ReturnAllToColdStorage();
+            Oberkommando.SELECTED_UNIT.Gather(this.resourceItem);
+            //this.ResetViews();
+            //this.ClearStateAndData();
+            //this.HoldingDetailsData(tempHolding, tempUnit);
+            Oberkommando.UI_CONTROLLER.holdingView.Refresh(Oberkommando.SELECTED_HOLDING, Oberkommando.SELECTED_UNIT);
+            //Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(true);
         }
     }
 }

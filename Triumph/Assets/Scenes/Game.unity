@@ -7751,10 +7751,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 753830373}
+  - component: {fileID: 753830378}
   - component: {fileID: 753830377}
   - component: {fileID: 753830376}
   - component: {fileID: 753830375}
-  - component: {fileID: 753830374}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -7782,18 +7782,6 @@ RectTransform:
   m_AnchoredPosition: {x: -14, y: -14}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &753830374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753830372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268534f98f2607447aae607c3a3660fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &753830375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7838,9 +7826,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 753830374}
-        m_TargetAssemblyTypeName: CloseHoldingDetailsButton, Assembly-CSharp
-        m_MethodName: ClickEvent
+      - m_Target: {fileID: 753830378}
+        m_TargetAssemblyTypeName: CloseBuildingSelectionView, Assembly-CSharp
+        m_MethodName: OnClickEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7888,6 +7876,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753830372}
   m_CullTransparentMesh: 1
+--- !u!114 &753830378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753830372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610264aab787ef54a916739812da44b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &773225853
 GameObject:
   m_ObjectHideFlags: 0

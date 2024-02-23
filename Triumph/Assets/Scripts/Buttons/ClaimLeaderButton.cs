@@ -9,6 +9,13 @@ public class ClaimLeaderButton : MonoBehaviour
 
     public void OnClickEvent()
     {
-        OnClaimLeaderButtonClick?.Invoke(this, EventArgs.Empty);
+        Oberkommando.SELECTED_HOLDING.ClaimTerritory(Oberkommando.SAVE.AllCivilizations[0]);
+        Oberkommando.SAVE.AllCivilizations[0].UsePoliticalPower(1);
+
+        Oberkommando.UI_CONTROLLER.politicalPowerView.Refresh(Oberkommando.SAVE.AllCivilizations[0].PoliticalPower);
+        Oberkommando.UI_CONTROLLER.holdingView.Refresh(Oberkommando.SELECTED_HOLDING, Oberkommando.SELECTED_UNIT);
+
+        Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(true);
+        Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowBorder(true);
     }
 }

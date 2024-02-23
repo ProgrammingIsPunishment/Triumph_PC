@@ -30,6 +30,8 @@ public class HoldingView : MonoBehaviour
 
     public void Refresh(Holding holding, Unit unit)
     {
+        Oberkommando.COLDSTORAGE_CONTROLLER.ReturnAllInventoryItemViews();
+
         this.holdingNameInput.text = holding.DisplayName;
 
         //Views
@@ -114,5 +116,18 @@ public class HoldingView : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void Display(bool isBeingShown)
+    {
+        if (isBeingShown)
+        {
+            this.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
+            this.improvementsTab.ShowImprovableLots(false);
+        }
     }
 }

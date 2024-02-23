@@ -10,6 +10,7 @@ public class BuildingSlotView : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private Image emptyImage;
+    [SerializeField] private Image addImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private GameObject constructionOverlayObject;
     [SerializeField] private TextMeshProUGUI turnsText;
@@ -116,10 +117,12 @@ public class BuildingSlotView : MonoBehaviour
         if (isSelectable)
         {
             this.IsSelectableForImprovement = true;
+            this.addImage.gameObject.SetActive(true);
         }
         else
         {
             this.IsSelectableForImprovement = false;
+            this.addImage.gameObject.SetActive(false);
         }
     }
 
