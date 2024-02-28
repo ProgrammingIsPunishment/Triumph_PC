@@ -61,7 +61,7 @@ public class MapController
         workingInfluencialPeople.AddRange(this.ConvertToInfluentialPeople(allInfluentialPeopleElements));
 
         //Loop through all buildings
-        workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements, workingAttributes));
+        workingBuildings.AddRange(this.ConvertToBuildings(allBuildingElements, workingAttributes, workingResourceItems));
 
         //Loop through all the goods templates
         workingGoodsTemplates.AddRange(this.ConvertToGoodsTemplates(allGoodsTemplatess));
@@ -464,7 +464,7 @@ public class MapController
         return result;
     }
 
-    private List<Building> ConvertToBuildings(IEnumerable<XElement> buildingElements, List<Attribute> allAttributes)
+    private List<Building> ConvertToBuildings(IEnumerable<XElement> buildingElements, List<Attribute> allAttributes, List<ResourceItem> allResourceItems)
     {
         List<Building> result = new List<Building>();
 
@@ -480,12 +480,16 @@ public class MapController
             //loop through resource item components
             var allComponents = b.Elements("resourceitemcomponents").Elements("resourceitemcomponent");
             List<Tuple<string, int>> resourceItemComponents = new List<Tuple<string, int>>();
+            List<Tuple<ResourceItem, int>> resourceItems = new List<Tuple<ResourceItem, int>>();
             foreach (var ric in allComponents)
             {
                 string ricGuid = (string)ric.Attribute("guid").Value;
                 int amount = int.Parse(ric.Attribute("amount").Value);
 
                 resourceItemComponents.Add(new Tuple<string, int>(ricGuid, amount));
+
+                ResourceItem resourceItem = allResourceItems.Find(ri=>ri.GUID == ricGuid);
+                resourceItems.Add(new Tuple<ResourceItem, int>(resourceItem, amount));
             }
 
             //loop through attributes
@@ -500,7 +504,7 @@ public class MapController
             }
 
             //Generate building construction
-            Construction workingConstruction = new Construction(resourceItemComponents);
+            Construction workingConstruction = new Construction(resourceItemComponents, resourceItems);
 
             result.Add(new Building(guid, displayName, layoutSize, iconFileName, modelFileName, workingConstruction, workingAttributes));
         }

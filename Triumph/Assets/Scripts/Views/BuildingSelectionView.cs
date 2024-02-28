@@ -31,6 +31,10 @@ public class BuildingSelectionView : MonoBehaviour
     public void Initialize()
     {
         this.buildingScrollOptionButtons = this.GetComponentsInChildren<BuildingScrollOptionButton>().ToList();
+        foreach (BuildingScrollOptionButton bsob in this.buildingScrollOptionButtons)
+        {
+            bsob.Initialize();
+        }
     }
 
 

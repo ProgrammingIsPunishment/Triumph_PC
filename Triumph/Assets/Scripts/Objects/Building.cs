@@ -31,7 +31,7 @@ public class Building
 
     public Building CreateInstance(int lot)
     {
-        Construction tempConstruction = new Construction(this.Construction.RequiredComponents);
+        Construction tempConstruction = new Construction(this.Construction.RequiredComponents,this.Construction.RequiredResources);
         Building tempBuilding = new Building(this.GUID, this.DisplayName, this.LayoutSize, this.IconFileName, this.ModelFileName, tempConstruction, this.Attributes);
         tempBuilding.Lot = lot;
         return tempBuilding;

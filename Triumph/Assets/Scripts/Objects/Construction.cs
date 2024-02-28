@@ -9,10 +9,12 @@ public class Construction
     public int TurnsLeft { get; set; }
     public List<Tuple<string, int>> RequiredComponents { get; set; }
     public List<Tuple<string, int>> CurrentComponents { get; set; }
+    public List<Tuple<ResourceItem, int>> RequiredResources { get; set; }
 
-    public Construction(List<Tuple<string, int>> requiredComponents)
+    public Construction(List<Tuple<string, int>> requiredComponents, List<Tuple<ResourceItem, int>> requiredResources)
     {
         this.RequiredComponents = requiredComponents;
+        this.RequiredResources = requiredResources;
         this.CurrentComponents = new List<Tuple<string, int>>();
         this.IsCompleted = false;
         this.TurnsLeft = 0;
