@@ -309,16 +309,23 @@ public class UIController : MonoBehaviour
         this.SelectedBuildingForLabor = null;
     }
 
-    private void ResetViews()
+    public void ResetViews()
     {
-        if (this.SelectedHolding != null)
+        if (Oberkommando.SELECTED_HOLDING != null)
         {
-            this.SelectedHolding.HoldingDisplayManager.ShowSelected(false);
-            this.ShowHoldingsWithinRange(false, this.SelectedHolding);
-            this.holdingView.naturalResourcesTab.ShowGatherableResources(false);
-            this.holdingView.improvementsTab.ShowImprovableLots(false);
-            this.holdingView.improvementsTab.ShowNeededLabor(false);
+            //Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.DisplayHoldingsWithinRange(false);
+
+            //this.holdingView.naturalResourcesTab.ShowGatherableResources(false);
+            //this.holdingView.improvementsTab.ShowImprovableLots(false);
+            //this.holdingView.improvementsTab.ShowNeededLabor(false);
+            //this.buildingSelectionView.Display(false);
         }
+
+        this.holdingView.naturalResourcesTab.ShowGatherableResources(false);
+        this.holdingView.improvementsTab.ShowImprovableLots(false);
+        this.holdingView.improvementsTab.ShowNeededLabor(false);
+        this.buildingSelectionView.Display(false);
     }
 
     private void ReturnAllToColdStorage()

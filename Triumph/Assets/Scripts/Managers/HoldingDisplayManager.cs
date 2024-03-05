@@ -124,6 +124,8 @@ public class HoldingDisplayManager : MonoBehaviour
         }
         else
         {
+            Oberkommando.UI_CONTROLLER.ResetViews();
+
             if (Oberkommando.SELECTED_HOLDING != null)
             {
                 Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(false);

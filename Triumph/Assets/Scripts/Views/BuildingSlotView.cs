@@ -143,7 +143,9 @@ public class BuildingSlotView : MonoBehaviour
         if (this.IsSelectableForImprovement)
         {
             Oberkommando.SELECTED_LOT = this.lot;
-            OnBuildingSlotButtonClick?.Invoke(this, EventArgs.Empty);
+            Oberkommando.UI_CONTROLLER.buildingSelectionView.Display(true);
+            Oberkommando.UI_CONTROLLER.buildingSelectionView.Refresh(Oberkommando.SAVE.AllBuildings);
+            //OnBuildingSlotButtonClick?.Invoke(this, EventArgs.Empty);
             //NEED TO DO...allow selection of building
             //Building tempBuilding = Oberkommando.SAVE.AllBuildings.First(b => b.GUID == "hut").CreateInstance(this.lot);
             //Oberkommando.UI_CONTROLLER.LeaderBuildData(this.lot, tempBuilding);
@@ -153,6 +155,18 @@ public class BuildingSlotView : MonoBehaviour
         {
             //Oberkommando.UI_CONTROLLER.LeaderLaborData(this.building);
             //Oberkommando.UI_CONTROLLER.UpdateUIState(UIState.LeaderLabor_End);
+            this.building.Construction.Labor();
+            if (this.building.Construction.IsCompleted)
+            {
+                Oberkommando.PREFAB_CONTROLLER.InstantiateBuildingModel(Oberkommando.SELECTED_HOLDING, this.building);
+            }
+            Oberkommando.SELECTED_UNIT.Labor();
+            //this.ResetViews();
+            //this.ClearStateAndData();
+            //this.HoldingDetailsData(tempHolding, tempUnit);
+            Oberkommando.UI_CONTROLLER.ResetViews();
+            Oberkommando.SELECTED_HOLDING.HoldingDisplayManager.ShowSelected(true);
+            Oberkommando.UI_CONTROLLER.holdingView.Refresh(Oberkommando.SELECTED_HOLDING, Oberkommando.SELECTED_UNIT);
         }
     }
 }

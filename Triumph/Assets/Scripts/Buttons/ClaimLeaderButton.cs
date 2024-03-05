@@ -9,6 +9,7 @@ public class ClaimLeaderButton : MonoBehaviour
 
     public void OnClickEvent()
     {
+        Oberkommando.UI_CONTROLLER.ResetViews();
         Oberkommando.SELECTED_HOLDING.ClaimTerritory(Oberkommando.SAVE.AllCivilizations[0]);
         Oberkommando.SAVE.AllCivilizations[0].UsePoliticalPower(1);
 
