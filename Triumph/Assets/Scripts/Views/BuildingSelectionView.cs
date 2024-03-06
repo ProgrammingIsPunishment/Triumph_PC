@@ -14,7 +14,14 @@ public class BuildingSelectionView : MonoBehaviour
             if (i < buildings.Count)
             {
                 this.buildingScrollOptionButtons[i].Couple(buildings[i]);
-                this.buildingScrollOptionButtons[i].Display(true);
+                if (Oberkommando.SELECTED_UNIT.HasRequiredResources(buildings[i].Construction.RequiredResources))
+                {
+                    this.buildingScrollOptionButtons[i].Display(true);
+                }
+                else
+                {
+                    this.buildingScrollOptionButtons[i].Display(false);
+                }
             }
             else
             {

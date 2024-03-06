@@ -5321,6 +5321,21 @@ PrefabInstance:
       propertyPath: m_Interactable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 21374070760752803, guid: 0f79d15b7ac271840bba0dc6d01158ee,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21374070760752803, guid: 0f79d15b7ac271840bba0dc6d01158ee,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21374070760752803, guid: 0f79d15b7ac271840bba0dc6d01158ee,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 127216701245417994, guid: 0f79d15b7ac271840bba0dc6d01158ee,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5545,6 +5560,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuildingScrollOption (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438638545103622768, guid: 0f79d15b7ac271840bba0dc6d01158ee,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3886858584579433882, guid: 0f79d15b7ac271840bba0dc6d01158ee,
         type: 3}

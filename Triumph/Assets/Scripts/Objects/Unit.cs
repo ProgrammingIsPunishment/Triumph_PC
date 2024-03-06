@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -116,6 +117,35 @@ public class Unit
         bool result = false;
 
         if (this.People >= 1) { result = true; }
+
+        return result;
+    }
+
+    public bool HasRequiredResources(List<Tuple<ResourceItem,int>> requiredResources)
+    {
+        bool result = true;
+
+        List<ResourceItem> unitResourceItems = this.Inventory.ResourceItems;
+
+        for (int i = 0; i < requiredResources.Count; i++)
+        {
+            ResourceItem tempRequiredResourceItem = requiredResources[i].Item1;
+            int tempRequiredResourceAmount = requiredResources[i].Item2;
+
+            List<ResourceItem> tempUnitResourceItems = unitResourceItems.Where(ri => ri.GUID == tempRequiredResourceItem.GUID).ToList();
+
+            if (tempUnitResourceItems.Count >= 1)
+            {
+                if (tempUnitResourceItems[0].Amount < tempRequiredResourceAmount)
+                {
+                    result = false;
+                }
+            }
+            else
+            {
+                result = false;
+            }
+        }
 
         return result;
     }
