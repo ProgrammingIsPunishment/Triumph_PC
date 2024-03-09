@@ -59,7 +59,7 @@ public class Inventory
     /// <param name="guid"></param>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public bool HasGood(string guid, int amount)
+    public bool HasResource(string guid, int amount)
     {
         bool result = false;
 

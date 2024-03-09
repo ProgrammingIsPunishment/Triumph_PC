@@ -21,7 +21,7 @@ public class TurnController
     {
         foreach (Unit u in units)
         {
-            u.CalculateAttrition();
+            u.ProcessAttrition();
             u.Recover();
         }
     }

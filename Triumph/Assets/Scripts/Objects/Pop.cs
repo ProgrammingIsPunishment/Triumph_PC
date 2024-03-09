@@ -36,7 +36,7 @@ public class Pop
 
         foreach (Good g in this.GoodsTemplate.Goods)
         {
-            if (inventory.HasGood(g.ResourceItemGUID, g.RequiredAmount))
+            if (inventory.HasResource(g.ResourceItemGUID, g.RequiredAmount))
             {
                 //Able to consume good
                 inventory.RemoveResourceItem(g.ResourceItemGUID, g.RequiredAmount);

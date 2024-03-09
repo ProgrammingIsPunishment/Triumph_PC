@@ -76,36 +76,64 @@ public class Unit
         this.Population.Pops.Clear();
     }
 
-    public void CalculateAttrition()
+    public void ProcessAttrition()
     {
-        foreach (Attrition a in this.Supply.Attritions)
+        if (this.Population.Pops.Count >= 1)
         {
-            if (this.Population.Pops.Count > 0)
+            foreach (Attrition a in this.Supply.Attritions) 
             {
                 ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
-
                 if (tempResourceItem != null)
                 {
-                    int totalPerTurnConsumption = a.PerTurnConsumption * this.Population.Pops.Count;
-                    if (tempResourceItem.Amount >= totalPerTurnConsumption)
+                    int totalConsumption = a.PerTurnConsumption * this.Population.Pops.Count;
+
+                    if (this.Inventory.HasResource(tempResourceItem.GUID, totalConsumption))
                     {
-                        //There is enouch to increase the attrition
-                        tempResourceItem.Consume(totalPerTurnConsumption);
-                        a.Increase();
+                        //Able to consume good
+                        this.Inventory.RemoveResourceItem(a.ResourceItemGUID, totalConsumption);
                     }
                     else
                     {
-                        //There is not the amount that the unit needs
-                        if (tempResourceItem.Amount > 0)
-                        {
-                            tempResourceItem.Consume(tempResourceItem.Amount);
-                        }
-
-                        a.Decrease();
+                        //Unable to consume good
+                        a.Amount--;
                     }
+                }
+                else
+                {
+                    //No resource...Unable to consume good
+                    a.Amount--;
                 }
             }
         }
+
+        //foreach (Attrition a in this.Supply.Attritions)
+        //{
+        //    //if (this.Population.Pops.Count > 0)
+        //    //{
+        //    //    ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
+
+        //    //    if (tempResourceItem != null)
+        //    //    {
+        //    //        int totalPerTurnConsumption = a.PerTurnConsumption * this.Population.Pops.Count;
+        //    //        if (tempResourceItem.Amount >= totalPerTurnConsumption)
+        //    //        {
+        //    //            //There is enouch to increase the attrition
+        //    //            tempResourceItem.Consume(totalPerTurnConsumption);
+        //    //            a.Increase();
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            //There is not the amount that the unit needs
+        //    //            if (tempResourceItem.Amount > 0)
+        //    //            {
+        //    //                tempResourceItem.Consume(tempResourceItem.Amount);
+        //    //            }
+
+        //    //            a.Decrease();
+        //    //        }
+        //    //    }
+        //    //}
+        //}
     }
 
     public void Recover()
