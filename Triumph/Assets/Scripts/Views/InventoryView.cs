@@ -96,8 +96,8 @@ public class InventoryView : MonoBehaviour
             //this.InventorySlotViews[i].ShowFull();
 
             InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
-            Good tempGood = null;
 
+            Good tempGood = null;
             foreach (GoodsTemplate gt in goodsTemplates)
             {
                 tempGood = gt.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);

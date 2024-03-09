@@ -625,7 +625,7 @@ public class MapController
                 int happiness = int.Parse(p.Attribute("happiness").Value);
                 int necessities = int.Parse(p.Attribute("necessities").Value);
 
-                GoodsTemplate goodsTemplate = allGoodsTemplates.Find(gt => gt.GUID == popGUID);
+                GoodsTemplate goodsTemplate = allGoodsTemplates.Find(gt => gt.GUID == goodsTemplateGUID);
                 Pop workingPop = new Pop(goodsTemplate);
                 workingPop.GUID = popGUID;
                 workingPop.Happiness = happiness;

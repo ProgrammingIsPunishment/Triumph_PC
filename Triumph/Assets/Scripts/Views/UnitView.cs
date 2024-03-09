@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UnitView : MonoBehaviour
 {
     [SerializeField] private TMP_InputField unitNameInput;
     [SerializeField] private TextMeshProUGUI unitActionPointText;
-    [SerializeField] private TextMeshProUGUI unitPopulationText;
+    //[SerializeField] private TextMeshProUGUI unitPopulationText;
     [SerializeField] private GameObject unitContainer;
     [SerializeField] private GameObject unitStorageContainer;
     [SerializeField] private GameObject unitSupplyContainer;
     [SerializeField] private GameObject noUnitContainer;
     [SerializeField] private GameObject unitTabButtonsContainer;
+    [NonSerialized] private List<PopSlotView> popSlotViews = new List<PopSlotView>();
 
     [SerializeField] public InventoryView unitInventoryView;
 
@@ -30,7 +34,7 @@ public class UnitView : MonoBehaviour
 
     public void Initialize()
     {
-
+        this.popSlotViews = this.gameObject.GetComponentsInChildren<PopSlotView>().ToList();
     }
 
     public void Refresh(Holding holding, Unit unit)
@@ -39,7 +43,7 @@ public class UnitView : MonoBehaviour
         {
             this.unitNameInput.text = unit.DisplayName;
             this.unitActionPointText.text = unit.ActionPoints.ToString();
-            this.unitPopulationText.text = unit.Population.ToString();
+            //this.unitPopulationText.text = unit.Population.ToString();
 
             //Update Action Buttons
             this.moveActionButton.SetActive(false);
@@ -77,13 +81,37 @@ public class UnitView : MonoBehaviour
                     this.laborActionButton.SetActive(true);
                 }
 
-                //if (holding.Population.People <= 0 && unit.People >= 1 && Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding))
-                //{
-                //    this.settleActionButton.SetActive(true);
-                //}
+                if (unit.Population.Pops.Count >= 1 && Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding))
+                {
+                    this.settleActionButton.SetActive(true);
+                }
+
                 if (!Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding) && Oberkommando.SAVE.AllCivilizations[0].HasPoliticalPower())
                 {
                     this.claimActionButton.SetActive(true);
+                }
+            }
+
+            if (unit.Population.Pops.Count >= 1)
+            {
+                for (int i = 0; i < this.popSlotViews.Count; i++)
+                {
+                    if (i < unit.Population.Pops.Count)
+                    {
+                        this.popSlotViews[i].Couple(unit.Population.Pops[i]);
+                        this.popSlotViews[i].Display(true);
+                    }
+                    else
+                    {
+                        this.popSlotViews[i].Display(false);
+                    }
+                }
+            }
+            else
+            {
+                foreach (PopSlotView psv in this.popSlotViews)
+                {
+                    psv.Display(false);
                 }
             }
 
