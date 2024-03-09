@@ -38,6 +38,7 @@ public class InitializationController : MonoBehaviour
     {
         Oberkommando.UI_CONTROLLER.holdingView.Hide();
         Oberkommando.UI_CONTROLLER.buildingSelectionView.Display(false);
+        Oberkommando.UI_CONTROLLER.tooltipView.Display(false);
     }
 
     private void InitializeHoldingModels(List<Holding> allHoldings)

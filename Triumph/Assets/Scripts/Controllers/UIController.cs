@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
     [SerializeField] public SeasonsView seasonsView;
     [SerializeField] public PoliticalPowerView politicalPowerView;
     [SerializeField] public BuildingSelectionView buildingSelectionView;
+    [SerializeField] public TooltipView tooltipView;
 
     public Holding selectedHolding = null;
     public Unit selectedUnit = null;
