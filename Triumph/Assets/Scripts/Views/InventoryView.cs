@@ -68,7 +68,7 @@ public class InventoryView : MonoBehaviour
                 tempAttrition = unit.Supply.Attritions.FirstOrDefault(a => a.ResourceItemGUID == inventory.ResourceItems[i].GUID);
             }
             
-            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempAttrition);
+            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempAttrition, unit.Population.Pops.Count);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
             workingInventorySlotItemView.DraggableItem.SetDraggable(true);
             this.InventorySlotViews[i].Couple(workingInventorySlotItemView);
@@ -85,7 +85,7 @@ public class InventoryView : MonoBehaviour
     /// </summary>
     /// <param name="inventory"></param>
     /// <param name="supplies"></param>
-    public void Refresh(Inventory inventory, List<GoodsTemplate> goodsTemplates)
+    public void Refresh(Inventory inventory, List<GoodsTemplate> goodsTemplates, Population population)
     {
         this.ShowAllSlotsEmpty();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
@@ -104,7 +104,7 @@ public class InventoryView : MonoBehaviour
             }
 
             //Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
-            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempGood);
+            workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempGood, population.Pops.Count);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
             workingInventorySlotItemView.DraggableItem.SetDraggable(true);
             this.InventorySlotViews[i].Couple(workingInventorySlotItemView);

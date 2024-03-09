@@ -30,6 +30,29 @@ public class Pop
     //    //this.People += amount;
     //}
 
+    public void Consume(Inventory inventory)
+    {
+        this.metNecessityRequirements = true;
+
+        foreach (Good g in this.GoodsTemplate.Goods)
+        {
+            if (inventory.HasGood(g.ResourceItemGUID, g.RequiredAmount))
+            {
+                //Able to consume good
+                inventory.RemoveResourceItem(g.ResourceItemGUID, g.RequiredAmount);
+                //if (g.GoodType == GoodType.Necessity){}
+            }
+            else
+            {
+                //Unable to consume good
+                if (g.GoodType == GoodType.Necessity)
+                {
+                    this.metNecessityRequirements = false;
+                }
+            }
+        }
+    }
+
     public bool HasEffect(string guid)
     {
         bool result = false;

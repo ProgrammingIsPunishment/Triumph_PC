@@ -58,7 +58,7 @@ public class InventorySlotItemView : MonoBehaviour
     /// </summary>
     /// <param name="resourceItem"></param>
     /// <param name="attrition"></param>
-    public void Refresh(ResourceItem resourceItem, Attrition attrition)
+    public void Refresh(ResourceItem resourceItem, Attrition attrition, int popCount)
     {
         this.amountText.text = resourceItem.Amount.ToString();
         this.amountText.gameObject.SetActive(true);
@@ -67,7 +67,8 @@ public class InventorySlotItemView : MonoBehaviour
 
         if (attrition != null)
         {
-            this.usageText.text = attrition.PerTurnConsumption.ToString();
+            int totalPerTurnUsage = attrition.PerTurnConsumption * popCount;
+            this.usageText.text = totalPerTurnUsage.ToString();
             this.usageText.gameObject.SetActive(true);
         }
         else
@@ -81,7 +82,7 @@ public class InventorySlotItemView : MonoBehaviour
     /// </summary>
     /// <param name="resourceItem"></param>
     /// <param name="attrition"></param>
-    public void Refresh(ResourceItem resourceItem, Good good)
+    public void Refresh(ResourceItem resourceItem, Good good, int popCount)
     {
         this.amountText.text = resourceItem.Amount.ToString();
         this.iconImage.sprite = Resources.Load<Sprite>($"Sprites/Icons/{resourceItem.IconFileName}");
@@ -89,7 +90,8 @@ public class InventorySlotItemView : MonoBehaviour
 
         if (good != null)
         {
-            this.usageText.text = good.RequiredAmount.ToString();
+            int totalPerTurnUsage = good.RequiredAmount * popCount;
+            this.usageText.text = totalPerTurnUsage.ToString();
             this.usageText.gameObject.SetActive(true);
         }
         else

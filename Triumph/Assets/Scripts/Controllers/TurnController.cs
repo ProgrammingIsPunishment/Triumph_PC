@@ -31,7 +31,7 @@ public class TurnController
         //NEED TO DO...
         foreach (Holding h in allHoldings)
         {
-            h.Population.CalculateConsumption(h.StorageInventory);
+            h.Population.ProcessConsumption(h.StorageInventory);
             //h.PassEffectFromHolding();
             h.Population.DetermineTurnEffects();
             h.Population.ProcessTurnEffects();

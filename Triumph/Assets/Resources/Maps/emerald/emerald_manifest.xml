@@ -55,6 +55,7 @@
 					</inventory>
 					<population>
 						<pop guid="pop1" goodstemplateguid="default" happiness="10" necessities="10"></pop>
+						<pop guid="pop2" goodstemplateguid="default" happiness="10" necessities="10"></pop>
 					</population>
 				</unit>
 			</units>

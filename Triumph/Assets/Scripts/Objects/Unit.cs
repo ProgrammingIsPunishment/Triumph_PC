@@ -80,30 +80,31 @@ public class Unit
     {
         foreach (Attrition a in this.Supply.Attritions)
         {
-            //if (this.Population > 0)
-            //{
-            //    ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
+            if (this.Population.Pops.Count > 0)
+            {
+                ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
 
-            //    if (tempResourceItem != null)
-            //    {
-            //        if (tempResourceItem.Amount >= a.PerTurnConsumption)
-            //        {
-            //            //There is enouch to increase the attrition
-            //            tempResourceItem.Consume(a.PerTurnConsumption);
-            //            a.Increase();
-            //        }
-            //        else
-            //        {
-            //            //There is not the amount that the unit needs
-            //            if (tempResourceItem.Amount > 0)
-            //            {
-            //                tempResourceItem.Consume(tempResourceItem.Amount);
-            //            }
+                if (tempResourceItem != null)
+                {
+                    int totalPerTurnConsumption = a.PerTurnConsumption * this.Population.Pops.Count;
+                    if (tempResourceItem.Amount >= totalPerTurnConsumption)
+                    {
+                        //There is enouch to increase the attrition
+                        tempResourceItem.Consume(totalPerTurnConsumption);
+                        a.Increase();
+                    }
+                    else
+                    {
+                        //There is not the amount that the unit needs
+                        if (tempResourceItem.Amount > 0)
+                        {
+                            tempResourceItem.Consume(tempResourceItem.Amount);
+                        }
 
-            //            a.Decrease();
-            //        }
-            //    }
-            //}
+                        a.Decrease();
+                    }
+                }
+            }
         }
     }
 
@@ -116,7 +117,7 @@ public class Unit
     {
         bool result = false;
 
-        //if (this.Population >= 1) { result = true; }
+        if (this.Population.Pops.Count >= 1) { result = true; }
 
         return result;
     }

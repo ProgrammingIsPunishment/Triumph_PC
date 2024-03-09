@@ -59,7 +59,7 @@ public class Inventory
     /// <param name="guid"></param>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public bool CanConsumeGood(string guid, int amount)
+    public bool HasGood(string guid, int amount)
     {
         bool result = false;
 
@@ -74,17 +74,17 @@ public class Inventory
         return result;
     }
 
-    public void ConsumeGood(string guid, int amount)
-    {
-        ResourceItem tempResourceItem = this.ResourceItems.Find(ri => ri.GUID == guid);
-        tempResourceItem.Consume(amount);
+    //public void ConsumeGood(string guid, int amount)
+    //{
+    //    ResourceItem tempResourceItem = this.ResourceItems.Find(ri => ri.GUID == guid);
+    //    tempResourceItem.Consume(amount);
 
-        //Remove item if it has been fully used up
-        if (tempResourceItem.Amount <= 0)
-        {
-            this.ResourceItems.Remove(tempResourceItem);
-        }
-    }
+    //    //Remove item if it has been fully used up
+    //    if (tempResourceItem.Amount <= 0)
+    //    {
+    //        this.ResourceItems.Remove(tempResourceItem);
+    //    }
+    //}
 
     private bool HasResourceAndQuantity(string resourceGUID, int resourceQuantity)
     {

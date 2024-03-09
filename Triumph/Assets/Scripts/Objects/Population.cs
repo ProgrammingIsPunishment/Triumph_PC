@@ -64,31 +64,15 @@ public class Population
         //}
     }
 
-    public void CalculateConsumption(Inventory storageInventory)
+    public void ProcessConsumption(Inventory storageInventory)
     {
-        //if (this.People > 0)
-        //{
-        //    foreach (Good g in this.GoodsTemplate.Goods)
-        //    {
-        //        if (storageInventory.CanConsumeGood(g.ResourceItemGUID, g.RequiredAmount))
-        //        {
-        //            //Can consume good
-        //            storageInventory.ConsumeGood(g.ResourceItemGUID, g.RequiredAmount);
-        //            if (g.GoodType == GoodType.Necessity)
-        //            {
-        //                this.metNecessityRequirements = true;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //Cannot consume good
-        //            if (g.GoodType == GoodType.Necessity)
-        //            {
-        //                this.metNecessityRequirements = false;
-        //            }
-        //        }
-        //    }
-        //}
+        if (this.Pops.Count > 0)
+        {
+            foreach (Pop p in this.Pops)
+            {
+                p.Consume(storageInventory);
+            }
+        }
     }
 
     public void DetermineSeasonalEffects()
