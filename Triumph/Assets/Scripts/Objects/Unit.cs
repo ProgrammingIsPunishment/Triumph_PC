@@ -17,11 +17,11 @@ public class Unit
     public InfluentialPerson Commander { get; set; }
     public Inventory Inventory { get; set; }
     public Supply Supply { get; set; }
-    public int People { get; set; }
+    public Population Population { get; set; }
 
     [NonSerialized] public UnitDisplayManager UnitDisplayManager;
 
-    public Unit(string displayName, int xPosition, int zPosition, UnitType unitType, int actionPointLimit, int people)
+    public Unit(string displayName, int xPosition, int zPosition, UnitType unitType, int actionPointLimit, Population population)
     {
         this.DisplayName = displayName;
         this.XPosition = xPosition;
@@ -30,7 +30,7 @@ public class Unit
         this.Commander = null;
         this.Inventory = new Inventory(InventoryType.UnitSupply,new List<ResourceItem>());
         this.ActionPointLimit = actionPointLimit;
-        this.People = people;
+        this.Population = population;
     }
 
     public bool Move(Holding holding, int xPosition, int zPosition)
@@ -73,37 +73,37 @@ public class Unit
     public void Settle()
     {
         this.ActionPoints--;
-        this.People = 0;
+        this.Population.Pops.Clear();
     }
 
     public void CalculateAttrition()
     {
         foreach (Attrition a in this.Supply.Attritions)
         {
-            if (this.People > 0)
-            {
-                ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
+            //if (this.Population > 0)
+            //{
+            //    ResourceItem tempResourceItem = this.Inventory.ResourceItems.Find(ri => ri.GUID == a.ResourceItemGUID);
 
-                if (tempResourceItem != null)
-                {
-                    if (tempResourceItem.Amount >= a.PerTurnConsumption)
-                    {
-                        //There is enouch to increase the attrition
-                        tempResourceItem.Consume(a.PerTurnConsumption);
-                        a.Increase();
-                    }
-                    else
-                    {
-                        //There is not the amount that the unit needs
-                        if (tempResourceItem.Amount > 0)
-                        {
-                            tempResourceItem.Consume(tempResourceItem.Amount);
-                        }
+            //    if (tempResourceItem != null)
+            //    {
+            //        if (tempResourceItem.Amount >= a.PerTurnConsumption)
+            //        {
+            //            //There is enouch to increase the attrition
+            //            tempResourceItem.Consume(a.PerTurnConsumption);
+            //            a.Increase();
+            //        }
+            //        else
+            //        {
+            //            //There is not the amount that the unit needs
+            //            if (tempResourceItem.Amount > 0)
+            //            {
+            //                tempResourceItem.Consume(tempResourceItem.Amount);
+            //            }
 
-                        a.Decrease();
-                    }
-                }
-            }
+            //            a.Decrease();
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -116,7 +116,7 @@ public class Unit
     {
         bool result = false;
 
-        if (this.People >= 1) { result = true; }
+        //if (this.Population >= 1) { result = true; }
 
         return result;
     }

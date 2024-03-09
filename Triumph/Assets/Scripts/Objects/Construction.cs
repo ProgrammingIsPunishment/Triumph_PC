@@ -31,7 +31,7 @@ public class Construction
             this.Complete();
         }
     }
-
+    
     private void UpdateProgress()
     {
         int tempTurnsLeftTotal = 0;

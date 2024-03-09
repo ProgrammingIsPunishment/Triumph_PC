@@ -258,18 +258,18 @@ public class UIController : MonoBehaviour
                 newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderSettle_End:
-                this.ReturnAllToColdStorage();
-                int tempPeopleToSettle = this.SelectedUnit.People;
-                this.SelectedUnit.Settle();
-                this.SelectedHolding.Population.Settle(tempPeopleToSettle);
-                this.SelectedHolding.PassEffectFromHolding();
-                this.SelectedHolding.Population.DetermineTurnEffects();
-                this.ResetViews();
-                this.ClearStateAndData();
-                this.HoldingDetailsData(tempHolding, tempUnit);
-                this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
-                this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
-                newUIState = UIState.HoldingDetails_SelectHolding;
+                //this.ReturnAllToColdStorage();
+                //int tempPeopleToSettle = this.SelectedUnit.Population;
+                //this.SelectedUnit.Settle();
+                //this.SelectedHolding.Population.Settle(tempPeopleToSettle);
+                //this.SelectedHolding.PassEffectFromHolding();
+                //this.SelectedHolding.Population.DetermineTurnEffects();
+                //this.ResetViews();
+                //this.ClearStateAndData();
+                //this.HoldingDetailsData(tempHolding, tempUnit);
+                //this.holdingView.Refresh(this.SelectedHolding, this.SelectedUnit);
+                //this.SelectedHolding.HoldingDisplayManager.ShowSelected(true);
+                //newUIState = UIState.HoldingDetails_SelectHolding;
                 break;
             case UIState.LeaderClaim_End:
                 this.SelectedHolding.ClaimTerritory(Oberkommando.SAVE.AllCivilizations[0]);

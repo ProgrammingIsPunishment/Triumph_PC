@@ -20,26 +20,26 @@ public class PopulationView : MonoBehaviour
 
     public void Refresh(Population population)
     {
-        if (population.People >= 1)
-        {
-            this.noPopulationDisplay.SetActive(false);
-            this.populationAmountText.text = population.People.ToString();
-            this.happinessAmountText.text = population.Happiness.ToString();
+        //if (population.People >= 1)
+        //{
+        //    this.noPopulationDisplay.SetActive(false);
+        //    this.populationAmountText.text = population.People.ToString();
+        //    this.happinessAmountText.text = population.Happiness.ToString();
 
-            this.HideAllEffects();
+        //    this.HideAllEffects();
 
-            int index = 0;
-            foreach (Effect e in population.Effects)
-            {
-                this.EffectViews[index].Refresh(e);
-                this.EffectViews[index].Show();
-                index++;
-            }
-        }
-        else
-        {
-            this.noPopulationDisplay.SetActive(true);
-        }
+        //    int index = 0;
+        //    foreach (Effect e in population.Effects)
+        //    {
+        //        this.EffectViews[index].Refresh(e);
+        //        this.EffectViews[index].Show();
+        //        index++;
+        //    }
+        //}
+        //else
+        //{
+        //    this.noPopulationDisplay.SetActive(true);
+        //}
     }
 
     public void Show()

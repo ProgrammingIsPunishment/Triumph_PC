@@ -53,6 +53,9 @@
 					<inventory>
 						<inventoryresourceitem guid="meat" amount="8"></inventoryresourceitem>
 					</inventory>
+					<population>
+						<pop guid="pop1" goodstemplateguid="default" happiness="10" necessities="10"></pop>
+					</population>
 				</unit>
 			</units>
 			<buildings>

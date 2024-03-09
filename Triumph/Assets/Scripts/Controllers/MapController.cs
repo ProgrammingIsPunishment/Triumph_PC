@@ -254,7 +254,7 @@ public class MapController
 
             //Generate population
             GoodsTemplate defaultGoodsTemplate = goodsTemplates.Find(gt => gt.GUID == "default");
-            Population workingPopulation = new Population(0, defaultGoodsTemplate);
+            List<Pop> workingPops = new List<Pop>();
             var pe = hd.Element("population");
             if (pe != null)
             {
@@ -263,8 +263,11 @@ public class MapController
 
                 GoodsTemplate workingGoodsTemplate = goodsTemplates.Find(gt=>gt.GUID == goodstemplateguid);
 
-                workingPopulation = new Population(populationAmount, workingGoodsTemplate);
+                workingPops.Add(new Pop(workingGoodsTemplate));
             }
+
+            Population workingPopulation = new Population();
+            workingPopulation.Pops = workingPops;
 
             //Loop through storage resources
             List<ResourceItem> workingStorageResources = new List<ResourceItem>();
@@ -535,7 +538,7 @@ public class MapController
 
             //Generate Units
             var allUnits = c.Element("units").Elements("unit");
-            List<Unit> workingUnits = this.ConvertToUnits(allUnits,allHoldings,allInfluentialPeople, allResourceItems, workingSupplies);
+            List<Unit> workingUnits = this.ConvertToUnits(allUnits, allHoldings, allInfluentialPeople, allResourceItems, workingSupplies, allGoodsTemplates);
 
             //Generate buildings
             var buildingElements = c.Element("buildings").Elements("building");
@@ -578,7 +581,7 @@ public class MapController
         return result;
     }
 
-    private List<Unit> ConvertToUnits(IEnumerable<XElement> unitElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Supply> civilizationSupplies)
+    private List<Unit> ConvertToUnits(IEnumerable<XElement> unitElements, List<Holding> allHoldings, List<InfluentialPerson> allInfluentialPeople, List<ResourceItem> allResourceItems, List<Supply> civilizationSupplies, List<GoodsTemplate> allGoodsTemplates)
     {
         List<Unit> result = new List<Unit>();
 
@@ -612,9 +615,31 @@ public class MapController
                 workingResourceItems.Add(tempResourceItem);
             }
 
+            //Generate population of unit
+            var popElements = u.Element("population").Elements("pop");
+            List<Pop> workingPops = new List<Pop>();
+            foreach (var p in popElements)
+            {
+                string popGUID = (string)p.Attribute("guid").Value.ToLower();
+                string goodsTemplateGUID = (string)p.Attribute("goodstemplateguid").Value;
+                int happiness = int.Parse(p.Attribute("happiness").Value);
+                int necessities = int.Parse(p.Attribute("necessities").Value);
+
+                GoodsTemplate goodsTemplate = allGoodsTemplates.Find(gt => gt.GUID == popGUID);
+                Pop workingPop = new Pop(goodsTemplate);
+                workingPop.GUID = popGUID;
+                workingPop.Happiness = happiness;
+                workingPop.Necessities = necessities;
+
+                workingPops.Add(workingPop);
+            }
+
+            Population workingPopulation = new Population();
+            workingPopulation.Pops = workingPops;
+
             Inventory workingInventory = new Inventory(InventoryType.UnitSupply, workingResourceItems);
 
-            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType, actionPointLimit, people);
+            Unit workingUnit = new Unit(displayName, startingLocation.XPosition, startingLocation.ZPosition, unitType, actionPointLimit, workingPopulation);
             workingUnit.GUID = guid;
             workingUnit.Commander = tempCommander;
             workingUnit.Inventory = workingInventory;

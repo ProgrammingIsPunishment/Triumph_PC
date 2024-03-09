@@ -39,7 +39,7 @@ public class UnitView : MonoBehaviour
         {
             this.unitNameInput.text = unit.DisplayName;
             this.unitActionPointText.text = unit.ActionPoints.ToString();
-            this.unitPopulationText.text = unit.People.ToString();
+            this.unitPopulationText.text = unit.Population.ToString();
 
             //Update Action Buttons
             this.moveActionButton.SetActive(false);
@@ -77,10 +77,10 @@ public class UnitView : MonoBehaviour
                     this.laborActionButton.SetActive(true);
                 }
 
-                if (holding.Population.People <= 0 && unit.People >= 1 && Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding))
-                {
-                    this.settleActionButton.SetActive(true);
-                }
+                //if (holding.Population.People <= 0 && unit.People >= 1 && Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding))
+                //{
+                //    this.settleActionButton.SetActive(true);
+                //}
                 if (!Oberkommando.SAVE.AllCivilizations[0].OwnsHolding(holding) && Oberkommando.SAVE.AllCivilizations[0].HasPoliticalPower())
                 {
                     this.claimActionButton.SetActive(true);

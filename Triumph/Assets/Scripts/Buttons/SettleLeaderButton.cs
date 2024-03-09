@@ -7,7 +7,7 @@ public class SettleLeaderButton : MonoBehaviour
 {
     public void OnClickEvent()
     {
-        int tempPeopleToSettle = Oberkommando.SELECTED_UNIT.People;
+        List<Pop> tempPeopleToSettle = Oberkommando.SELECTED_UNIT.Population.Pops;
         Oberkommando.SELECTED_UNIT.Settle();
         Oberkommando.SELECTED_HOLDING.Population.Settle(tempPeopleToSettle);
         Oberkommando.SELECTED_HOLDING.PassEffectFromHolding();

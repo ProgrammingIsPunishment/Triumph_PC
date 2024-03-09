@@ -85,7 +85,7 @@ public class InventoryView : MonoBehaviour
     /// </summary>
     /// <param name="inventory"></param>
     /// <param name="supplies"></param>
-    public void Refresh(Inventory inventory, GoodsTemplate goodsTemplate)
+    public void Refresh(Inventory inventory, List<GoodsTemplate> goodsTemplates)
     {
         this.ShowAllSlotsEmpty();
         for (int i = 0; i < inventory.ResourceItems.Count; i++)
@@ -96,7 +96,14 @@ public class InventoryView : MonoBehaviour
             //this.InventorySlotViews[i].ShowFull();
 
             InventorySlotItemView workingInventorySlotItemView = Oberkommando.COLDSTORAGE_CONTROLLER.GetInventorySlotItemView();
-            Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            Good tempGood = null;
+
+            foreach (GoodsTemplate gt in goodsTemplates)
+            {
+                tempGood = gt.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
+            }
+
+            //Good tempGood = goodsTemplate.Goods.FirstOrDefault(g => g.ResourceItemGUID == inventory.ResourceItems[i].GUID);
             workingInventorySlotItemView.Refresh(inventory.ResourceItems[i], tempGood);
             workingInventorySlotItemView.Couple(inventory.ResourceItems[i]);
             workingInventorySlotItemView.DraggableItem.SetDraggable(true);
