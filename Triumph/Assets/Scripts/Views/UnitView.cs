@@ -99,6 +99,7 @@ public class UnitView : MonoBehaviour
                     if (i < unit.Population.Pops.Count)
                     {
                         this.popSlotViews[i].Couple(unit.Population.Pops[i]);
+                        this.popSlotViews[i].Refresh();
                         this.popSlotViews[i].Display(true);
                     }
                     else

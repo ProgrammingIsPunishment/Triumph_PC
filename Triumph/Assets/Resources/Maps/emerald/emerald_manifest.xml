@@ -49,13 +49,13 @@
 				</supply>
 			</supplies>
 			<units>
-				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader" actionpointlimit="2" people="30">
+				<unit guid="americaleader" displayname="Abraham" unittype="Leader" commanderguid="abraham" startinglocationguid="dubai2" supplyguid="triballeader" actionpointlimit="2">
 					<inventory>
 						<inventoryresourceitem guid="meat" amount="8"></inventoryresourceitem>
 					</inventory>
 					<population>
-						<pop guid="pop1" goodstemplateguid="default" happiness="10" necessities="10"></pop>
-						<pop guid="pop2" goodstemplateguid="default" happiness="10" necessities="10"></pop>
+						<pop guid="pop1" goodstemplateguid="default" gender="Male" happiness="10" necessities="10"></pop>
+						<pop guid="pop2" goodstemplateguid="default" gender="Female" happiness="10" necessities="10"></pop>
 					</population>
 				</unit>
 			</units>

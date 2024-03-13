@@ -260,10 +260,12 @@ public class MapController
             {
                 int populationAmount = int.Parse(pe.Attribute("amount").Value);
                 string goodstemplateguid = (string)pe.Attribute("goodstemplateguid").Value;
+                string gender = (string)pe.Attribute("gender").Value.ToLower();
 
                 GoodsTemplate workingGoodsTemplate = goodsTemplates.Find(gt=>gt.GUID == goodstemplateguid);
+                bool isMale = (gender == "male");
 
-                workingPops.Add(new Pop(workingGoodsTemplate));
+                workingPops.Add(new Pop(workingGoodsTemplate, isMale));
             }
 
             Population workingPopulation = new Population();
@@ -596,7 +598,7 @@ public class MapController
             string supplyGUID = (string)u.Attribute("supplyguid").Value.ToLower();
             var inventoryResourceItems = u.Element("inventory").Elements("inventoryresourceitem");
             int actionPointLimit = int.Parse(u.Attribute("actionpointlimit").Value);
-            int people = int.Parse(u.Attribute("people").Value);
+            //int people = int.Parse(u.Attribute("people").Value);
 
             Holding startingLocation = allHoldings.Find(h => h.GUID == startinglocationGUID);
             InfluentialPerson tempCommander = allInfluentialPeople.Find(ip => ip.GUID == commanderGUID);
@@ -624,9 +626,12 @@ public class MapController
                 string goodsTemplateGUID = (string)p.Attribute("goodstemplateguid").Value;
                 int happiness = int.Parse(p.Attribute("happiness").Value);
                 int necessities = int.Parse(p.Attribute("necessities").Value);
+                string gender = (string)p.Attribute("gender").Value.ToLower();
 
                 GoodsTemplate goodsTemplate = allGoodsTemplates.Find(gt => gt.GUID == goodsTemplateGUID);
-                Pop workingPop = new Pop(goodsTemplate);
+                bool isMale = (gender == "male");
+
+                Pop workingPop = new Pop(goodsTemplate, isMale);
                 workingPop.GUID = popGUID;
                 workingPop.Happiness = happiness;
                 workingPop.Necessities = necessities;

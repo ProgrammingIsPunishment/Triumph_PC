@@ -10,12 +10,14 @@ public class Pop
     public string GUID { get; set; }
     public GoodsTemplate GoodsTemplate { get; set; }
     public List<Effect> Effects { get; set; }
+    public bool IsMale { get; set; }
     public float Happiness { get; set; }
     public float Necessities { get; set; }
+    public int Level { get; set; }
 
-    private bool metNecessityRequirements;
+    public bool metNecessityRequirements;
 
-    public Pop(GoodsTemplate goodsTemplate)
+    public Pop(GoodsTemplate goodsTemplate, bool isMale)
     {
         //this.People = amount;
         this.GoodsTemplate = goodsTemplate;
@@ -23,12 +25,20 @@ public class Pop
         this.Happiness = 10;
         this.Necessities = 10;
         this.metNecessityRequirements = true;
+        this.IsMale = isMale;
+        this.Level = 0;
     }
 
     //public void Settle(int amount)
     //{
     //    //this.People += amount;
     //}
+
+    public void LevelUp()
+    {
+        this.Level++;
+        if (Level > 5) { this.Level = 5; }
+    }
 
     public void Consume(Inventory inventory)
     {

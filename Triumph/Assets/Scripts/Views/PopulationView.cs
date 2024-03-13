@@ -47,6 +47,7 @@ public class PopulationView : MonoBehaviour
             for (int i = 0; i < population.Pops.Count; i++)
             {
                 this.PopSlotViews[i].Couple(population.Pops[i]);
+                this.PopSlotViews[i].Refresh();
                 this.PopSlotViews[i].Display(true);
             }
         }
