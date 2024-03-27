@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,35 +34,40 @@ public class Population
     {
         foreach (Pop p in this.Pops)
         {
-            if (p.Happiness >= 7)
-            {
-                p.AddEffect("fulloflife");
-            }
-            else
-            {
-                p.RemoveEffect("fulloflife");
-            }
-
             if (p.metNecessityRequirements)
             {
-                p.AddEffect("sated");
+                p.AddEffect("fed");
             }
-            else
-            {
-                p.RemoveEffect("sated");
 
-                if (!p.HasEffect("starving"))
-                {
-                    if (!p.HasEffect("deprived"))
-                    {
-                        p.AddEffect("deprived");
-                    }
-                    else
-                    {
-                        p.Effects.Find(e => e.GUID == "deprived").Value += 1;
-                    }
-                }
-            }
+            //if (p.Happiness >= 7)
+            //{
+            //    p.AddEffect("fulloflife");
+            //}
+            //else
+            //{
+            //    p.RemoveEffect("fulloflife");
+            //}
+
+            //if (p.metNecessityRequirements)
+            //{
+            //    p.AddEffect("sated");
+            //}
+            //else
+            //{
+            //    p.RemoveEffect("sated");
+
+            //    if (!p.HasEffect("starving"))
+            //    {
+            //        if (!p.HasEffect("deprived"))
+            //        {
+            //            p.AddEffect("deprived");
+            //        }
+            //        else
+            //        {
+            //            p.Effects.Find(e => e.GUID == "deprived").Value += 1;
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -80,32 +86,38 @@ public class Population
     {
         foreach (Pop p in this.Pops)
         {
-            if (p.HasEffect("deprived"))
-            {
-                p.RemoveEffect("deprived");
-                p.AddEffect("starving");
-            }
-            else if (p.HasEffect("sated"))
-            {
-                p.RemoveEffect("starving");
-            }
+            //if (p.HasEffect("deprived"))
+            //{
+            //    p.RemoveEffect("deprived");
+            //    p.AddEffect("starving");
+            //}
+            //else if (p.HasEffect("sated"))
+            //{
+            //    p.RemoveEffect("starving");
+            //}
         }
     }
 
     public void ProcessTurnEffects()
     {
-        float workingHappiness = 10;
-        float workingNecessities = 10;
-
         foreach (Pop p in this.Pops)
         {
+            //float workingHappiness = p.Happiness;
+            //float workingNecessities = p.Necessities;
+
+            float workingHappiness = 0;
+            float workingNecessities = 0;
+
             foreach (Effect e in p.Effects)
             {
-                switch (e.EffectType)
+                foreach (Tuple<EffectType,float> v in e.Values)
                 {
-                    case EffectType.Happiness: workingHappiness = e.ProcessValue(workingHappiness); break;
-                    case EffectType.Neccessities: workingNecessities = e.ProcessValue(workingNecessities); break;
-                    case EffectType.Population: /*Do nothing?*/ break;
+                    switch (v.Item1)
+                    {
+                        case EffectType.Happiness: workingHappiness = e.ProcessEffect(workingHappiness, v.Item2); break;
+                        case EffectType.Neccessities: workingNecessities = e.ProcessEffect(workingNecessities, v.Item2); break;
+                        case EffectType.Population: /*Do nothing?*/ break;
+                    }
                 }
             }
 

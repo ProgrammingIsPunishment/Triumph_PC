@@ -32,7 +32,7 @@ public class PopSlotView : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         foreach (Effect e in this.Pop.Effects)
         {
-            popEffects += $"\n{e.DisplayName}";
+            popEffects += $"\n{e.DisplayName}: {e.Description}";
         }
 
         if (this.Pop.Effects.Count == 0)
@@ -40,9 +40,9 @@ public class PopSlotView : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             popEffects += $"\nNo Effects";
         }
 
-        Oberkommando.UI_CONTROLLER.tooltipView.Refresh("Pop",$"Happiness: {this.Pop.Happiness}/10" +
-            $"\nNecessities: {this.Pop.Necessities}/10" +
-            $"\nLevel: {this.Pop.Level}/5" +
+        Oberkommando.UI_CONTROLLER.tooltipView.Refresh("Pop",$"Happiness: {this.Pop.Happiness} / 10" +
+            $"\nNecessities: {this.Pop.Necessities} / 10" +
+            $"\nLevel: {this.Pop.Level} / 5" +
             $"\n{popEffects}");
         Oberkommando.UI_CONTROLLER.tooltipView.Display(true);
     }

@@ -166,12 +166,17 @@ public class MapController
     {
         List<Effect> result = new List<Effect>();
 
-        result.Add(new Effect("deprived", "Deprived", "-2 Happiness (-1 additional every turn)", "deprived", EffectType.Happiness, false, 2f));
-        result.Add(new Effect("homeless", "Homeless", "-2 Happiness", "homeless", EffectType.Happiness, false, 2f));
-        result.Add(new Effect("sated", "Sated", "+2 Happiness", "sated", EffectType.Happiness, true, 2f));
-        result.Add(new Effect("starving", "Starving", "25% loss in population every season", "starving", EffectType.Population, false, .25f));
-        result.Add(new Effect("housed", "Housed", "+2 Happiness", "housed", EffectType.Happiness, true, 2f));
-        result.Add(new Effect("fulloflife", "Full Of Life", "+10% population growth every season", "fulloflife", EffectType.Population, true, .10f));
+        List<Tuple<EffectType, float>> tempValues = new List<Tuple<EffectType, float>>();
+        tempValues.Add(new Tuple<EffectType, float>(EffectType.Happiness, 1));
+        tempValues.Add(new Tuple<EffectType, float>(EffectType.Neccessities, 1));
+        result.Add(new Effect("fed", "Fed", "+1 Happiness & Neccessities", tempValues));
+
+        //result.Add(new Effect("deprived", "Deprived", "-2 Happiness (-1 additional every turn)", "deprived", EffectType.Happiness, false, 2f));
+        //result.Add(new Effect("homeless", "Homeless", "-2 Happiness", "homeless", EffectType.Happiness, false, 2f));
+        //result.Add(new Effect("sated", "Sated", "+2 Happiness", "sated", EffectType.Happiness, true, 2f));
+        //result.Add(new Effect("starving", "Starving", "25% loss in population every season", "starving", EffectType.Population, false, .25f));
+        //result.Add(new Effect("housed", "Housed", "+2 Happiness", "housed", EffectType.Happiness, true, 2f));
+        //result.Add(new Effect("fulloflife", "Full Of Life", "+10% population growth every season", "fulloflife", EffectType.Population, true, .10f));
 
         return result;
     }
@@ -624,8 +629,8 @@ public class MapController
             {
                 string popGUID = (string)p.Attribute("guid").Value.ToLower();
                 string goodsTemplateGUID = (string)p.Attribute("goodstemplateguid").Value;
-                int happiness = int.Parse(p.Attribute("happiness").Value);
-                int necessities = int.Parse(p.Attribute("necessities").Value);
+                //int happiness = int.Parse(p.Attribute("happiness").Value);
+                //int necessities = int.Parse(p.Attribute("necessities").Value);
                 string gender = (string)p.Attribute("gender").Value.ToLower();
 
                 GoodsTemplate goodsTemplate = allGoodsTemplates.Find(gt => gt.GUID == goodsTemplateGUID);
@@ -633,8 +638,10 @@ public class MapController
 
                 Pop workingPop = new Pop(goodsTemplate, isMale);
                 workingPop.GUID = popGUID;
-                workingPop.Happiness = happiness;
-                workingPop.Necessities = necessities;
+                //workingPop.Happiness = happiness;
+                //workingPop.Necessities = necessities;
+                workingPop.Happiness = 0;
+                workingPop.Necessities = 0;
 
                 workingPops.Add(workingPop);
             }

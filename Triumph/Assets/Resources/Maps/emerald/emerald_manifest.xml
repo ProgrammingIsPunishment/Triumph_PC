@@ -54,8 +54,8 @@
 						<inventoryresourceitem guid="meat" amount="8"></inventoryresourceitem>
 					</inventory>
 					<population>
-						<pop guid="pop1" goodstemplateguid="default" gender="Male" happiness="10" necessities="10"></pop>
-						<pop guid="pop2" goodstemplateguid="default" gender="Female" happiness="10" necessities="10"></pop>
+						<pop guid="pop1" goodstemplateguid="default" gender="Male"></pop>
+						<pop guid="pop2" goodstemplateguid="default" gender="Female"></pop>
 					</population>
 				</unit>
 			</units>

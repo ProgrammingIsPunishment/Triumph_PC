@@ -12,34 +12,28 @@ public class Effect
     public EffectType EffectType { get; set; }
     public bool IsPositiveEffect { get; set; }
     public float Value { get; set; }
+    public List<Tuple<EffectType, float>> Values { get; set; }
 
-    public Effect(string guid, string displayname, string description, string iconFileName, EffectType effectType, bool isPositiveEffect, float value)
+    public Effect(string guid, string displayname, string description, List<Tuple<EffectType,float>> values)
     {
         this.GUID = guid;
         this.DisplayName = displayname;
         this.Description = description;
-        this.IconFileName = iconFileName;
-        this.EffectType = effectType;
-        this.IsPositiveEffect = isPositiveEffect;
-        this.Value = value;
+        //this.IconFileName = iconFileName;
+        //this.EffectType = effectType;
+        //this.IsPositiveEffect = isPositiveEffect;
+        //this.Value = value;
+        this.Values = values;
     }
 
     public Effect CreateInstance()
     {
-        return new Effect(this.GUID,this.DisplayName,this.Description, this.IconFileName, this.EffectType,this.IsPositiveEffect,this.Value);
+        //return new Effect(this.GUID,this.DisplayName,this.Description, this.IconFileName, this.EffectType,this.IsPositiveEffect,this.Value);
+        return new Effect(this.GUID, this.DisplayName, this.Description, this.Values);
     }
 
-    public float ProcessValue(float valueToProcess)
+    public float ProcessEffect(float valueToProcess, float value)
     {
-        if (this.IsPositiveEffect)
-        {
-            valueToProcess += this.Value;
-        }
-        else
-        {
-            valueToProcess -= this.Value;
-        }
-
-        return valueToProcess;
+        return valueToProcess += value;
     }
 }
