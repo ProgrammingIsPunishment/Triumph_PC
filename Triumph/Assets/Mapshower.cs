@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapShower : MonoBehaviour
+public class Mapshower : MonoBehaviour
 {
     int width;
     int height;
@@ -26,11 +27,9 @@ public class MapShower : MonoBehaviour
         var main2remap = new Dictionary<Color32, Color32>();
         remapArr = new Color32[mainArr.Length];
         int idx = 0;
-        for (int i = 0; i < mainArr.Length; i++)
-        {
+        for(int i=0; i<mainArr.Length; i++){
             var mainColor = mainArr[i];
-            if (!main2remap.ContainsKey(mainColor))
-            {
+            if(!main2remap.ContainsKey(mainColor)){
                 var low = (byte)(idx % 256);
                 var high = (byte)(idx / 256);
                 main2remap[mainColor] = new Color32(low, high, 0, 255);
@@ -40,9 +39,8 @@ public class MapShower : MonoBehaviour
             remapArr[i] = remapColor;
         }
 
-        var paletteArr = new Color32[256 * 256];
-        for (int i = 0; i < paletteArr.Length; i++)
-        {
+        var paletteArr = new Color32[256*256];
+        for(int i=0; i<paletteArr.Length; i++){
             paletteArr[i] = new Color32(255, 255, 255, 255);
         }
 
@@ -66,18 +64,15 @@ public class MapShower : MonoBehaviour
         var mousePos = Input.mousePosition;
         var ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo))
-        {
+        if(Physics.Raycast(ray, out hitInfo)){
             var p = hitInfo.point;
             int x = (int)Mathf.Floor(p.x) + width / 2;
             int y = (int)Mathf.Floor(p.y) + height / 2;
 
             var remapColor = remapArr[x + y * width];
 
-            if (!selectAny || !prevColor.Equals(remapColor))
-            {
-                if (selectAny)
-                {
+            if(!selectAny || !prevColor.Equals(remapColor)){
+                if(selectAny){
                     changeColor(prevColor, new Color32(255, 255, 255, 255));
                 }
                 selectAny = true;
@@ -85,11 +80,12 @@ public class MapShower : MonoBehaviour
                 changeColor(remapColor, new Color32(50, 0, 255, 255));
                 paletteTex.Apply(false);
             }
+
+            Debug.Log($"X:{x} Y:{y}");
         }
     }
 
-    void changeColor(Color32 remapColor, Color32 showColor)
-    {
+    void changeColor(Color32 remapColor, Color32 showColor){
         int xp = remapColor[0];
         int yp = remapColor[1];
 
