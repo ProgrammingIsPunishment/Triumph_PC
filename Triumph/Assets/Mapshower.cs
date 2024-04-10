@@ -39,6 +39,8 @@ public class Mapshower : MonoBehaviour
             remapArr[i] = remapColor;
         }
 
+        Debug.Log(mainArr.Length.ToString());
+
         var paletteArr = new Color32[256*256];
         for(int i=0; i<paletteArr.Length; i++){
             paletteArr[i] = new Color32(255, 255, 255, 255);
@@ -64,15 +66,18 @@ public class Mapshower : MonoBehaviour
         var mousePos = Input.mousePosition;
         var ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
-        if(Physics.Raycast(ray, out hitInfo)){
+        if (Physics.Raycast(ray, out hitInfo))
+        {
             var p = hitInfo.point;
             int x = (int)Mathf.Floor(p.x) + width / 2;
             int y = (int)Mathf.Floor(p.y) + height / 2;
 
             var remapColor = remapArr[x + y * width];
 
-            if(!selectAny || !prevColor.Equals(remapColor)){
-                if(selectAny){
+            if (!selectAny || !prevColor.Equals(remapColor))
+            {
+                if (selectAny)
+                {
                     changeColor(prevColor, new Color32(255, 255, 255, 255));
                 }
                 selectAny = true;
@@ -81,7 +86,7 @@ public class Mapshower : MonoBehaviour
                 paletteTex.Apply(false);
             }
 
-            Debug.Log($"X:{x} Y:{y}");
+            //Debug.Log($"X:{x} Y:{y}");
         }
     }
 
@@ -90,5 +95,7 @@ public class Mapshower : MonoBehaviour
         int yp = remapColor[1];
 
         paletteTex.SetPixel(xp, yp, showColor);
+        Debug.ClearDeveloperConsole();
+        //Debug.Log($"X:{xp} Y:{yp}");
     }
 }
