@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180323805}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 304, z: -274}
+  m_LocalPosition: {x: 0, y: 789, z: -856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -283,7 +283,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 26
   orthographic: 0
   orthographic size: 5
@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1180323806}
-  normalSpeed: 0.3
+  normalSpeed: 1
   fastSpeed: 3
   movementSpeed: 1
   movementTime: 5
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 1766308309}
   - component: {fileID: 1766308308}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,7 +543,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77ffda46922b98445a74ac96dc9e00b2, type: 2}
+  - {fileID: 2100000, guid: 2028d7d7d5b7c0749b88c25d0c0c3487, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -582,7 +582,7 @@ Transform:
   m_GameObject: {fileID: 1766308307}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 900, z: 1}
+  m_LocalScale: {x: 2000, y: 1200, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
