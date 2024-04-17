@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<territories>
+		<territory r="255" g="255" b="178" name="NONE"></territory>
+		<territory r="0" g="192" b="0" name="Alaska"></territory>
+		<territory r="0" g="0" b="128" name="Arizona"></territory>
+		<territory r="0" g="192" b="192" name="Arkansas"></territory>
+		<territory r="192" g="0" b="0" name="California"></territory>
+		<territory r="255" g="255" b="255" name="Colorado"></territory>
+		<territory r="64" g="64" b="128" name="Connecticut"></territory>
+		<territory r="64" g="192" b="0" name="Delaware"></territory>
+		<territory r="0" g="0" b="64" name="Florida"></territory>
+		<territory r="192" g="192" b="192" name="Georgia"></territory>
+		<territory r="128" g="0" b="192" name="Hawaii"></territory>
+		<territory r="0" g="64" b="0" name="Idaho"></territory>
+		<territory r="0" g="64" b="64" name="Illinois"></territory>
+		<territory r="128" g="192" b="64" name="Indiana"></territory>
+		<territory r="128" g="128" b="0" name="Iowa"></territory>
+		<territory r="0" g="64" b="128" name="Kansas"></territory>
+		<territory r="128" g="192" b="192" name="Kentucky"></territory>
+		<territory r="128" g="64" b="64" name="Louisiana"></territory>
+		<territory r="64" g="192" b="64" name="Maine"></territory>
+		<territory r="128" g="0" b="0" name="Maryland"></territory>
+		<territory r="64" g="64" b="64" name="Massachusetts"></territory>
+		<territory r="64" g="64" b="0" name="Michigan"></territory>
+		<territory r="0" g="128" b="0" name="Minnesota"></territory>
+		<territory r="64" g="0" b="64" name="Mississippi"></territory>
+		<territory r="192" g="0" b="192" name="Missouri"></territory>
+		<territory r="192" g="0" b="64" name="Montana"></territory>
+		<territory r="64" g="0" b="128" name="Nebraska"></territory>
+		<territory r="192" g="64" b="128" name="Nevada"></territory>
+		<territory r="128" g="64" b="192" name="New Hampshire"></territory>
+		<territory r="64" g="128" b="0" name="New Jersey"></territory>
+		<territory r="64" g="192" b="192" name="New Mexico"></territory>
+		<territory r="0" g="128" b="128" name="New York"></territory>
+		<territory r="64" g="0" b="192" name="North Carolina"></territory>
+		<territory r="128" g="128" b="128" name="North Dakota"></territory>
+		<territory r="128" g="0" b="128" name="Ohio"></territory>
+		<territory r="192" g="128" b="0" name="Oklahoma"></territory>
+		<territory r="64" g="128" b="128" name="Oregon"></territory>
+		<territory r="128" g="64" b="0" name="Pennsylvania"></territory>
+		<territory r="128" g="192" b="128" name="Rhode Island"></territory>
+		<territory r="192" g="64" b="192" name="South Carolina"></territory>
+		<territory r="64" g="0" b="0" name="South Dakota"></territory>
+		<territory r="0" g="128" b="64" name="Tennessee"></territory>
+		<territory r="128" g="192" b="0" name="Texas"></territory>
+		<territory r="64" g="128" b="192" name="Utah"></territory>
+		<territory r="128" g="128" b="64" name="Vermont"></territory>
+		<territory r="64" g="128" b="64" name="Virginia"></territory>
+		<territory r="192" g="0" b="128" name="Washington"></territory>
+		<territory r="128" g="0" b="64" name="West Virginia"></territory>
+		<territory r="64" g="192" b="128" name="Wisconsin"></territory>
+		<territory r="64" g="64" b="192" name="Wyoming"></territory>
+		<territory r="128" g="64" b="128" name="Alabama"></territory>
+		<territory r="192" g="64" b="64" name="51st State"></territory>
+	</territories>
+</map>
