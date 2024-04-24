@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Oberkommando.CAMERA_MANAGER = this;
+        Oberkommando.CAMERA_MANAGER = this;
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;

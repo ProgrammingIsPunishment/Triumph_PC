@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 845771153451862553}
-  - component: {fileID: 8470119070423203908}
+  - component: {fileID: 7764120706838316812}
   - component: {fileID: 5190010413199271680}
   - component: {fileID: 1650774540239562281}
   m_Layer: 0
@@ -159,7 +159,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8470119070423203908
+--- !u!114 &7764120706838316812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3942736692632142668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac522508c8bbb264b90db64a46d23b72, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d4b9b72953de5d448df054818fb6d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unexploredObject: {fileID: 5972237414046221997}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8470119070423203908}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HoldingDisplayManager, Assembly-CSharp
         m_MethodName: OnClickEvent
         m_Mode: 1

@@ -1,7 +1,7 @@
 public enum TerrainType
 {
-    Ocean,
-    Plains,
+    Grassland,
+    Mountain,
     Hills,
-    Mountain
+    Ocean
 }
