@@ -10,7 +10,7 @@ public class PrefabsService : MonoBehaviour
     public void InstantiateHoldingModel(Holding holding, GameObject gridMap)
     {
         GameObject tempHoldingObject = Instantiate(Resources.Load<GameObject>("Prefabs/Holding"), new Vector3((holding.XPosition * 10), 0f, (holding.ZPosition * 10)), Quaternion.identity);
-        tempHoldingObject.GetComponent<HoldingDisplayManager>().Couple(holding);
+        tempHoldingObject.GetComponent<HoldingManager>().Couple(holding);
         tempHoldingObject.transform.SetParent(gridMap.transform);
         tempHoldingObject.SetActive(true);
         //holding.HoldingDisplayManager.Initialize();
@@ -21,9 +21,9 @@ public class PrefabsService : MonoBehaviour
     public void InstantiateTerrainModel(Holding holding)
     {
         GameObject tempTerrainObject = Instantiate(Resources.Load<GameObject>($"Models/Terrain/{holding.TerrainType.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-        tempTerrainObject.transform.SetParent(holding.CoupledHoldingDisplayManager.transform);
+        tempTerrainObject.transform.SetParent(holding.CoupledHoldingDisplay.transform);
         tempTerrainObject.transform.localPosition = new Vector3(0f, 0f, 0f);
-        holding.CoupledHoldingDisplayManager.terrainObject = tempTerrainObject;
+        holding.CoupledHoldingDisplay.terrainObject = tempTerrainObject;
 
         tempTerrainObject.SetActive(true);
     }

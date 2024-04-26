@@ -20,6 +20,7 @@ public class GameInitializationController : MonoBehaviour
         {
             Oberkommando.PREFAB_SERVICE.InstantiateHoldingModel(h,this.Gridmap);
             Oberkommando.PREFAB_SERVICE.InstantiateTerrainModel(h);
+            h.UpdateVisibility();
         }
     }
 

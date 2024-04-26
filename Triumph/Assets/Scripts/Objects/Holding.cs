@@ -12,7 +12,7 @@ public class Holding
     [SerializeField] public int ZPosition { get; set; }
     [SerializeField] public TerrainType TerrainType { get; set; }
 
-    [NonSerialized] public HoldingDisplayManager CoupledHoldingDisplayManager = null;
+    [NonSerialized] public HoldingManager CoupledHoldingDisplay = null;
 
     public Holding(string guid, string name, int xPosition, int zPosition, TerrainType terrainType)
     {
@@ -21,5 +21,10 @@ public class Holding
         this.XPosition = xPosition;
         this.ZPosition = zPosition;
         this.TerrainType = terrainType;
+    }
+
+    public void UpdateVisibility()
+    {
+        this.CoupledHoldingDisplay.ShowDiscovered();
     }
 }
