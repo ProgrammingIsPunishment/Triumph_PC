@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map name="obsidian">
+	<civilizations>
+		<civilization guid="rome" displayname="Rome"></civilization>
+		<civilization guid="carthage" displayname="Carthage"></civilization>
+	</civilizations>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="london" displayname="London" xposition="0" zposition="1" terraintype="Ocean"></holding>

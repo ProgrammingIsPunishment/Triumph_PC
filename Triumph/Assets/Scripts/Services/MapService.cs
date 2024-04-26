@@ -15,7 +15,25 @@ public class MapService
 
         XDocument xmlDocument = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
+        result.Civilizations = this.ParseCivilizations(xmlDocument);
         result.Holdings = this.ParseHoldings(xmlDocument);
+
+        return result;
+    }
+
+    public List<Civilization> ParseCivilizations(XDocument xmlDocument)
+    {
+        List<Civilization> result = new List<Civilization>();
+
+        IEnumerable<XElement> civilizationElements = xmlDocument.Element("map").Elements("civilizations").Elements("civilization");
+
+        foreach (var c in civilizationElements)
+        {
+            string guid = (string)c.Attribute("guid").Value.ToLower();
+            string name = (string)c.Attribute("displayname").Value;
+
+            result.Add(new Civilization(guid, name));
+        }
 
         return result;
     }
@@ -26,13 +44,13 @@ public class MapService
 
         IEnumerable<XElement> holdingsElements = xmlDocument.Element("map").Elements("holdings").Elements("holding");
 
-        foreach (var hd in holdingsElements)
+        foreach (var h in holdingsElements)
         {
-            string guid = (string)hd.Attribute("guid").Value.ToLower();
-            string name = (string)hd.Attribute("displayname").Value;
-            int xPosition = int.Parse(hd.Attribute("xposition").Value);
-            int zPosition = int.Parse(hd.Attribute("zposition").Value);
-            TerrainType terrainType = Enum.Parse<TerrainType>(hd.Attribute("terraintype").Value);
+            string guid = (string)h.Attribute("guid").Value.ToLower();
+            string name = (string)h.Attribute("displayname").Value;
+            int xPosition = int.Parse(h.Attribute("xposition").Value);
+            int zPosition = int.Parse(h.Attribute("zposition").Value);
+            TerrainType terrainType = Enum.Parse<TerrainType>(h.Attribute("terraintype").Value);
 
             result.Add(new Holding(guid,name,xPosition,zPosition,terrainType));
         }

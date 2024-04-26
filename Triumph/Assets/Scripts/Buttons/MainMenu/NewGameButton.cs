@@ -10,6 +10,7 @@ public class NewGameButton : MonoBehaviour
         Save tempSave = new Save("Obsidian save game","obsidian");
         Map tempMap = Oberkommando.MAP_SERVICE.LoadMap("obsidian");
         tempSave.Holdings = tempMap.Holdings;
+        tempSave.Civilizations = tempMap.Civilizations;
 
         Oberkommando.SAVE = tempSave;
 

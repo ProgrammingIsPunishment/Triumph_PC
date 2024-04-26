@@ -9,6 +9,7 @@ public class Save
 {
     public string Name { get; set; }
     public string MapName { get; set; }
+    public List<Civilization> Civilizations { get; set; } = new List<Civilization>();
     public List<Holding> Holdings { get; set; } = new List<Holding>();
 
     public Save(string name)
