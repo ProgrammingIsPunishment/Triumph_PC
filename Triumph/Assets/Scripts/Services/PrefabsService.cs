@@ -28,6 +28,20 @@ public class PrefabsService : MonoBehaviour
         tempTerrainObject.SetActive(true);
     }
 
+    public void InstantiateUnitModel(Unit unit, GameObject gridMap)
+    {
+        GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>("Prefabs/Unit"), new Vector3((unit.XPosition * 10), 0f, (unit.ZPosition * 10)), Quaternion.identity);
+        tempUnitObject.GetComponent<UnitManager>().Couple(unit);
+        tempUnitObject.transform.SetParent(gridMap.transform);
+        tempUnitObject.SetActive(true);
+        //GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>("Prefabs/Unit"), new Vector3((unit.XPosition * 10), 0f, (unit.ZPosition * 10)), Quaternion.identity);
+        //unit.UnitDisplayManager = tempUnitObject.GetComponent<UnitDisplayManager>();
+        //tempUnitObject.transform.SetParent(Oberkommando.GAME_CONTROLLER.Gridmap.transform);
+
+        //unit.UnitDisplayManager.Show(true);
+        ////tempHoldingObject.(false);
+    }
+
     //public void InstantiateResourceModel(Holding holding, ResourceItem resourceItem)
     //{
     //    GameObject tempResourceObject = Instantiate(Resources.Load<GameObject>($"Models/Resources/{resourceItem.GUID.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);

@@ -16,6 +16,7 @@ public class MapService
         XDocument xmlDocument = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         result.Civilizations = this.ParseCivilizations(xmlDocument);
+        result.Units = this.ParseUnits(xmlDocument, result);
         result.Holdings = this.ParseHoldings(xmlDocument,result);
 
         return result;
@@ -36,6 +37,34 @@ public class MapService
             Color workingColor = Tools.ColorFromHex(hexcolor);
 
             result.Add(new Civilization(guid, name, workingColor));
+        }
+
+        return result;
+    }
+
+    public List<Unit> ParseUnits(XDocument xmlDocument, Map workingMap)
+    {
+        List<Unit> result = new List<Unit>();
+
+        IEnumerable<XElement> unitElements = xmlDocument.Element("map").Elements("units").Elements("unit");
+
+        foreach (var u in unitElements)
+        {
+            string guid = (string)u.Attribute("guid").Value.ToLower();
+            string name = (string)u.Attribute("displayname").Value;
+            int xPosition = int.Parse(u.Attribute("xposition").Value);
+            int zPosition = int.Parse(u.Attribute("zposition").Value);
+
+            Unit workingUnits = new Unit(guid, name, xPosition, zPosition);
+
+            if (u.Attribute("ownerguid") != null)
+            {
+                string ownerguid = (string)u.Attribute("ownerguid").Value.ToLower();
+                Civilization workingCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
+                workingCivilization.Units.Add(workingUnits);
+            }
+
+            result.Add(workingUnits);
         }
 
         return result;
@@ -365,87 +394,87 @@ public class MapService
 
 
 
-        //Texture2D terrainTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_terrain");
-        //Texture2D resources1Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1");
-        //Texture2D resources2Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_2");
-        //Texture2D spawnsTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_spawns");
+    //Texture2D terrainTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_terrain");
+    //Texture2D resources1Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_1");
+    //Texture2D resources2Texture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_resources_2");
+    //Texture2D spawnsTexture = Resources.Load<Texture2D>($"Maps/{mapName}/{mapName}_spawns");
 
-        //List<Holding> result = new List<Holding>();
-        //int width = terrainTexture.width;
-        //int height = terrainTexture.height;
+    //List<Holding> result = new List<Holding>();
+    //int width = terrainTexture.width;
+    //int height = terrainTexture.height;
 
-        //for (int x = 0; x < width; x++)
-        //{
-        //    for (int z = 0; z < height; z++)
-        //    {
-        //        List<ResourceItem> workingNaturalResourceItems = new List<ResourceItem>();
+    //for (int x = 0; x < width; x++)
+    //{
+    //    for (int z = 0; z < height; z++)
+    //    {
+    //        List<ResourceItem> workingNaturalResourceItems = new List<ResourceItem>();
 
-        //        string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
-        //        string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
-        //        string resources2ColorHex = ColorUtility.ToHtmlStringRGB(resources2Texture.GetPixel(x, z));
-        //        //string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
-        //        string spawnColorHex = ColorUtility.ToHtmlStringRGB(spawnsTexture.GetPixel(x, z));
+    //        string terrainColorHex = ColorUtility.ToHtmlStringRGB(terrainTexture.GetPixel(x, z));
+    //        string resources1ColorHex = ColorUtility.ToHtmlStringRGB(resources1Texture.GetPixel(x, z));
+    //        string resources2ColorHex = ColorUtility.ToHtmlStringRGB(resources2Texture.GetPixel(x, z));
+    //        //string resources1HeatColorHex = ColorUtility.ToHtmlStringRGB(resources1HeatTexture.GetPixel(x, z));
+    //        string spawnColorHex = ColorUtility.ToHtmlStringRGB(spawnsTexture.GetPixel(x, z));
 
-        //        bool foundHolding = this.holdingDictionary.TryGetValue(new Tuple<int,int>(x,z), out Tuple<string,string> guidAndDisplayName);
-        //        bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
-        //        //bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
-        //        //bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
-        //        bool foundResourceHeat1 = this.heatDictionary.TryGetValue(resources1ColorHex, out Tuple<string,int> resourceHeat1Tuple);
-        //        bool foundResourceHeat2 = this.heatDictionary.TryGetValue(resources2ColorHex, out Tuple<string,int> resourceHeat2Tuple);
-        //        bool foundSpawn = this.spawnDictionary.TryGetValue(spawnColorHex, out string spawnGroup);
+    //        bool foundHolding = this.holdingDictionary.TryGetValue(new Tuple<int,int>(x,z), out Tuple<string,string> guidAndDisplayName);
+    //        bool foundTerrain = this.terrainDictionary.TryGetValue(terrainColorHex,out TerrainType terrainType);
+    //        //bool foundResource1 = this.resourceDictionary.TryGetValue(resources1ColorHex, out string resource1GUID);
+    //        //bool foundHeat1 = this.heatDictionary.TryGetValue(resources1HeatColorHex, out int amount1);
+    //        bool foundResourceHeat1 = this.heatDictionary.TryGetValue(resources1ColorHex, out Tuple<string,int> resourceHeat1Tuple);
+    //        bool foundResourceHeat2 = this.heatDictionary.TryGetValue(resources2ColorHex, out Tuple<string,int> resourceHeat2Tuple);
+    //        bool foundSpawn = this.spawnDictionary.TryGetValue(spawnColorHex, out string spawnGroup);
 
-        //        if (foundResourceHeat1 || foundResourceHeat2)
-        //        {
-        //            List<ResourceItem> tempResourceItems = new List<ResourceItem>();
+    //        if (foundResourceHeat1 || foundResourceHeat2)
+    //        {
+    //            List<ResourceItem> tempResourceItems = new List<ResourceItem>();
 
-        //            if (foundResourceHeat1) {
-        //                ResourceItem tempResourceItem1 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat1Tuple.Item1.ToLower()).CreateInstance();
-        //                tempResourceItem1.AddToStack(resourceHeat1Tuple.Item2);
-        //                tempResourceItems.Add(tempResourceItem1);
-        //            }
-                    
-        //            if (foundResourceHeat2)
-        //            {
-        //                ResourceItem tempResourceItem2 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat2Tuple.Item1.ToLower()).CreateInstance();
-        //                tempResourceItem2.AddToStack(resourceHeat2Tuple.Item2);
-        //                tempResourceItems.Add(tempResourceItem2);
-        //            }
+    //            if (foundResourceHeat1) {
+    //                ResourceItem tempResourceItem1 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat1Tuple.Item1.ToLower()).CreateInstance();
+    //                tempResourceItem1.AddToStack(resourceHeat1Tuple.Item2);
+    //                tempResourceItems.Add(tempResourceItem1);
+    //            }
 
-        //            foreach (ResourceItem ri in tempResourceItems)
-        //            {
-        //                switch (ri.ResourceItemType)
-        //                {
-        //                    case ResourceItemType.Foliage:
-        //                        workingNaturalResourceItems.Add(ri);
-        //                        break;
-        //                    case ResourceItemType.Fauna:
-        //                        workingNaturalResourceItems.Add(ri);
-        //                        break;
-        //                    case ResourceItemType.Harvested:
-        //                        break;
-        //                    case ResourceItemType.Manufactured:
-        //                        break;
-        //                    default:
-        //                        break;
-        //                }
-        //            }
-        //        }
+    //            if (foundResourceHeat2)
+    //            {
+    //                ResourceItem tempResourceItem2 = allResourceItems.Find(wri => wri.GUID.ToLower() == resourceHeat2Tuple.Item1.ToLower()).CreateInstance();
+    //                tempResourceItem2.AddToStack(resourceHeat2Tuple.Item2);
+    //                tempResourceItems.Add(tempResourceItem2);
+    //            }
 
-        //        Inventory naturalResourcesInventory = new Inventory(InventoryType.NaturalResources,workingNaturalResourceItems);
+    //            foreach (ResourceItem ri in tempResourceItems)
+    //            {
+    //                switch (ri.ResourceItemType)
+    //                {
+    //                    case ResourceItemType.Foliage:
+    //                        workingNaturalResourceItems.Add(ri);
+    //                        break;
+    //                    case ResourceItemType.Fauna:
+    //                        workingNaturalResourceItems.Add(ri);
+    //                        break;
+    //                    case ResourceItemType.Harvested:
+    //                        break;
+    //                    case ResourceItemType.Manufactured:
+    //                        break;
+    //                    default:
+    //                        break;
+    //                }
+    //            }
+    //        }
 
-        //        Holding tempHolding = new Holding(guidAndDisplayName.Item2,x,z,terrainType, naturalResourcesInventory);
-        //        tempHolding.GUID = guidAndDisplayName.Item1;
+    //        Inventory naturalResourcesInventory = new Inventory(InventoryType.NaturalResources,workingNaturalResourceItems);
 
-        //        if (foundSpawn)
-        //        {
-        //            this.spawnHoldings.Add(tempHolding);
-        //        }
+    //        Holding tempHolding = new Holding(guidAndDisplayName.Item2,x,z,terrainType, naturalResourcesInventory);
+    //        tempHolding.GUID = guidAndDisplayName.Item1;
 
-        //        result.Add(tempHolding);
-        //    }
-        //}
+    //        if (foundSpawn)
+    //        {
+    //            this.spawnHoldings.Add(tempHolding);
+    //        }
 
-        //return result;
+    //        result.Add(tempHolding);
+    //    }
+    //}
+
+    //return result;
     //}
 
     //private List<ResourceItem> ConvertToResourceItems(IEnumerable<XElement> resourceItemElements)

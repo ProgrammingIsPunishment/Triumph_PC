@@ -23,6 +23,11 @@ public class GameInitializationController : MonoBehaviour
             Oberkommando.PREFAB_SERVICE.InstantiateTerrainModel(h);
             h.UpdateVisibility();
         }
+
+        foreach (Unit u in save.Units)
+        {
+            Oberkommando.PREFAB_SERVICE.InstantiateUnitModel(u, this.Gridmap);
+        }
     }
 
     public void InitializeBorders(Save save)

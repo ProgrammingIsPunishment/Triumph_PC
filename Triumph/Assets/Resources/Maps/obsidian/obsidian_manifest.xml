@@ -4,6 +4,9 @@
 		<civilization guid="rome" displayname="Rome" hexcolor="ff0000"></civilization>
 		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
 	</civilizations>
+	<units>
+		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="1" ownerguid="rome"></unit>
+	</units>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="london" displayname="London" xposition="0" zposition="1" terraintype="Ocean"></holding>
@@ -39,7 +42,7 @@
 		<holding guid="berlin1" displayname="Berlin1" xposition="3" zposition="1" terraintype="Plains"></holding>
 		<holding guid="cairo1" displayname="Cairo1" xposition="3" zposition="2" terraintype="Plains"></holding>
 		<holding guid="dubai1" displayname="Dubai1" xposition="3" zposition="3" terraintype="Plains"></holding>
-		<holding guid="istanbul1" displayname="Istanbul1" xposition="3" zposition="4" terraintype="Plains"></holding>
+		<holding guid="istanbul1" displayname="Istanbul1" xposition="3" zposition="4" terraintype="Ocean"></holding>
 		<holding guid="jakarta1" displayname="Jakarta1" xposition="3" zposition="5" terraintype="Plains"></holding>
 		<holding guid="kolkata1" displayname="Kolkata1" xposition="3" zposition="6" terraintype="Plains"></holding>
 		<holding guid="madrid1" displayname="Madrid1" xposition="3" zposition="7" terraintype="Ocean"></holding>
@@ -49,7 +52,7 @@
 		<holding guid="london2" displayname="London2" xposition="4" zposition="1" terraintype="Ocean"></holding>
 		<holding guid="tokyo2" displayname="Tokyo2" xposition="4" zposition="2" terraintype="Plains"></holding>
 		<holding guid="sydney2" displayname="Sydney2" xposition="4" zposition="3" terraintype="Plains"></holding>
-		<holding guid="newyork2" displayname="NewYork2" xposition="4" zposition="4" terraintype="Plains"></holding>
+		<holding guid="newyork2" displayname="NewYork2" xposition="4" zposition="4" terraintype="Ocean"></holding>
 		<holding guid="chicago2" displayname="Chicago2" xposition="4" zposition="5" terraintype="Ocean"></holding>
 		<holding guid="losangeles2" displayname="LosAngeles2" xposition="4" zposition="6" terraintype="Plains"></holding>
 		<holding guid="mumbai2" displayname="Mumbai2" xposition="4" zposition="7" terraintype="Plains"></holding>
@@ -59,7 +62,7 @@
 		<holding guid="berlin2" displayname="Berlin2" xposition="5" zposition="1" terraintype="Plains"></holding>
 		<holding guid="cairo2" displayname="Cairo2" xposition="5" zposition="2" terraintype="Plains"></holding>
 		<holding guid="dubai2" displayname="Dubai2" xposition="5" zposition="3" terraintype="Plains"></holding>
-		<holding guid="istanbul2" displayname="Istanbul2" xposition="5" zposition="4" terraintype="Plains"></holding>
+		<holding guid="istanbul2" displayname="Istanbul2" xposition="5" zposition="4" terraintype="Ocean"></holding>
 		<holding guid="jakarta2" displayname="Jakarta2" xposition="5" zposition="5" terraintype="Plains"></holding>
 		<holding guid="kolkata2" displayname="Kolkata2" xposition="5" zposition="6" terraintype="Plains"></holding>
 		<holding guid="madrid2" displayname="Madrid2" xposition="5" zposition="7" terraintype="Plains"></holding>
@@ -73,7 +76,7 @@
 		<holding guid="chicago3" displayname="Chicago3" xposition="6" zposition="5" terraintype="Plains"></holding>
 		<holding guid="losangeles3" displayname="LosAngeles3" xposition="6" zposition="6" terraintype="Plains"></holding>
 		<holding guid="mumbai3" displayname="Mumbai3" xposition="6" zposition="7" terraintype="Plains"></holding>
-		<holding guid="beijing3" displayname="Beijing3" xposition="6" zposition="8" terraintype="Plains"></holding>
+		<holding guid="beijing3" displayname="Beijing3" xposition="6" zposition="8" terraintype="Ocean"></holding>
 		<holding guid="moscow3" displayname="Moscow3" xposition="6" zposition="9" terraintype="Ocean"></holding>
 		<holding guid="athens3" displayname="Athens3" xposition="7" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="berlin3" displayname="Berlin3" xposition="7" zposition="1" terraintype="Plains"></holding>

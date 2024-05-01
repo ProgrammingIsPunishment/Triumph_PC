@@ -5,6 +5,7 @@ using UnityEngine;
 public class Map
 {
     public List<Civilization> Civilizations = new List<Civilization>();
+    public List<Unit> Units = new List<Unit>();
     public List<Holding> Holdings = new List<Holding>();
 
     public Map() { }
