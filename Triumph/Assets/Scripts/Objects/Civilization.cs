@@ -6,10 +6,14 @@ public class Civilization
 {
     public string GUID { get; set; }
     public string DisplayName { get; set; }
+    public List<Holding> Holdings { get; set; }
+    public Color Color { get; set; }
 
-    public Civilization(string guid, string displayName)
+    public Civilization(string guid, string displayName, Color color)
     {
         this.GUID = guid;
         this.DisplayName = displayName;
+        this.Color = color;
+        this.Holdings = new List<Holding>();
     }
 }

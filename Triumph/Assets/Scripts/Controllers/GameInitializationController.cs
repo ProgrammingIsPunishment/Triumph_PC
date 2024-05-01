@@ -12,6 +12,7 @@ public class GameInitializationController : MonoBehaviour
     {
         //Order very important
         this.InitializeModels(Oberkommando.SAVE);
+        this.InitializeBorders(Oberkommando.SAVE);
     }
 
     public void InitializeModels(Save save)
@@ -21,6 +22,17 @@ public class GameInitializationController : MonoBehaviour
             Oberkommando.PREFAB_SERVICE.InstantiateHoldingModel(h,this.Gridmap);
             Oberkommando.PREFAB_SERVICE.InstantiateTerrainModel(h);
             h.UpdateVisibility();
+        }
+    }
+
+    public void InitializeBorders(Save save)
+    {
+        foreach (Civilization c in save.Civilizations)
+        {
+            foreach (Holding h in c.Holdings)
+            {
+                h.CoupledHoldingDisplay.ShowBorder(c.Color);
+            }
         }
     }
 

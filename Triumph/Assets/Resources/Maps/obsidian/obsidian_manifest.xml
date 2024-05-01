@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map name="obsidian">
 	<civilizations>
-		<civilization guid="rome" displayname="Rome"></civilization>
-		<civilization guid="carthage" displayname="Carthage"></civilization>
+		<civilization guid="rome" displayname="Rome" hexcolor="ff0000"></civilization>
+		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
 	</civilizations>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>
@@ -16,7 +16,7 @@
 		<holding guid="beijing" displayname="Beijing" xposition="0" zposition="8" terraintype="Ocean"></holding>
 		<holding guid="moscow" displayname="Moscow" xposition="0" zposition="9" terraintype="Ocean"></holding>
 		<holding guid="athens" displayname="Athens" xposition="1" zposition="0" terraintype="Ocean"></holding>
-		<holding guid="berlin" displayname="Berlin" xposition="1" zposition="1" terraintype="Plains"></holding>
+		<holding guid="berlin" displayname="Berlin" xposition="1" zposition="1" terraintype="Plains" ownerguid="rome"></holding>
 		<holding guid="cairo" displayname="Cairo" xposition="1" zposition="2" terraintype="Plains"></holding>
 		<holding guid="dubai" displayname="Dubai" xposition="1" zposition="3" terraintype="Plains"></holding>
 		<holding guid="istanbul" displayname="Istanbul" xposition="1" zposition="4" terraintype="Plains"></holding>

@@ -16,7 +16,7 @@ public class MapService
         XDocument xmlDocument = this.GetXMLFile($"Maps/{mapName}/{mapName}_manifest");
 
         result.Civilizations = this.ParseCivilizations(xmlDocument);
-        result.Holdings = this.ParseHoldings(xmlDocument);
+        result.Holdings = this.ParseHoldings(xmlDocument,result);
 
         return result;
     }
@@ -31,14 +31,17 @@ public class MapService
         {
             string guid = (string)c.Attribute("guid").Value.ToLower();
             string name = (string)c.Attribute("displayname").Value;
+            string hexcolor = (string)c.Attribute("hexcolor").Value;
 
-            result.Add(new Civilization(guid, name));
+            Color workingColor = Tools.ColorFromHex(hexcolor);
+
+            result.Add(new Civilization(guid, name, workingColor));
         }
 
         return result;
     }
 
-    public List<Holding> ParseHoldings(XDocument xmlDocument)
+    public List<Holding> ParseHoldings(XDocument xmlDocument, Map workingMap)
     {
         List<Holding> result = new List<Holding>();
 
@@ -52,7 +55,16 @@ public class MapService
             int zPosition = int.Parse(h.Attribute("zposition").Value);
             TerrainType terrainType = Enum.Parse<TerrainType>(h.Attribute("terraintype").Value);
 
-            result.Add(new Holding(guid,name,xPosition,zPosition,terrainType));
+            Holding workingHolding = new Holding(guid, name, xPosition, zPosition, terrainType);
+
+            if (h.Attribute("ownerguid") != null)
+            {
+                string ownerguid = (string)h.Attribute("ownerguid").Value.ToLower();
+                Civilization workingCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
+                workingCivilization.Holdings.Add(workingHolding);
+            }
+
+            result.Add(workingHolding);
         }
 
         return result;

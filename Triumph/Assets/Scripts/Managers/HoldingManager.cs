@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HoldingManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-
+        if (Oberkommando.DEBUG_CONTROLLER.IsDebugMode) { Debug.Log(this.CoupledHolding.Name); }
     }
 
     public void Couple(Holding holding) 
@@ -29,5 +30,11 @@ public class HoldingManager : MonoBehaviour
     {
         this.unexploredObject.SetActive(false);
         this.terrainObject.SetActive(true);
+    }
+
+    public void ShowBorder(Color color)
+    {
+        this.borderObject.GetComponentInChildren<Image>().color = color;
+        this.borderObject.SetActive(true);
     }
 }
