@@ -19,6 +19,8 @@ public class MapService
         result.Units = this.ParseUnits(xmlDocument, result);
         result.Holdings = this.ParseHoldings(xmlDocument,result);
 
+        this.AssignAdjacentHoldings(result.Holdings);
+
         return result;
     }
 
@@ -97,6 +99,19 @@ public class MapService
         }
 
         return result;
+    }
+
+    private void AssignAdjacentHoldings(List<Holding> allHoldings)
+    {
+        foreach (Holding h in allHoldings)
+        {
+            h.AdjacentHoldings.AddRange(allHoldings.Where(ah =>
+                (ah.XPosition == (h.XPosition + 1) && ah.ZPosition == h.ZPosition) ||
+                (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition + 1)) ||
+                (ah.XPosition == (h.XPosition - 1) && ah.ZPosition == h.ZPosition) ||
+                (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition - 1))
+            ).Select(x => x).ToList());
+        }
     }
 
     //private List<Holding> spawnHoldings = new List<Holding>();

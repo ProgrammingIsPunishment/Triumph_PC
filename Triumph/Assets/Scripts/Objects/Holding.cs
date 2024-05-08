@@ -11,6 +11,7 @@ public class Holding
     [SerializeField] public int XPosition { get; set; }
     [SerializeField] public int ZPosition { get; set; }
     [SerializeField] public TerrainType TerrainType { get; set; }
+    [SerializeField] public List<Holding> AdjacentHoldings { get; set; }
 
     [NonSerialized] public HoldingManager CoupledHoldingDisplay = null;
 
