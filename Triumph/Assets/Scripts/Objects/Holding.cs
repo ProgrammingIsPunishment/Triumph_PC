@@ -22,6 +22,7 @@ public class Holding
         this.XPosition = xPosition;
         this.ZPosition = zPosition;
         this.TerrainType = terrainType;
+        this.AdjacentHoldings = new List<Holding>();
     }
 
     public void UpdateVisibility()
