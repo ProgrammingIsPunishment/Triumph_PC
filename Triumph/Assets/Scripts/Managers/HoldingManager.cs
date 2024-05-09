@@ -22,9 +22,7 @@ public class HoldingManager : MonoBehaviour
         if (Oberkommando.GAME_CONTROLLER.GameMode == GameMode.Selection)
         {
             Unit unitAtLocation = Oberkommando.UTILITIES_SERVICE.GetUnitAtLocation(this.CoupledHolding.XPosition, this.CoupledHolding.ZPosition);
-
-            Oberkommando.GAME_CONTROLLER.SelectHolding(this.CoupledHolding);
-            Oberkommando.GAME_CONTROLLER.SelectUnit(unitAtLocation);
+            Oberkommando.GAME_CONTROLLER.Select(this.CoupledHolding, unitAtLocation);
         }
     }
 
@@ -45,9 +43,25 @@ public class HoldingManager : MonoBehaviour
         this.selectedObject.SetActive(isBeingShown);
     }
 
+    public void ShowSelectable(bool isBeingShown)
+    {
+        this.selectableObject.SetActive(isBeingShown);
+    }
+
     public void ShowBorder(Color color)
     {
         this.borderObject.GetComponentInChildren<Image>().color = color;
         this.borderObject.SetActive(true);
+    }
+
+    public void ShowAdjacentHoldings(bool isBeingShown)
+    {
+        foreach (Holding h in this.CoupledHolding.AdjacentHoldings)
+        {
+            if (h.TerrainType != TerrainType.Ocean)
+            {
+                h.CoupledHoldingDisplay.ShowSelectable(isBeingShown);
+            }
+        }
     }
 }
