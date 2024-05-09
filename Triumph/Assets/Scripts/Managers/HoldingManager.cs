@@ -17,7 +17,15 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        if (Oberkommando.DEBUG_CONTROLLER.IsDebugMode) { Debug.Log(this.CoupledHolding.Name); }
+        if (Oberkommando.ISDEBUGMODE) { Debug.Log(this.CoupledHolding.Name); }
+
+        if (Oberkommando.GAME_CONTROLLER.GameMode == GameMode.Selection)
+        {
+            Unit unitAtLocation = Oberkommando.UTILITIES_SERVICE.GetUnitAtLocation(this.CoupledHolding.XPosition, this.CoupledHolding.ZPosition);
+
+            Oberkommando.GAME_CONTROLLER.SelectHolding(this.CoupledHolding);
+            Oberkommando.GAME_CONTROLLER.SelectUnit(unitAtLocation);
+        }
     }
 
     public void Couple(Holding holding) 
@@ -30,6 +38,11 @@ public class HoldingManager : MonoBehaviour
     {
         this.unexploredObject.SetActive(false);
         this.terrainObject.SetActive(true);
+    }
+
+    public void ShowSelected(bool isBeingShown)
+    {
+        this.selectedObject.SetActive(isBeingShown);
     }
 
     public void ShowBorder(Color color)

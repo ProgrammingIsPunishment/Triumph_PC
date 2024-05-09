@@ -6,13 +6,23 @@ using UnityEngine;
 public class GameInitializationController : MonoBehaviour
 {
     [SerializeField] private GameObject Gridmap;
+    [SerializeField] private GameController GameController;
+
+    [SerializeField] private bool IsDebugMode;
 
     // Start is called before the first frame update
     void Start()
     {
+        Oberkommando.ISDEBUGMODE = this.IsDebugMode;
+
+        //Assign Controllers
+        Oberkommando.GAME_CONTROLLER = this.GameController;
+
         //Order very important
         this.InitializeModels(Oberkommando.SAVE);
         this.InitializeBorders(Oberkommando.SAVE);
+
+        Oberkommando.GAME_CONTROLLER.GameMode = GameMode.Selection;
     }
 
     public void InitializeModels(Save save)

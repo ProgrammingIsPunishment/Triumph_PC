@@ -234,6 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 505117531}
   - component: {fileID: 505117533}
+  - component: {fileID: 505117534}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -269,6 +270,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gridmap: {fileID: 1201739797}
+  GameController: {fileID: 505117534}
+  IsDebugMode: 1
+--- !u!114 &505117534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505117529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a182c3ebffce04ca9839386747908a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &518052613
 PrefabInstance:
   m_ObjectHideFlags: 0
