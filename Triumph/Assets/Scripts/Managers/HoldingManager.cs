@@ -54,14 +54,30 @@ public class HoldingManager : MonoBehaviour
         this.borderObject.SetActive(true);
     }
 
-    public void ShowAdjacentHoldings(bool isBeingShown)
+    public List<Holding> GetHoldingsForMovement()
     {
+        List<Holding> result = new List<Holding>();
+
         foreach (Holding h in this.CoupledHolding.AdjacentHoldings)
         {
             if (h.TerrainType != TerrainType.Ocean)
             {
-                h.CoupledHoldingDisplay.ShowSelectable(isBeingShown);
+                result.Add(h);
             }
         }
+
+        return result;
     }
+
+    //public void ShowAdjacentHoldings(bool isBeingShown)
+    //{
+    //    foreach (Holding h in this.CoupledHolding.AdjacentHoldings)
+    //    {
+    //        if (h.TerrainType != TerrainType.Ocean)
+    //        {
+    //            h.CoupledHoldingDisplay.ShowSelectable(isBeingShown);
+    //            Oberkommando.GAME_CONTROLLER.AddSelectableHolding(h);
+    //        }
+    //    }
+    //}
 }
