@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [NonSerialized] public GameMode GameMode;
+    [NonSerialized] public bool CanCameraMove;
 
     [NonSerialized] private Holding SelectedHolding = null;
     [NonSerialized] private Unit SelectedUnit = null;

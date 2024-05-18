@@ -26,6 +26,7 @@ public class GameInitializationController : MonoBehaviour
         this.InitializeBorders(Oberkommando.SAVE);
 
         Oberkommando.GAME_CONTROLLER.GameMode = GameMode.Selection;
+        Oberkommando.GAME_CONTROLLER.CanCameraMove = true;
     }
 
     public void InitializeModels(Save save)
@@ -57,6 +58,7 @@ public class GameInitializationController : MonoBehaviour
     public void InitializeUI()
     {
         this.UIController.HoldingDetailsManager.Show(false);
+        this.UIController.DispatchesManager.Show(false);
     }
 
     //private void AssignControllers()
