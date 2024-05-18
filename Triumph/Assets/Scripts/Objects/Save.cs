@@ -7,6 +7,7 @@ using static UnityEngine.UI.CanvasScaler;
 [Serializable]
 public class Save
 {
+    public int Turn { get; set; }
     public string Name { get; set; }
     public string MapName { get; set; }
     public List<Civilization> Civilizations { get; set; } = new List<Civilization>();
@@ -22,6 +23,7 @@ public class Save
     {
         this.Name = name;
         this.MapName = mapName;
+        this.Turn = 1;
     }
 
     public string FileName()

@@ -46,4 +46,10 @@ public class GameController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Refresh(selectedHolding, selectedUnit);
         Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Show(true);
     }
+
+    public void EndTurn()
+    {
+        Oberkommando.SAVE.Turn++;
+        Debug.Log(Oberkommando.SAVE.Turn);
+    }
 }
