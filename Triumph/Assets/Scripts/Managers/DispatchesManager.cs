@@ -5,8 +5,19 @@ using TMPro;
 
 public class DispatchesManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI Recipient;
-    [SerializeField] private TextMeshProUGUI Message;
+    [SerializeField] private TMP_InputField RecipientInput;
+    [SerializeField] private TMP_InputField MessageInput;
+
+    public Dispatch GetDispatch()
+    {
+        return new Dispatch(this.RecipientInput.text, this.MessageInput.text);
+    }
+
+    public void Default()
+    {
+        this.RecipientInput.text = "";
+        this.MessageInput.text = "";
+    }
 
     public void Show(bool isBeingShown)
     {

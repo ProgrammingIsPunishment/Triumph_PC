@@ -1139,7 +1139,7 @@ GameObject:
   - component: {fileID: 724832280}
   - component: {fileID: 724832279}
   m_Layer: 5
-  m_Name: TMPI_To
+  m_Name: TMPI_Recipient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1617,7 +1617,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857259010}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
@@ -2849,10 +2849,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1390346398}
-  - component: {fileID: 1390346402}
   - component: {fileID: 1390346401}
   - component: {fileID: 1390346400}
   - component: {fileID: 1390346399}
+  - component: {fileID: 1390346402}
   m_Layer: 5
   m_Name: SendDispatchButton
   m_TagString: Untagged
@@ -2925,7 +2925,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1390346402}
-        m_TargetAssemblyTypeName: DispatchesButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: SendDispatchButton, Assembly-CSharp
         m_MethodName: ClickEvent
         m_Mode: 1
         m_Arguments:
@@ -2983,7 +2983,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390346397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5376958e638e3d342b0336309067d75e, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ceff2d2d7aa32f41a8ea6f1787ca172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1667404154
@@ -3302,7 +3302,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993830018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
@@ -3351,8 +3351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e1433eda828e945873d1084975ee9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Recipient: {fileID: 158270495}
-  Message: {fileID: 801545648}
+  RecipientInput: {fileID: 724832279}
+  MessageInput: {fileID: 257513637}
 --- !u!1 &2044757208
 GameObject:
   m_ObjectHideFlags: 0

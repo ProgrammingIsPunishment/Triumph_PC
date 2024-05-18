@@ -59,6 +59,7 @@ public class GameInitializationController : MonoBehaviour
     {
         this.UIController.HoldingDetailsManager.Show(false);
         this.UIController.DispatchesManager.Show(false);
+        this.UIController.DispatchesManager.Default();
     }
 
     //private void AssignControllers()
