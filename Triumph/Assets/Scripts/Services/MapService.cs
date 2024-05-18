@@ -56,8 +56,9 @@ public class MapService
             string name = (string)u.Attribute("displayname").Value;
             int xPosition = int.Parse(u.Attribute("xposition").Value);
             int zPosition = int.Parse(u.Attribute("zposition").Value);
+            string modelName = (string)u.Attribute("modelname").Value;
 
-            Unit workingUnits = new Unit(guid, name, xPosition, zPosition);
+            Unit workingUnits = new Unit(guid, name, xPosition, zPosition, modelName);
 
             if (u.Attribute("ownerguid") != null)
             {
@@ -112,6 +113,13 @@ public class MapService
                 (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition - 1))
             ).Select(x => x).ToList());
         }
+    }
+
+    private XDocument GetXMLFile(string filePath)
+    {
+        TextAsset txtAsset = Resources.Load<TextAsset>(filePath);
+        var doc = XDocument.Parse(txtAsset.text);
+        return doc;
     }
 
     //private List<Holding> spawnHoldings = new List<Holding>();
@@ -743,11 +751,4 @@ public class MapService
     //        ).Select(x=>x).ToList());
     //    }
     //}
-
-    private XDocument GetXMLFile(string filePath)
-    {
-        TextAsset txtAsset = Resources.Load<TextAsset>(filePath);
-        var doc = XDocument.Parse(txtAsset.text);
-        return doc;
-    }
 }

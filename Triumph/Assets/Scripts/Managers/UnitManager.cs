@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
+    [SerializeField] private GameObject modelObject;
+
     private Unit CoupledUnit = null;
 
     public void OnClickEvent()
@@ -16,5 +18,10 @@ public class UnitManager : MonoBehaviour
     {
         this.CoupledUnit = unit;
         this.CoupledUnit.CoupledUnitManager = this;
+    }
+
+    public void AssignModel(GameObject gameObject)
+    {
+        this.modelObject = gameObject;
     }
 }

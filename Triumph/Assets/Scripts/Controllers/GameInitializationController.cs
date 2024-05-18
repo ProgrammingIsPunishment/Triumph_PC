@@ -7,6 +7,7 @@ public class GameInitializationController : MonoBehaviour
 {
     [SerializeField] private GameObject Gridmap;
     [SerializeField] private GameController GameController;
+    [SerializeField] private UIController UIController;
 
     [SerializeField] private bool IsDebugMode;
 
@@ -17,8 +18,10 @@ public class GameInitializationController : MonoBehaviour
 
         //Assign Controllers
         Oberkommando.GAME_CONTROLLER = this.GameController;
+        Oberkommando.UI_CONTROLLER = this.UIController;
 
         //Order very important
+        this.InitializeUI();
         this.InitializeModels(Oberkommando.SAVE);
         this.InitializeBorders(Oberkommando.SAVE);
 
@@ -49,6 +52,11 @@ public class GameInitializationController : MonoBehaviour
                 h.CoupledHoldingDisplay.ShowBorder(c.Color);
             }
         }
+    }
+
+    public void InitializeUI()
+    {
+        this.UIController.HoldingDetailsManager.Show(false);
     }
 
     //private void AssignControllers()

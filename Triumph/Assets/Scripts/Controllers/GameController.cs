@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
         if (this.SelectedUnit != null)
         {
             //this.SelectedHolding.CoupledHoldingDisplay.ShowAdjacentHoldings(false);
-            foreach (Holding h in this.SelectableHoldings) { h.CoupledHoldingDisplay.ShowSelectable(false); }
+            //foreach (Holding h in this.SelectableHoldings) { h.CoupledHoldingDisplay.ShowSelectable(false); }
             this.SelectableHoldings.Clear();
         }
         if (this.SelectedHolding != null)
@@ -37,8 +37,12 @@ public class GameController : MonoBehaviour
         if (this.SelectedUnit != null)
         {
             //this.SelectedHolding.CoupledHoldingDisplay.ShowAdjacentHoldings(true);
-            this.SelectableHoldings.AddRange(this.SelectedHolding.CoupledHoldingDisplay.GetHoldingsForMovement());
-            foreach (Holding h in this.SelectableHoldings) { h.CoupledHoldingDisplay.ShowSelectable(true); }
+            //this.SelectableHoldings.AddRange(this.SelectedHolding.CoupledHoldingDisplay.GetHoldingsForMovement());
+            //foreach (Holding h in this.SelectableHoldings) { h.CoupledHoldingDisplay.ShowSelectable(true); }
         }
+
+
+        Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Refresh(selectedHolding, selectedUnit);
+        Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Show(true);
     }
 }

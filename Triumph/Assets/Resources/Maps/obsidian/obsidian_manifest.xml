@@ -5,7 +5,8 @@
 		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
 	</civilizations>
 	<units>
-		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="1" ownerguid="rome"></unit>
+		<unit guid="romeleader" displayname="Roman Emperor" xposition="1" zposition="1" ownerguid="rome" modelname="LeaderUnit_Red"></unit>
+		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="2" ownerguid="rome" modelname="BannerUnit_Red"></unit>
 	</units>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>
@@ -20,7 +21,7 @@
 		<holding guid="moscow" displayname="Moscow" xposition="0" zposition="9" terraintype="Ocean"></holding>
 		<holding guid="athens" displayname="Athens" xposition="1" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="berlin" displayname="Berlin" xposition="1" zposition="1" terraintype="Plains" ownerguid="rome"></holding>
-		<holding guid="cairo" displayname="Cairo" xposition="1" zposition="2" terraintype="Plains"></holding>
+		<holding guid="cairo" displayname="Cairo" xposition="1" zposition="2" terraintype="Plains" ownerguid="rome"></holding>
 		<holding guid="dubai" displayname="Dubai" xposition="1" zposition="3" terraintype="Plains"></holding>
 		<holding guid="istanbul" displayname="Istanbul" xposition="1" zposition="4" terraintype="Plains"></holding>
 		<holding guid="jakarta" displayname="Jakarta" xposition="1" zposition="5" terraintype="Plains"></holding>
