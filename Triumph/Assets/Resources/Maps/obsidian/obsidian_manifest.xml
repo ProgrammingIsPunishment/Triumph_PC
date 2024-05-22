@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map name="obsidian">
+	<amazin></amazin>
 	<civilizations>
 		<civilization guid="rome" displayname="Rome" hexcolor="ff0000"></civilization>
 		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
