@@ -930,6 +930,7 @@ GameObject:
   - component: {fileID: 505117533}
   - component: {fileID: 505117534}
   - component: {fileID: 505117535}
+  - component: {fileID: 505117536}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -967,6 +968,7 @@ MonoBehaviour:
   Gridmap: {fileID: 1201739797}
   GameController: {fileID: 505117534}
   UIController: {fileID: 505117535}
+  DispatchesController: {fileID: 505117536}
   IsDebugMode: 1
 --- !u!114 &505117534
 MonoBehaviour:
@@ -994,6 +996,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HoldingDetailsManager: {fileID: 857259017}
   DispatchesManager: {fileID: 1993830025}
+--- !u!114 &505117536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505117529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220ed015827e16642a15839df4b61075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &518052613
 PrefabInstance:
   m_ObjectHideFlags: 0

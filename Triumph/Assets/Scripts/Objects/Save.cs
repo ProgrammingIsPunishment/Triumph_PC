@@ -10,6 +10,7 @@ public class Save
     public int Turn { get; set; }
     public string Name { get; set; }
     public string MapName { get; set; }
+    public string PlayerGUID { get; set; }
     public List<Civilization> Civilizations { get; set; } = new List<Civilization>();
     public List<Unit> Units { get; set; } = new List<Unit>();
     public List<Holding> Holdings { get; set; } = new List<Holding>();

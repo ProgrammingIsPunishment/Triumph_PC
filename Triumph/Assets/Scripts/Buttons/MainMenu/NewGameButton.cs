@@ -12,6 +12,7 @@ public class NewGameButton : MonoBehaviour
         tempSave.Holdings = tempMap.Holdings;
         tempSave.Units = tempMap.Units;
         tempSave.Civilizations = tempMap.Civilizations;
+        tempSave.PlayerGUID = "rome";
 
         Oberkommando.SAVE = tempSave;
 

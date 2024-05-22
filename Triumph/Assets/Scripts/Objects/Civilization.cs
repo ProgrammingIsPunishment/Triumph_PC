@@ -17,5 +17,6 @@ public class Civilization
         this.Color = color;
         this.Holdings = new List<Holding>();
         this.Units = new List<Unit>();
+        this.Dispatches = new List<Dispatch>();
     }
 }

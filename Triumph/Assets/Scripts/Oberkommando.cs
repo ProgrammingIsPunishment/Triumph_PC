@@ -11,10 +11,12 @@ public static class Oberkommando
     public static GameInitializationController GAMEINITIALIZATION_CONTROLLER;
     public static GameController GAME_CONTROLLER;
     public static UIController UI_CONTROLLER;
+    public static DispatchesController DISPATCHES_CONTROLLER;
 
     public static CameraManager CAMERA_MANAGER;
 
     public static Save SAVE;
+    public static Civilization PLAYER;
 
     public static bool ISDEBUGMODE;
 }

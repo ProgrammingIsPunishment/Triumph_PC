@@ -8,6 +8,7 @@ public class GameInitializationController : MonoBehaviour
     [SerializeField] private GameObject Gridmap;
     [SerializeField] private GameController GameController;
     [SerializeField] private UIController UIController;
+    [SerializeField] private DispatchesController DispatchesController;
 
     [SerializeField] private bool IsDebugMode;
 
@@ -19,11 +20,14 @@ public class GameInitializationController : MonoBehaviour
         //Assign Controllers
         Oberkommando.GAME_CONTROLLER = this.GameController;
         Oberkommando.UI_CONTROLLER = this.UIController;
+        Oberkommando.DISPATCHES_CONTROLLER = this.DispatchesController;
 
         //Order very important
         this.InitializeUI();
         this.InitializeModels(Oberkommando.SAVE);
         this.InitializeBorders(Oberkommando.SAVE);
+
+        Oberkommando.PLAYER = Oberkommando.SAVE.Civilizations.Find(c=>c.GUID == Oberkommando.SAVE.PlayerGUID);
 
         Oberkommando.GAME_CONTROLLER.GameMode = GameMode.Selection;
         Oberkommando.GAME_CONTROLLER.CanCameraMove = true;

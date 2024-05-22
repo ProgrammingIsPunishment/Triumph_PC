@@ -9,6 +9,9 @@ public class SendDispatchButton : MonoBehaviour
         Dispatch dispatch = Oberkommando.UI_CONTROLLER.DispatchesManager.GetDispatch();
         Oberkommando.UI_CONTROLLER.DispatchesManager.Show(false);
         Oberkommando.UI_CONTROLLER.DispatchesManager.Default();
-        Debug.Log(dispatch.RecipientName + " : " + dispatch.Message);
+        Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
+        //Debug.Log(dispatch.RecipientName + " : " + dispatch.Message);
+        //Oberkommando.PLAYER.Dispatches.Add(dispatch);
+        //Debug.Log(Oberkommando.SAVE.Dispatches);
     }
 }

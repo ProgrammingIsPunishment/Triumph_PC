@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Dispatch
 {
-    public string RecipientName { get; set; }
+    public string RecipientDisplayName { get; set; }
     public string Message { get; set; }
+    public bool Received { get; set; }
+    public List<Task> Tasks { get; set; }
+    public bool IsCompleted { get; set; }
 
-    public Dispatch(string recipientName, string message)
+    public Dispatch(string recipientDisplayName, string message)
     {
-        this.RecipientName = recipientName;
+        this.RecipientDisplayName = recipientDisplayName;
         this.Message = message;
+        this.Received = false;
+        this.Tasks = new List<Task>();
+        this.IsCompleted = false;
     }
 }

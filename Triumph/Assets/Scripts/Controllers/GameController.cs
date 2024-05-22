@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     [NonSerialized] private Unit SelectedUnit = null;
     [NonSerialized] private List<Holding> SelectableHoldings = new List<Holding>();
 
+    [NonSerialized] public List<Dispatch> PendingDispatches = new List<Dispatch>();
+
     public void Select(Holding selectedHolding, Unit selectedUnit)
     {
         //Unmark existing
@@ -49,7 +51,32 @@ public class GameController : MonoBehaviour
 
     public void EndTurn()
     {
+        this.ProcessDispatches();
+        this.ProcessDispatches();
+
         Oberkommando.SAVE.Turn++;
         Debug.Log(Oberkommando.SAVE.Turn);
+    }
+
+    public void ProcessDispatches()
+    {
+        //Process Dispatches to set tasks
+        foreach (Dispatch d in this.PendingDispatches)
+        {
+            Oberkommando.DISPATCHES_CONTROLLER.Process(d);
+            Oberkommando.SAVE.Units.Find(u=>u.Name == d.RecipientDisplayName).Dispatches.Add(d);
+        }
+
+        this.PendingDispatches.Clear();
+    }
+
+    //Tornado 5/21/2024
+    public void ProcessUnitActions()
+    {
+        //Process Dispatches to set tasks
+        foreach (Unit u in Oberkommando.SAVE.Units)
+        {
+            u.TakeAction();
+        }
     }
 }
