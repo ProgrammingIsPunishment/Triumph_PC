@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SendDispatchButton : MonoBehaviour
 {
@@ -13,5 +14,10 @@ public class SendDispatchButton : MonoBehaviour
         //Debug.Log(dispatch.RecipientName + " : " + dispatch.Message);
         //Oberkommando.PLAYER.Dispatches.Add(dispatch);
         //Debug.Log(Oberkommando.SAVE.Dispatches);
+    }
+
+    public void Enabled(bool isEnabled)
+    {
+        this.GetComponent<Button>().interactable = isEnabled;
     }
 }

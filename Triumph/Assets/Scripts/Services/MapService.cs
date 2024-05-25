@@ -58,16 +58,16 @@ public class MapService
             int zPosition = int.Parse(u.Attribute("zposition").Value);
             string modelName = (string)u.Attribute("modelname").Value;
 
-            Unit workingUnits = new Unit(guid, name, xPosition, zPosition, modelName);
+            Unit workingUnit = new Unit(guid, name, xPosition, zPosition, modelName);
 
             if (u.Attribute("ownerguid") != null)
             {
                 string ownerguid = (string)u.Attribute("ownerguid").Value.ToLower();
                 Civilization workingCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
-                workingCivilization.Units.Add(workingUnits);
+                workingUnit.Owner = workingCivilization;
             }
 
-            result.Add(workingUnits);
+            result.Add(workingUnit);
         }
 
         return result;
@@ -93,7 +93,7 @@ public class MapService
             {
                 string ownerguid = (string)h.Attribute("ownerguid").Value.ToLower();
                 Civilization workingCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
-                workingCivilization.Holdings.Add(workingHolding);
+                workingHolding.Owner = workingCivilization;
             }
 
             result.Add(workingHolding);

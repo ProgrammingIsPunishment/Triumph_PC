@@ -28,12 +28,14 @@ public class DispatchesController : MonoBehaviour
                     switch (s[1])
                     {
                         case "TO":
-                            //workingHolding = Oberkommando.SAVE.Holdings.Find(h=>h.Name.ToUpper() == s[2]);
-                            workingTasks.Add(new Task(TaskType.Move, s[2]));
+                            string guid = Oberkommando.SAVE.Holdings.Find(h => h.Name.ToUpper() == s[2]).GUID;
+                            workingTasks.Add(new Task(TaskType.Move, guid));
                             break;
                     }
                     break;
             }
         }
+
+        dispatch.Tasks.AddRange(workingTasks);
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class GameInitializationController : MonoBehaviour
@@ -23,6 +25,7 @@ public class GameInitializationController : MonoBehaviour
         Oberkommando.DISPATCHES_CONTROLLER = this.DispatchesController;
 
         //Order very important
+        this.InitializeSyntaxLibrary(Oberkommando.SAVE);
         this.InitializeUI();
         this.InitializeModels(Oberkommando.SAVE);
         this.InitializeBorders(Oberkommando.SAVE);
@@ -50,11 +53,11 @@ public class GameInitializationController : MonoBehaviour
 
     public void InitializeBorders(Save save)
     {
-        foreach (Civilization c in save.Civilizations)
+        foreach (Holding h in save.Holdings)
         {
-            foreach (Holding h in c.Holdings)
+            if (h.Owner != null)
             {
-                h.CoupledHoldingDisplay.ShowBorder(c.Color);
+                h.CoupledHoldingDisplay.ShowBorder(h.Owner.Color);
             }
         }
     }
@@ -64,6 +67,26 @@ public class GameInitializationController : MonoBehaviour
         this.UIController.HoldingDetailsManager.Show(false);
         this.UIController.DispatchesManager.Show(false);
         this.UIController.DispatchesManager.Default();
+    }
+
+    public void InitializeSyntaxLibrary(Save save)
+    {
+        Dictionary<string, string> validHoldings = new Dictionary<string, string>();
+        foreach (Holding h in save.Holdings)
+        {
+            validHoldings.Add(h.Name.ToUpper(), h.GUID.ToUpper());
+        }
+
+        Dictionary<string, string> validUnits = new Dictionary<string, string>();
+        foreach (Unit u in save.Units)
+        {
+            validUnits.Add(u.Name.ToUpper(), u.GUID.ToUpper());
+        }
+
+        List<Tuple<Regex, string[]>> validSyntax = new List<Tuple<Regex, string[]>>();
+        validSyntax.Add(new Tuple<Regex, string[]>(new Regex(@"^MOVE TO [a-zA-Z0-9\W]+$"), new string[] { "MOVE","TO" }));
+
+        Oberkommando.SYNTAXLIBRARY = new SyntaxLibrary(validHoldings,validUnits,validSyntax);
     }
 
     //private void AssignControllers()

@@ -7,6 +7,8 @@ public class DispatchesManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField RecipientInput;
     [SerializeField] private TMP_InputField MessageInput;
+    [SerializeField] private SendDispatchButton SendDispatchButton;
+    [SerializeField] private DispatchesSyntaxManager DispatchesSyntaxManager;
 
     public Dispatch GetDispatch()
     {
@@ -17,6 +19,7 @@ public class DispatchesManager : MonoBehaviour
     {
         this.RecipientInput.text = "";
         this.MessageInput.text = "";
+        this.SendDispatchButton.Enabled(false);
     }
 
     public void Show(bool isBeingShown)

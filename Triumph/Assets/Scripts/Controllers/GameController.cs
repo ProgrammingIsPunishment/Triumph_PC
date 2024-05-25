@@ -52,7 +52,10 @@ public class GameController : MonoBehaviour
     public void EndTurn()
     {
         this.ProcessDispatches();
-        this.ProcessDispatches();
+        this.ProcessUnitActions();
+        this.UpdateBorders();
+
+        Oberkommando.UI_CONTROLLER.DispatchesManager.Default();
 
         Oberkommando.SAVE.Turn++;
         Debug.Log(Oberkommando.SAVE.Turn);
@@ -64,7 +67,8 @@ public class GameController : MonoBehaviour
         foreach (Dispatch d in this.PendingDispatches)
         {
             Oberkommando.DISPATCHES_CONTROLLER.Process(d);
-            Oberkommando.SAVE.Units.Find(u=>u.Name == d.RecipientDisplayName).Dispatches.Add(d);
+            Oberkommando.SAVE.Units.Find(u=>u.Name.ToUpper() == d.RecipientDisplayName.ToUpper()).Dispatches.Add(d);
+            d.Received();
         }
 
         this.PendingDispatches.Clear();
@@ -77,6 +81,17 @@ public class GameController : MonoBehaviour
         foreach (Unit u in Oberkommando.SAVE.Units)
         {
             u.TakeAction();
+        }
+    }
+
+    public void UpdateBorders()
+    {
+        foreach (Holding h in Oberkommando.SAVE.Holdings)
+        {
+            if (h.Owner != null)
+            {
+                h.CoupledHoldingDisplay.ShowBorder(h.Owner.Color);
+            }
         }
     }
 }

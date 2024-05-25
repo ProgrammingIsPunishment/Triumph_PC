@@ -15,6 +15,8 @@ public static class Oberkommando
 
     public static CameraManager CAMERA_MANAGER;
 
+    public static SyntaxLibrary SYNTAXLIBRARY;
+
     public static Save SAVE;
     public static Civilization PLAYER;
 
