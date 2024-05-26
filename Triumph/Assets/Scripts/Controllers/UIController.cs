@@ -6,4 +6,5 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] public HoldingDetailsManager HoldingDetailsManager;
     [SerializeField] public DispatchesManager DispatchesManager;
+    [SerializeField] public OutgoingDispatchesManager OutgoingDispatchesManager;
 }

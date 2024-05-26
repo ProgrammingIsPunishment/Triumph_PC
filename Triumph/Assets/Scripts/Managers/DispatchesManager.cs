@@ -12,7 +12,7 @@ public class DispatchesManager : MonoBehaviour
 
     public Dispatch GetDispatch()
     {
-        return new Dispatch(this.RecipientInput.text, this.MessageInput.text);
+        return new Dispatch(this.RecipientInput.text, this.MessageInput.text, Oberkommando.PLAYER);
     }
 
     public void Default()

@@ -14,6 +14,7 @@ public class Save
     public List<Civilization> Civilizations { get; set; } = new List<Civilization>();
     public List<Unit> Units { get; set; } = new List<Unit>();
     public List<Holding> Holdings { get; set; } = new List<Holding>();
+    public List<Dispatch> Dispatches { get; set; } = new List<Dispatch>();
 
     public Save(string name)
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class PrefabsService : MonoBehaviour
 {
@@ -45,6 +46,13 @@ public class PrefabsService : MonoBehaviour
 
         //unit.UnitDisplayManager.Show(true);
         ////tempHoldingObject.(false);
+    }
+
+    public void InstantiateDispatchListItem(Dispatch dispatch, GameObject scrollViewContent)
+    {
+        GameObject tempListItemObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/DispatchListItem"), new Vector3(0f,0f,0f), Quaternion.identity);
+        tempListItemObject.GetComponent<DispatchListItemManager>().Refresh(dispatch);
+        tempListItemObject.transform.SetParent(scrollViewContent.transform);
     }
 
     //public void InstantiateResourceModel(Holding holding, ResourceItem resourceItem)
