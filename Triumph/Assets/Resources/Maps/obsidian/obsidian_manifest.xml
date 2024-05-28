@@ -6,9 +6,9 @@
 		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
 	</civilizations>
 	<units>
-		<unit guid="romeleader" displayname="Roman Emperor" xposition="1" zposition="1" ownerguid="rome" modelname="LeaderUnit_Red"></unit>
+		<unit guid="romeleader" displayname="Augustus" xposition="1" zposition="1" ownerguid="rome" modelname="LeaderUnit_Red"></unit>
 		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="2" ownerguid="rome" modelname="BannerUnit_Red"></unit>
-		<unit guid="carthageleader" displayname="Carthage Leader" xposition="8" zposition="8" ownerguid="carthage" modelname="LeaderUnit_Green"></unit>
+		<unit guid="carthageleader" displayname="Hannibal" xposition="8" zposition="8" ownerguid="carthage" modelname="LeaderUnit_Green"></unit>
 		<unit guid="army1" displayname="I Army" xposition="8" zposition="7" ownerguid="carthage" modelname="BannerUnit_Green"></unit>
 	</units>
 	<holdings>
