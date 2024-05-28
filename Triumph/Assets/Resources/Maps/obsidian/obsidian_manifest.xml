@@ -8,6 +8,8 @@
 	<units>
 		<unit guid="romeleader" displayname="Roman Emperor" xposition="1" zposition="1" ownerguid="rome" modelname="LeaderUnit_Red"></unit>
 		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="2" ownerguid="rome" modelname="BannerUnit_Red"></unit>
+		<unit guid="carthageleader" displayname="Carthage Leader" xposition="8" zposition="8" ownerguid="carthage" modelname="LeaderUnit_Green"></unit>
+		<unit guid="army1" displayname="I Army" xposition="8" zposition="7" ownerguid="carthage" modelname="BannerUnit_Green"></unit>
 	</units>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>
@@ -97,8 +99,8 @@
 		<holding guid="newyork4" displayname="NewYork4" xposition="8" zposition="4" terraintype="Plains"></holding>
 		<holding guid="chicago4" displayname="Chicago4" xposition="8" zposition="5" terraintype="Plains"></holding>
 		<holding guid="losangeles4" displayname="LosAngeles4" xposition="8" zposition="6" terraintype="Plains"></holding>
-		<holding guid="mumbai4" displayname="Mumbai4" xposition="8" zposition="7" terraintype="Plains"></holding>
-		<holding guid="beijing4" displayname="Beijing4" xposition="8" zposition="8" terraintype="Plains"></holding>
+		<holding guid="mumbai4" displayname="Mumbai4" xposition="8" zposition="7" terraintype="Plains" ownerguid="carthage"></holding>
+		<holding guid="beijing4" displayname="Beijing4" xposition="8" zposition="8" terraintype="Plains" ownerguid="carthage"></holding>
 		<holding guid="moscow4" displayname="Moscow4" xposition="8" zposition="9" terraintype="Ocean"></holding>
 		<holding guid="athens4" displayname="Athens4" xposition="9" zposition="0" terraintype="Ocean"></holding>
 		<holding guid="berlin4" displayname="Berlin4" xposition="9" zposition="1" terraintype="Ocean"></holding>
