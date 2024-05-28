@@ -53,6 +53,7 @@ public class PrefabsService : MonoBehaviour
         GameObject tempListItemObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/DispatchListItem"), new Vector3(0f,0f,0f), Quaternion.identity);
         tempListItemObject.GetComponent<DispatchListItemManager>().Refresh(dispatch);
         tempListItemObject.transform.SetParent(scrollViewContent.transform);
+        tempListItemObject.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     //public void InstantiateResourceModel(Holding holding, ResourceItem resourceItem)

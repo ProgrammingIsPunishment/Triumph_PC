@@ -67,10 +67,11 @@ public class GameController : MonoBehaviour
         foreach (Dispatch d in this.PendingDispatches)
         {
             Oberkommando.DISPATCHES_CONTROLLER.Process(d);
-            Oberkommando.SAVE.Units.Find(u=>u.Name.ToUpper() == d.RecipientDisplayName.ToUpper()).Dispatches.Add(d);
+            Oberkommando.SAVE.Units.Find(u=>u.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
             d.Received();
         }
 
+        Oberkommando.SAVE.Dispatches.AddRange(this.PendingDispatches);
         this.PendingDispatches.Clear();
     }
 

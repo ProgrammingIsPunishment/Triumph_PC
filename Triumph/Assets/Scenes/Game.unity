@@ -1655,6 +1655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 675185303}
   - component: {fileID: 675185306}
+  - component: {fileID: 675185307}
   - component: {fileID: 675185305}
   - component: {fileID: 675185304}
   m_Layer: 5
@@ -1727,7 +1728,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 675185305}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 675185307}
+        m_TargetAssemblyTypeName: DeleteDispatchButton, Assembly-CSharp
+        m_MethodName: OnClickEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &675185305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,6 +1779,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675185302}
   m_CullTransparentMesh: 1
+--- !u!114 &675185307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675185302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1ad16db9f86d47458903e85fb2c2034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &724832277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2746,6 +2771,8 @@ MonoBehaviour:
   RecipientText: {fileID: 1615284175}
   MessageText: {fileID: 285679237}
   ScrollViewContent: {fileID: 409989215}
+  DispatchContainer: {fileID: 508167922}
+  DeleteDispatchButton: {fileID: 675185307}
 --- !u!1001 &938948074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5581,6 +5608,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 409989216}
     m_Modifications:
+    - target: {fileID: 6363548855558923832, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363548855558923832, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363548855558923832, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5604,7 +5646,7 @@ PrefabInstance:
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
@@ -5614,17 +5656,17 @@ PrefabInstance:
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
@@ -5664,12 +5706,12 @@ PrefabInstance:
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6363548855558923833, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
@@ -5694,7 +5736,8 @@ PrefabInstance:
     - target: {fileID: 6363548855558923974, guid: 58bcceed9bd668b4694fb99c5f8e6b58,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6363548855558923834, guid: 58bcceed9bd668b4694fb99c5f8e6b58, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 58bcceed9bd668b4694fb99c5f8e6b58, type: 3}
