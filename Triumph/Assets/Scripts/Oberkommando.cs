@@ -7,6 +7,7 @@ public static class Oberkommando
     public static MapService MAP_SERVICE = new MapService();
     public static PrefabsService PREFAB_SERVICE = new PrefabsService();
     public static UtilitiesService UTILITIES_SERVICE = new UtilitiesService();
+    public static AIService AI_SERVICE = new AIService();
 
     public static GameInitializationController GAMEINITIALIZATION_CONTROLLER;
     public static GameController GAME_CONTROLLER;
