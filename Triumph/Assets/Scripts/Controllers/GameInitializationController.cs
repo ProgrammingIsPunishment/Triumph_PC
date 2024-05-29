@@ -24,6 +24,8 @@ public class GameInitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.UIController;
         Oberkommando.DISPATCHES_CONTROLLER = this.DispatchesController;
 
+        Oberkommando.VALUELIBRARY = new ValueLibrary(Oberkommando.SAVE);
+
         //Order very important
         this.InitializeSyntaxLibrary(Oberkommando.SAVE);
         this.InitializeUI();

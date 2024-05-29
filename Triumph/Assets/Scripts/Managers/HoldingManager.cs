@@ -17,7 +17,7 @@ public class HoldingManager : MonoBehaviour
 
     public void OnClickEvent()
     {
-        if (Oberkommando.ISDEBUGMODE) { Debug.Log(this.CoupledHolding.Name); }
+        if (Oberkommando.ISDEBUGMODE) { Debug.Log($"{this.CoupledHolding.Name} X:{this.CoupledHolding.XPosition} Z:{this.CoupledHolding.ZPosition}"); }
 
         if (Oberkommando.GAME_CONTROLLER.GameMode == GameMode.Selection)
         {
