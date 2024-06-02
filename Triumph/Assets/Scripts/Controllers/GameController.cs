@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
         Oberkommando.UI_CONTROLLER.DispatchesManager.Default();
 
         Oberkommando.SAVE.Turn++;
-        Debug.Log(Oberkommando.SAVE.Turn);
+        UnityEngine.Debug.Log(Oberkommando.SAVE.Turn);
     }
 
     public void ProcessDispatches()

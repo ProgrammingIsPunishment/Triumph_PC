@@ -12,13 +12,9 @@ public class GameInitializationController : MonoBehaviour
     [SerializeField] private UIController UIController;
     [SerializeField] private DispatchesController DispatchesController;
 
-    [SerializeField] private bool IsDebugMode;
-
     // Start is called before the first frame update
     void Start()
     {
-        Oberkommando.ISDEBUGMODE = this.IsDebugMode;
-
         //Assign Controllers
         Oberkommando.GAME_CONTROLLER = this.GameController;
         Oberkommando.UI_CONTROLLER = this.UIController;
@@ -32,10 +28,21 @@ public class GameInitializationController : MonoBehaviour
         this.InitializeModels(Oberkommando.SAVE);
         this.InitializeBorders(Oberkommando.SAVE);
 
+        //Check if debug
+        if (Oberkommando.DEBUG.IsDebugMode) { this.InitializeDebug(Oberkommando.SAVE); }
+
         Oberkommando.PLAYER = Oberkommando.SAVE.Civilizations.Find(c=>c.GUID == Oberkommando.SAVE.PlayerGUID);
 
         Oberkommando.GAME_CONTROLLER.GameMode = GameMode.Selection;
         Oberkommando.GAME_CONTROLLER.CanCameraMove = true;
+    }
+
+    public void InitializeDebug(Save save)
+    {
+        foreach (Holding h in save.Holdings)
+        {
+            h.CoupledHoldingDisplay.Degbug();
+        }
     }
 
     public void InitializeModels(Save save)

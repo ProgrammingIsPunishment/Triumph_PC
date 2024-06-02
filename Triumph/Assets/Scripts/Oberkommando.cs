@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class Oberkommando
 {
+    public static Debug DEBUG;
+
     public static MapService MAP_SERVICE = new MapService();
     public static PrefabsService PREFAB_SERVICE = new PrefabsService();
     public static UtilitiesService UTILITIES_SERVICE = new UtilitiesService();
@@ -21,6 +23,4 @@ public static class Oberkommando
 
     public static Save SAVE;
     public static Civilization PLAYER;
-
-    public static bool ISDEBUGMODE;
 }

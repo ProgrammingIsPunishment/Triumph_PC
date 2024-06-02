@@ -11,13 +11,15 @@ public class HoldingManager : MonoBehaviour
     [SerializeField] private GameObject selectableObject;
     [SerializeField] private GameObject borderObject;
 
+    [SerializeField] private GameObject debug_ChokePointObject;
+
     [NonSerialized] public GameObject terrainObject = null;
 
     private Holding CoupledHolding = null;
 
     public void OnClickEvent()
     {
-        if (Oberkommando.ISDEBUGMODE) { Debug.Log($"{this.CoupledHolding.Name} X:{this.CoupledHolding.XPosition} Z:{this.CoupledHolding.ZPosition}"); }
+        if (Oberkommando.DEBUG.IsDebugMode) { UnityEngine.Debug.Log($"{this.CoupledHolding.Name} X:{this.CoupledHolding.XPosition} Z:{this.CoupledHolding.ZPosition}"); }
 
         if (Oberkommando.GAME_CONTROLLER.GameMode == GameMode.Selection)
         {
@@ -67,6 +69,13 @@ public class HoldingManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void Degbug()
+    {
+        if (Oberkommando.DEBUG.ShowChokePoints) {
+            this.debug_ChokePointObject.SetActive(Oberkommando.DEBUG.ShowCokePoint(this.CoupledHolding));
+        }
     }
 
     //public void ShowAdjacentHoldings(bool isBeingShown)
