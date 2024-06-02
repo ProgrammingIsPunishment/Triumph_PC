@@ -30,19 +30,15 @@ public class ValueLibrary
 
         int workingX = maxX;
         int workingZ = maxZ;
+        int workingCycleCount = cycleCount;
 
         bool isComplete = false;
+        int testStop = 2;
         while (!isComplete)
         {
             HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
             workingHoldingClusterSet.DebugColor = Tools.RandomColor();
             workingHoldingClusterSet.Holdings = new List<Holding>();
-
-            int workingCycleCount = cycleCount;
-
-            //List<Holding> workingHoldings = holdings.FindAll(h =>
-            //    h.XPosition >= maxX - 8 && h.ZPosition <= maxZ
-            //);
 
             //X ---> Z ----> X ---> ...ETC.
             for (int i = 0; i < clusterSize; i++)
@@ -72,7 +68,10 @@ public class ValueLibrary
             }
 
             result.Add(workingHoldingClusterSet);
-            isComplete = true;
+
+
+            testStop--;
+            if (testStop <= 0) { isComplete = true; }
         }
 
         return result;

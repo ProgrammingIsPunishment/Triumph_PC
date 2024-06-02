@@ -33,8 +33,6 @@ public static class Tools
         System.Random rnd = new System.Random();
         Color randomColor = new Color((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble(), .7f);
 
-        UnityEngine.Debug.Log(randomColor.ToString());
-
         return randomColor;
     }
 }
