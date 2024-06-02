@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public static class Tools
 {
@@ -18,5 +20,21 @@ public static class Tools
                         (int.Parse(g, NumberStyles.HexNumber) / 255f),
                         (int.Parse(b, NumberStyles.HexNumber) / 255f),
                         (int.Parse(alpha, NumberStyles.HexNumber) / 255f));
+    }
+
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+    {
+        System.Random rnd = new System.Random();
+        return source.OrderBy<T, int>((item) => rnd.Next());
+    }
+
+    public static Color RandomColor()
+    {
+        System.Random rnd = new System.Random();
+        Color randomColor = new Color((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble(), .7f);
+
+        UnityEngine.Debug.Log(randomColor.ToString());
+
+        return randomColor;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class HoldingManager : MonoBehaviour
     [SerializeField] private GameObject borderObject;
 
     [SerializeField] private GameObject debug_ChokePointObject;
+    [SerializeField] private GameObject debug_ClusterObject;
 
     [NonSerialized] public GameObject terrainObject = null;
 
@@ -74,7 +76,23 @@ public class HoldingManager : MonoBehaviour
     public void Degbug()
     {
         if (Oberkommando.DEBUG.ShowChokePoints) {
-            this.debug_ChokePointObject.SetActive(Oberkommando.DEBUG.ShowCokePoint(this.CoupledHolding));
+            HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
+            this.debug_ChokePointObject.SetActive(holdingValueSet.IsChokePoint);
+        }
+        if (Oberkommando.DEBUG.ShowClusters) {
+            HoldingClusterSet holdingClusterSet = null;
+            foreach (HoldingClusterSet hcs in Oberkommando.VALUELIBRARY.HoldingClusterSets)
+            {
+                Holding holding = hcs.Holdings.FirstOrDefault(h => h.GUID == this.CoupledHolding.GUID);
+
+                if (holding != null) { holdingClusterSet = hcs; }
+            }
+
+            if (holdingClusterSet != null)
+            {
+                this.debug_ClusterObject.SetActive(true);
+                this.debug_ClusterObject.GetComponent<Image>().color = holdingClusterSet.DebugColor;
+            }
         }
     }
 

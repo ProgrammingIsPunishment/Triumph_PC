@@ -1,14 +1,81 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class ValueLibrary
 {
     public List<HoldingValueSet> HoldingValueSets { get; set; } = new List<HoldingValueSet>();
+    public List<HoldingClusterSet> HoldingClusterSets { get; set; } = new List<HoldingClusterSet>();
+
     public ValueLibrary(Save save)
     {
         this.HoldingValueSets = this.GenerateHoldingValueSets(save.Holdings);
+        this.HoldingClusterSets = this.GenerateHoldingClusterSets(save.Holdings);
+    }
+
+    private List<HoldingClusterSet> GenerateHoldingClusterSets(List<Holding> holdings)
+    {
+        List<HoldingClusterSet> result = new List<HoldingClusterSet>();
+
+        int clusterSize = 18;
+        int cycleCount = 4;
+
+        int maxX = holdings.Max(h=>h.XPosition);
+        int maxZ = holdings.Max(h=>h.ZPosition);
+
+        int minX = holdings.Min(h => h.XPosition);
+        int minZ = holdings.Min(h => h.ZPosition);
+
+        int workingX = maxX;
+        int workingZ = maxZ;
+
+        bool isComplete = false;
+        while (!isComplete)
+        {
+            HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
+            workingHoldingClusterSet.DebugColor = Tools.RandomColor();
+            workingHoldingClusterSet.Holdings = new List<Holding>();
+
+            int workingCycleCount = cycleCount;
+
+            //List<Holding> workingHoldings = holdings.FindAll(h =>
+            //    h.XPosition >= maxX - 8 && h.ZPosition <= maxZ
+            //);
+
+            //X ---> Z ----> X ---> ...ETC.
+            for (int i = 0; i < clusterSize; i++)
+            {
+                Holding holding = holdings.Find(h=>h.XPosition == workingX && h.ZPosition == workingZ);
+
+                if (holding == null) 
+                { 
+                    if (holdings.Count == 0) { isComplete = true; break; } 
+                }
+                else
+                {
+                    workingHoldingClusterSet.Holdings.Add(holding);
+
+                    if (workingCycleCount > 1)
+                    {
+                        workingCycleCount--;
+                        workingX--;
+                    }
+                    else
+                    {
+                        workingX = maxX;
+                        workingZ--;
+                        workingCycleCount = cycleCount;
+                    }
+                }
+            }
+
+            result.Add(workingHoldingClusterSet);
+            isComplete = true;
+        }
+
+        return result;
     }
 
     private List<HoldingValueSet> GenerateHoldingValueSets(List<Holding> holdings)
@@ -49,42 +116,6 @@ public class ValueLibrary
     private bool IsChokePoint(Holding holding)
     {
         bool result = false;
-
-        //bool?[] holdingValue = new bool?[]
-        //{
-        //    holding.TerrainType == TerrainType.Ocean, holding.TerrainType == TerrainType.Ocean, holding.TerrainType == TerrainType.Ocean,
-        //    holding.TerrainType == TerrainType.Ocean, null, holding.TerrainType == TerrainType.Ocean,
-        //    holding.TerrainType == TerrainType.Ocean, holding.TerrainType == TerrainType.Ocean, holding.TerrainType == TerrainType.Ocean
-        //};
-
-        //List<bool?[]> patterns = new List<bool?[]>()
-        //{
-        //    new bool?[]
-        //    {
-        //        true,true,true,     //X X X
-        //        false,null,false,   //O O O
-        //        true,true,true      //X X X
-        //    },
-        //    new bool?[]
-        //    {
-        //        true,false,true,    //X O X
-        //        true,null,true,     //X O X
-        //        true,true,true      //X O X
-        //    },
-        //    new bool?[]
-        //    {
-        //        true,false,true,    //X X X
-        //        true,null,true,     //X O X
-        //        true,true,true      //X X X
-        //    },
-        //};
-
-        //Determine chokepoints
-
-        if (holding.Name == "Madrid")
-        {
-            UnityEngine.Debug.Log("Hit");
-        }
 
         Holding[] holdingRow1 = new Holding[] {
             Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(holding.XPosition-1,holding.ZPosition+1),
