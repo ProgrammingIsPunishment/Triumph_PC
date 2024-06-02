@@ -19,7 +19,7 @@ public class ValueLibrary
     {
         List<HoldingClusterSet> result = new List<HoldingClusterSet>();
 
-        int clusterSize = 18;
+        int clusterSize = 11;
         int cycleCount = 4;
 
         int maxX = holdings.Max(h=>h.XPosition);
@@ -35,8 +35,9 @@ public class ValueLibrary
         int workingCycleCount = cycleCount;
 
         bool isComplete = false;
-        int testStop = 7;
+        //int testStop = 9;
         UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
+
         while (!isComplete)
         {
             HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
@@ -49,8 +50,8 @@ public class ValueLibrary
                 Holding holding = holdings.Find(h=>h.XPosition == workingX && h.ZPosition == workingZ);
 
                 if (holding == null) 
-                { 
-                    if (holdings.Count == 0) { isComplete = true; break; } 
+                {
+                    isComplete = true; break;
                 }
                 else
                 {
@@ -60,6 +61,12 @@ public class ValueLibrary
                     {
                         workingCycleCount--;
                         workingX--;
+
+                        if (workingX < minX)
+                        {
+                            workingX = workingMaxX;
+                            workingZ--;
+                        }
                     }
                     else
                     {
@@ -68,11 +75,10 @@ public class ValueLibrary
                         workingCycleCount = cycleCount;
                         if (workingZ < minZ)
                         {
-                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ}");
-                            workingMaxX = maxX - cycleCount;
-                            workingX = maxX - cycleCount;
+                            workingMaxX = workingMaxX - cycleCount;
+                            workingX = workingMaxX;
                             workingZ = maxZ + minZ;
-                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ}");
+                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ} ----- {maxX}");
                             i = clusterSize;
                         }
                     }
@@ -80,10 +86,6 @@ public class ValueLibrary
             }
 
             result.Add(workingHoldingClusterSet);
-
-
-            testStop--;
-            if (testStop <= 0) { isComplete = true; }
         }
 
         return result;
