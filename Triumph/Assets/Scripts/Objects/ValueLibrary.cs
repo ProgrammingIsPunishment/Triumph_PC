@@ -28,12 +28,15 @@ public class ValueLibrary
         int minX = holdings.Min(h => h.XPosition);
         int minZ = holdings.Min(h => h.ZPosition);
 
+        int workingMaxX = maxX;
+        int workingMaxZ = maxZ;
         int workingX = maxX;
         int workingZ = maxZ;
         int workingCycleCount = cycleCount;
 
         bool isComplete = false;
-        int testStop = 2;
+        int testStop = 7;
+        UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
         while (!isComplete)
         {
             HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
@@ -60,9 +63,18 @@ public class ValueLibrary
                     }
                     else
                     {
-                        workingX = maxX;
+                        workingX = workingMaxX;
                         workingZ--;
                         workingCycleCount = cycleCount;
+                        if (workingZ < minZ)
+                        {
+                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ}");
+                            workingMaxX = maxX - cycleCount;
+                            workingX = maxX - cycleCount;
+                            workingZ = maxZ + minZ;
+                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ}");
+                            i = clusterSize;
+                        }
                     }
                 }
             }

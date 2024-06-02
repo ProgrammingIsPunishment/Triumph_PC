@@ -31,7 +31,8 @@ public static class Tools
     public static Color RandomColor()
     {
         System.Random rnd = new System.Random();
-        Color randomColor = new Color((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble(), .7f);
+        //Color randomColor = new Color((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble(), .7f);
+        Color randomColor = new Color((float)rnd.NextDouble(), (float)rnd.NextDouble(), (float)rnd.NextDouble(), 1f);
 
         return randomColor;
     }
