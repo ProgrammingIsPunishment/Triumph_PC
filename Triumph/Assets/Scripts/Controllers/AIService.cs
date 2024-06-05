@@ -7,45 +7,80 @@ public class AIService
 {
     public void TakeTurn(Civilization civilization)
     {
-        List<Unit> myUnits = Oberkommando.SAVE.Units.Where(u=>u.Owner.GUID == civilization.GUID).ToList();
+        List<IAIGoal> activeGoals = civilization.AICivilizationProfile.AIGoals.Where(aig=>aig.IsActive == true).ToList();
+        if (activeGoals.Count() == 0) { civilization.AICivilizationProfile.NewGoal(civilization); }
 
-        foreach (Unit u in myUnits)
+        IAIGoal activeGoal = civilization.AICivilizationProfile.AIGoals.First(aig => aig.IsActive == true);
+
+        this.WorkTowardsGoal(activeGoal,civilization);
+    }
+
+    private void WorkTowardsGoal(IAIGoal goal, Civilization civilization)
+    {
+        switch (goal)
         {
-            this.SendUnitOrders(u);
+            case AITerritorialExpansionGoal:
+                this.ProcessAITerritorialExpansionGoal((AITerritorialExpansionGoal)goal,civilization);
+                break;
+            default:
+                break;
         }
     }
 
-    private void SendUnitOrders(Unit unit)
+    private void ProcessAITerritorialExpansionGoal(AITerritorialExpansionGoal goal, Civilization civilization)
     {
-        Holding holdingAtLocation = Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(unit.XPosition,unit.ZPosition);
+        List<Unit> units = Oberkommando.SAVE.Units.Where(u => u.Owner.GUID == civilization.GUID).ToList();
 
-        bool hasOrder = false;
-        foreach (Holding h in holdingAtLocation.AdjacentHoldings)
+        List<Holding> tempHoldingsToCapture = goal.HoldingsToCapture;
+
+        foreach (Unit u in units)
         {
-            if (!hasOrder)
+            if (tempHoldingsToCapture.Count() >= 1)
             {
-                if (h.TerrainType != TerrainType.Ocean)
-                {
-                    if (!this.IsOwner(h, unit.Owner))
-                    {
-                        Dispatch dispatch = new Dispatch(unit.Name, $"MOVE TO {h.Name}", unit.Owner);
-                        Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
-                        hasOrder = true;
-                    }
-                }
+                this.SendDispatchToUnit(u, $"MOVE TO {tempHoldingsToCapture[0].Name}",civilization);
+                tempHoldingsToCapture.RemoveAt(0);
             }
         }
     }
 
-    private bool IsOwner(Holding holding, Civilization civilization)
+    private void SendDispatchToUnit(Unit unit, string message, Civilization owner)
     {
-        bool result = false;
-
-        if (holding.Owner != null)
-        {
-            result = holding.Owner.GUID == civilization.GUID;
-        }
-
-        return result;
+        Dispatch dispatch = new Dispatch(unit.Name, message, owner);
+        Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
     }
+
+
+    //private void SendUnitOrders(Unit unit)
+    //{
+    //    Holding holdingAtLocation = Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(unit.XPosition,unit.ZPosition);
+
+    //    bool hasOrder = false;
+    //    foreach (Holding h in holdingAtLocation.AdjacentHoldings)
+    //    {
+    //        if (!hasOrder)
+    //        {
+    //            if (h.TerrainType != TerrainType.Ocean)
+    //            {
+    //                if (!this.IsOwner(h, unit.Owner))
+    //                {
+    //                    Dispatch dispatch = new Dispatch(unit.Name, $"MOVE TO {h.Name}", unit.Owner);
+    //                    Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
+    //                    hasOrder = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    //private bool IsOwner(Holding holding, Civilization civilization)
+    //{
+    //    bool result = false;
+
+    //    if (holding.Owner != null)
+    //    {
+    //        result = holding.Owner.GUID == civilization.GUID;
+    //    }
+
+    //    return result;
+    //}
 }

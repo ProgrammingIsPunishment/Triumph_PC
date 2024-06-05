@@ -204,4 +204,16 @@ public class ValueLibrary
 
         return result;
     }
+
+    public List<HoldingClusterSet> HoldingClusterSetsTerritoriesAreIn(List<Holding> holdings)
+    {
+        List<HoldingClusterSet> result = new List<HoldingClusterSet>();
+
+        foreach (Holding h in holdings)
+        {
+            result.AddRange(this.HoldingClusterSets.Where(hcs=>hcs.Holdings.Contains(h)).ToList());
+        }
+
+        return result;
+    }
 }
