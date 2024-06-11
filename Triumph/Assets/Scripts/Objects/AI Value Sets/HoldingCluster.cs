@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoldingClusterSet
+public class HoldingCluster
 {
     public Color DebugColor { get; set; }
-    public List<Holding> Holdings { get; set; }
+    public int Id { get; set; }
 
-    public HoldingClusterSet() { }
+    public HoldingCluster() { }
 }

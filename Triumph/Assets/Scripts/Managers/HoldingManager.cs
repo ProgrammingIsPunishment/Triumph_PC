@@ -82,7 +82,7 @@ public class HoldingManager : MonoBehaviour
         if (Oberkommando.DEBUG.ShowClusters) {
             HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
             this.debug_ClusterObject.SetActive(true);
-            this.debug_ClusterObject.GetComponent<Image>().color = Oberkommando.DEBUG.ClusterDebugColors[holdingValueSet.ClusterId];
+            this.debug_ClusterObject.GetComponent<Image>().color = holdingValueSet.HoldingCluster.DebugColor;
         }
     }
 

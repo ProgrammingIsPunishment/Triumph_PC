@@ -73,13 +73,18 @@ public class ValueLibrary
         //int testStop = 9;
         UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
 
-        int workingClusterId = 1;
+        int workingClusterId = 0;
 
         while (!isComplete)
         {
             //HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
             //workingHoldingClusterSet.DebugColor = Tools.RandomColor();
             //workingHoldingClusterSet.Holdings = new List<Holding>();
+            workingClusterId++;
+
+            HoldingCluster workingHoldingCluster = new HoldingCluster();
+            workingHoldingCluster.DebugColor = Tools.RandomColor();
+            workingHoldingCluster.Id = workingClusterId;
 
             //X ---> Z ----> X ---> ...ETC.
             for (int i = 0; i < clusterSize; i++)
@@ -94,7 +99,8 @@ public class ValueLibrary
                 {
                     HoldingValueSet tempHoldingValueSet = holdingValueSets.Find(hvs => hvs.HoldingGUD == holding.GUID);
                     //workingHoldingClusterSet.Holdings.Add(holding);
-                    tempHoldingValueSet.ClusterId = workingClusterId;
+                    //tempHoldingValueSet.ClusterId = workingClusterId;
+                    tempHoldingValueSet.HoldingCluster = workingHoldingCluster;
 
                     if (workingCycleCount > 1)
                     {
@@ -123,12 +129,10 @@ public class ValueLibrary
                     }
                 }
             }
-
-            workingClusterId++;
             //result.Add(workingHoldingClusterSet);
         }
 
-        Oberkommando.DEBUG.GenerateClusterDebugColors(workingClusterId);
+        //Oberkommando.DEBUG.GenerateClusterDebugColors(workingClusterId);
         //return result;
     }
 
