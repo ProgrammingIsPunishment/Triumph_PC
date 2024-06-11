@@ -80,19 +80,9 @@ public class HoldingManager : MonoBehaviour
             this.debug_ChokePointObject.SetActive(holdingValueSet.IsChokePoint);
         }
         if (Oberkommando.DEBUG.ShowClusters) {
-            HoldingClusterSet holdingClusterSet = null;
-            foreach (HoldingClusterSet hcs in Oberkommando.VALUELIBRARY.HoldingClusterSets)
-            {
-                Holding holding = hcs.Holdings.FirstOrDefault(h => h.GUID == this.CoupledHolding.GUID);
-
-                if (holding != null) { holdingClusterSet = hcs; }
-            }
-
-            if (holdingClusterSet != null)
-            {
-                this.debug_ClusterObject.SetActive(true);
-                this.debug_ClusterObject.GetComponent<Image>().color = holdingClusterSet.DebugColor;
-            }
+            HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
+            this.debug_ClusterObject.SetActive(true);
+            this.debug_ClusterObject.GetComponent<Image>().color = Oberkommando.DEBUG.ClusterDebugColors[holdingValueSet.ClusterId];
         }
     }
 

@@ -7,88 +7,12 @@ using UnityEngine;
 public class ValueLibrary
 {
     public List<HoldingValueSet> HoldingValueSets { get; set; } = new List<HoldingValueSet>();
-    public List<HoldingClusterSet> HoldingClusterSets { get; set; } = new List<HoldingClusterSet>();
+    //public List<HoldingClusterSet> HoldingClusterSets { get; set; } = new List<HoldingClusterSet>();
 
     public ValueLibrary(Save save)
     {
         this.HoldingValueSets = this.GenerateHoldingValueSets(save.Holdings);
-        this.HoldingClusterSets = this.GenerateHoldingClusterSets(save.Holdings);
-    }
-
-    private List<HoldingClusterSet> GenerateHoldingClusterSets(List<Holding> holdings)
-    {
-        List<HoldingClusterSet> result = new List<HoldingClusterSet>();
-
-        int clusterSize = 11;
-        int cycleCount = 4;
-
-        int maxX = holdings.Max(h=>h.XPosition);
-        int maxZ = holdings.Max(h=>h.ZPosition);
-
-        int minX = holdings.Min(h => h.XPosition);
-        int minZ = holdings.Min(h => h.ZPosition);
-
-        int workingMaxX = maxX;
-        int workingMaxZ = maxZ;
-        int workingX = maxX;
-        int workingZ = maxZ;
-        int workingCycleCount = cycleCount;
-
-        bool isComplete = false;
-        //int testStop = 9;
-        UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
-
-        while (!isComplete)
-        {
-            HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
-            workingHoldingClusterSet.DebugColor = Tools.RandomColor();
-            workingHoldingClusterSet.Holdings = new List<Holding>();
-
-            //X ---> Z ----> X ---> ...ETC.
-            for (int i = 0; i < clusterSize; i++)
-            {
-                Holding holding = holdings.Find(h=>h.XPosition == workingX && h.ZPosition == workingZ);
-
-                if (holding == null) 
-                {
-                    isComplete = true; break;
-                }
-                else
-                {
-                    workingHoldingClusterSet.Holdings.Add(holding);
-
-                    if (workingCycleCount > 1)
-                    {
-                        workingCycleCount--;
-                        workingX--;
-
-                        if (workingX < minX)
-                        {
-                            workingX = workingMaxX;
-                            workingZ--;
-                        }
-                    }
-                    else
-                    {
-                        workingX = workingMaxX;
-                        workingZ--;
-                        workingCycleCount = cycleCount;
-                        if (workingZ < minZ)
-                        {
-                            workingMaxX = workingMaxX - cycleCount;
-                            workingX = workingMaxX;
-                            workingZ = maxZ + minZ;
-                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ} ----- {maxX}");
-                            i = clusterSize;
-                        }
-                    }
-                }
-            }
-
-            result.Add(workingHoldingClusterSet);
-        }
-
-        return result;
+        this.GenerateHoldingClusterIds(save.Holdings, this.HoldingValueSets);
     }
 
     private List<HoldingValueSet> GenerateHoldingValueSets(List<Holding> holdings)
@@ -124,6 +48,88 @@ public class ValueLibrary
         }
 
         return workingHoldingValueSets;
+    }
+
+    private void GenerateHoldingClusterIds(List<Holding> holdings, List<HoldingValueSet> holdingValueSets)
+    {
+        //List<HoldingClusterSet> result = new List<HoldingClusterSet>();
+
+        int clusterSize = 11;
+        int cycleCount = 4;
+
+        int maxX = holdings.Max(h => h.XPosition);
+        int maxZ = holdings.Max(h => h.ZPosition);
+
+        int minX = holdings.Min(h => h.XPosition);
+        int minZ = holdings.Min(h => h.ZPosition);
+
+        int workingMaxX = maxX;
+        int workingMaxZ = maxZ;
+        int workingX = maxX;
+        int workingZ = maxZ;
+        int workingCycleCount = cycleCount;
+
+        bool isComplete = false;
+        //int testStop = 9;
+        UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
+
+        int workingClusterId = 1;
+
+        while (!isComplete)
+        {
+            //HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
+            //workingHoldingClusterSet.DebugColor = Tools.RandomColor();
+            //workingHoldingClusterSet.Holdings = new List<Holding>();
+
+            //X ---> Z ----> X ---> ...ETC.
+            for (int i = 0; i < clusterSize; i++)
+            {
+                Holding holding = holdings.Find(h => h.XPosition == workingX && h.ZPosition == workingZ);
+
+                if (holding == null)
+                {
+                    isComplete = true; break;
+                }
+                else
+                {
+                    HoldingValueSet tempHoldingValueSet = holdingValueSets.Find(hvs => hvs.HoldingGUD == holding.GUID);
+                    //workingHoldingClusterSet.Holdings.Add(holding);
+                    tempHoldingValueSet.ClusterId = workingClusterId;
+
+                    if (workingCycleCount > 1)
+                    {
+                        workingCycleCount--;
+                        workingX--;
+
+                        if (workingX < minX)
+                        {
+                            workingX = workingMaxX;
+                            workingZ--;
+                        }
+                    }
+                    else
+                    {
+                        workingX = workingMaxX;
+                        workingZ--;
+                        workingCycleCount = cycleCount;
+                        if (workingZ < minZ)
+                        {
+                            workingMaxX = workingMaxX - cycleCount;
+                            workingX = workingMaxX;
+                            workingZ = maxZ + minZ;
+                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ} ----- {maxX}");
+                            i = clusterSize;
+                        }
+                    }
+                }
+            }
+
+            workingClusterId++;
+            //result.Add(workingHoldingClusterSet);
+        }
+
+        Oberkommando.DEBUG.GenerateClusterDebugColors(workingClusterId);
+        //return result;
     }
 
     private bool IsChokePoint(Holding holding)
