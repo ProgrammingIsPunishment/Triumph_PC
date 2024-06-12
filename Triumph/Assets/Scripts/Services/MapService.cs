@@ -19,6 +19,8 @@ public class MapService
         result.Units = this.ParseUnits(xmlDocument, result);
         result.Holdings = this.ParseHoldings(xmlDocument,result);
 
+        this.InitializeAIInterests(result.Civilizations, result.Holdings);
+
         this.AssignAdjacentHoldings(result.Holdings);
 
         return result;
@@ -112,6 +114,17 @@ public class MapService
                 (ah.XPosition == (h.XPosition - 1) && ah.ZPosition == h.ZPosition) ||
                 (ah.XPosition == h.XPosition && ah.ZPosition == (h.ZPosition - 1))
             ).Select(x => x).ToList());
+        }
+    }
+
+    private void InitializeAIInterests(List<Civilization> civilizations, List<Holding> holdings)
+    {
+        foreach (Civilization c in civilizations)
+        {
+            foreach (Holding h in holdings)
+            {
+                c.AIProfile.Interests.Add(new Interest(h));
+            }
         }
     }
 

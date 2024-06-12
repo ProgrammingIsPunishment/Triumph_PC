@@ -28,7 +28,7 @@ public class ValueLibrary
             switch (h.TerrainType)
             {
                 case TerrainType.Ocean:
-                    holdingValueSet.Terrain = 999;
+                    holdingValueSet.Terrain = -999;
                     break;
                 case TerrainType.Plains:
                     holdingValueSet.Terrain = 1;

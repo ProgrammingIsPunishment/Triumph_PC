@@ -7,8 +7,9 @@ public class AIService
 {
     public void TakeTurn(Civilization civilization)
     {
-        List<Unit> myUnits = Oberkommando.SAVE.Units.Where(u=>u.Owner.GUID == civilization.GUID).ToList();
+        this.CalculateInterest(civilization);
 
+        List<Unit> myUnits = Oberkommando.SAVE.Units.Where(u=>u.Owner.GUID == civilization.GUID).ToList();
         foreach (Unit u in myUnits)
         {
             this.SendUnitOrders(u);
@@ -47,5 +48,15 @@ public class AIService
         }
 
         return result;
+    }
+
+    private void CalculateInterest(Civilization civilization)
+    {
+        //List<int> clustersOwned = Oberkommando.VALUELIBRARY.HoldingValueSets.Where(h=>h.).Distinct(v=>v.HoldingCluster);
+        foreach (Interest i in civilization.AIProfile.Interests)
+        {
+            HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs=>hvs.HoldingGUD == i.Holding.GUID);
+            //DO I own holdings in this cluster
+        }
     }
 }
