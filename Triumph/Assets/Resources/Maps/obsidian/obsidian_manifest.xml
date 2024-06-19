@@ -2,14 +2,14 @@
 <map name="obsidian">
 	<amazin></amazin>
 	<civilizations>
-		<civilization guid="rome" displayname="Rome" hexcolor="ff0000"></civilization>
-		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00"></civilization>
+		<civilization guid="rome" displayname="Rome" hexcolor="ff0000" coins="5"></civilization>
+		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00" coins="5"></civilization>
 	</civilizations>
 	<units>
 		<unit guid="romeleader" displayname="Augustus" xposition="1" zposition="1" ownerguid="rome" modelname="LeaderUnit_Red"></unit>
-		<unit guid="legion1" displayname="I Legion" xposition="1" zposition="2" ownerguid="rome" modelname="BannerUnit_Red"></unit>
+		<unit guid="legion1" displayname="1 Legion" xposition="1" zposition="2" ownerguid="rome" modelname="BannerUnit_Red"></unit>
 		<unit guid="carthageleader" displayname="Hannibal" xposition="8" zposition="8" ownerguid="carthage" modelname="LeaderUnit_Green"></unit>
-		<unit guid="army1" displayname="I Army" xposition="8" zposition="7" ownerguid="carthage" modelname="BannerUnit_Green"></unit>
+		<unit guid="army1" displayname="1 Army" xposition="8" zposition="7" ownerguid="carthage" modelname="BannerUnit_Green"></unit>
 	</units>
 	<holdings>
 		<holding guid="paris" displayname="Paris" xposition="0" zposition="0" terraintype="Ocean"></holding>

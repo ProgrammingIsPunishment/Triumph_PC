@@ -37,10 +37,11 @@ public class MapService
             string guid = (string)c.Attribute("guid").Value.ToLower();
             string name = (string)c.Attribute("displayname").Value;
             string hexcolor = (string)c.Attribute("hexcolor").Value;
+            int coins = int.Parse(c.Attribute("coins").Value);
 
             Color workingColor = Tools.ColorFromHex(hexcolor);
 
-            result.Add(new Civilization(guid, name, workingColor));
+            result.Add(new Civilization(guid, name, workingColor, coins));
         }
 
         return result;

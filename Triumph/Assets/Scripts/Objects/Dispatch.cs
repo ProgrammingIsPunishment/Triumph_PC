@@ -12,8 +12,9 @@ public class Dispatch
     public bool IsReceived { get; set; }
     public bool IsCompleted { get; set; }
     public Civilization Owner { get; set; }
+    public RecipientType RecipientType { get; set; }
 
-    public Dispatch(string recipientDisplayName, string message, Civilization owner)
+    public Dispatch(string recipientDisplayName, string message, Civilization owner, RecipientType recipientType)
     {
         this.GUID = Guid.NewGuid().ToString("N");
         this.Recipient = recipientDisplayName;
@@ -22,6 +23,7 @@ public class Dispatch
         this.IsReceived = false;
         this.IsCompleted = false;
         this.Owner = owner;
+        this.RecipientType = recipientType;
     }
 
     public void Completed()

@@ -12,7 +12,12 @@ public class DispatchesManager : MonoBehaviour
 
     public Dispatch GetDispatch()
     {
-        return new Dispatch(this.RecipientInput.text, this.MessageInput.text, Oberkommando.PLAYER);
+        RecipientType recipientType = RecipientType.Unit;
+
+        if (Oberkommando.SYNTAXLIBRARY.IsUnitMatch(this.RecipientInput.text)) { recipientType = RecipientType.Unit; }
+        else if (Oberkommando.SYNTAXLIBRARY.IsHoldingMatch(this.RecipientInput.text)) { recipientType = RecipientType.Holding; }
+
+        return new Dispatch(this.RecipientInput.text, this.MessageInput.text, Oberkommando.PLAYER, recipientType);
     }
 
     public void Default()

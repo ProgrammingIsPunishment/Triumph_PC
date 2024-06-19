@@ -29,7 +29,7 @@ public class AIService
                 {
                     if (!this.IsOwner(h, unit.Owner))
                     {
-                        Dispatch dispatch = new Dispatch(unit.Name, $"MOVE TO {h.Name}", unit.Owner);
+                        Dispatch dispatch = new Dispatch(unit.Name, $"MOVE TO {h.Name}", unit.Owner, RecipientType.Unit);
                         Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
                         hasOrder = true;
                     }
@@ -56,7 +56,8 @@ public class AIService
         foreach (Interest i in civilization.AIProfile.Interests)
         {
             HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs=>hvs.HoldingGUD == i.Holding.GUID);
-            //DO I own holdings in this cluster
+
+            //Do I own holdings in this cluster
         }
     }
 }

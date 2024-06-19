@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum TaskType
 {
-    Move
+    Move,
+    BuildUnit
 }

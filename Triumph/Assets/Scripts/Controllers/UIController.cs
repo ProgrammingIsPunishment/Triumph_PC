@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] public GameObject Gridmap;
     [SerializeField] public HoldingDetailsManager HoldingDetailsManager;
     [SerializeField] public DispatchesManager DispatchesManager;
     [SerializeField] public OutgoingDispatchesManager OutgoingDispatchesManager;
+
+    [SerializeField] public CoinButton CoinButton;
 }

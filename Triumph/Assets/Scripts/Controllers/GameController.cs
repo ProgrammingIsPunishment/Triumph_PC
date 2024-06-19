@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -58,12 +59,21 @@ public class GameController : MonoBehaviour
 
         this.ProcessDispatches();
         this.ProcessUnitActions();
+        this.ProcessHoldingActions();
         this.UpdateBorders();
-
-        Oberkommando.UI_CONTROLLER.DispatchesManager.Default();
+        this.CalculateIncome();
+        this.CalculateExpenses();
+        this.ResetUI(Oberkommando.PLAYER);
 
         Oberkommando.SAVE.Turn++;
         UnityEngine.Debug.Log(Oberkommando.SAVE.Turn);
+    }
+
+    public void ResetUI(Civilization civilization)
+    {
+        Oberkommando.UI_CONTROLLER.DispatchesManager.Default();
+
+        Oberkommando.UI_CONTROLLER.CoinButton.Refresh(civilization.Coins);
     }
 
     public void ProcessDispatches()
@@ -72,7 +82,17 @@ public class GameController : MonoBehaviour
         foreach (Dispatch d in this.PendingDispatches)
         {
             Oberkommando.DISPATCHES_CONTROLLER.Process(d);
-            Oberkommando.SAVE.Units.Find(u=>u.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
+
+            switch (d.RecipientType)
+            {
+                case RecipientType.Unit:
+                    Oberkommando.SAVE.Units.Find(u => u.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
+                    break;
+                case RecipientType.Holding:
+                    Oberkommando.SAVE.Holdings.Find(h => h.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
+                    break;
+            }
+
             d.Received();
         }
 
@@ -90,6 +110,15 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void ProcessHoldingActions()
+    {
+        //Process Dispatches to set tasks
+        foreach (Holding h in Oberkommando.SAVE.Holdings)
+        {
+            h.TakeAction();
+        }
+    }
+
     public void UpdateBorders()
     {
         foreach (Holding h in Oberkommando.SAVE.Holdings)
@@ -98,6 +127,46 @@ public class GameController : MonoBehaviour
             {
                 h.CoupledHoldingDisplay.ShowBorder(h.Owner.Color);
             }
+        }
+    }
+
+    public void CalculateIncome()
+    {
+        foreach (Civilization c in Oberkommando.SAVE.Civilizations)
+        {
+            List<Holding> ownedHoldings = new List<Holding>();
+
+            foreach (Holding h in Oberkommando.SAVE.Holdings)
+            {
+                if (h.Owner != null) 
+                {
+                    if (h.Owner.GUID == c.GUID) { ownedHoldings.Add(h); }
+                }
+            }
+
+            int income = ownedHoldings.Count();
+
+            c.Coins += income;
+        }
+    }
+
+    public void CalculateExpenses()
+    {
+        foreach (Civilization c in Oberkommando.SAVE.Civilizations)
+        {
+            List<Unit> ownedUnits = new List<Unit>();
+
+            foreach (Unit u in Oberkommando.SAVE.Units)
+            {
+                if (u.Owner != null)
+                {
+                    if (u.Owner.GUID == c.GUID) { ownedUnits.Add(u); }
+                }
+            }
+
+            int expenses = ownedUnits.Count();
+
+            c.Coins -= expenses;
         }
     }
 }

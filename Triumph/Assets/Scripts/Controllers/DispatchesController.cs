@@ -33,6 +33,14 @@ public class DispatchesController : MonoBehaviour
                             break;
                     }
                     break;
+                case "BUILD":
+                    switch (s[1])
+                    {
+                        case "UNIT":
+                            workingTasks.Add(new Task(TaskType.BuildUnit, null));
+                            break;
+                    }
+                    break;
             }
         }
 

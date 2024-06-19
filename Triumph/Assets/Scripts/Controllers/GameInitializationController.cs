@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameInitializationController : MonoBehaviour
 {
-    [SerializeField] private GameObject Gridmap;
+    //[SerializeField] private GameObject Gridmap;
     [SerializeField] private GameController GameController;
     [SerializeField] private UIController UIController;
     [SerializeField] private DispatchesController DispatchesController;
@@ -15,12 +15,14 @@ public class GameInitializationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Assign Controllers
+        //Assign Controllers... Order very important
         Oberkommando.GAME_CONTROLLER = this.GameController;
         Oberkommando.UI_CONTROLLER = this.UIController;
         Oberkommando.DISPATCHES_CONTROLLER = this.DispatchesController;
 
         Oberkommando.VALUELIBRARY = new ValueLibrary(Oberkommando.SAVE);
+
+        Oberkommando.PLAYER = Oberkommando.SAVE.Civilizations.Find(c => c.GUID == Oberkommando.SAVE.PlayerGUID);
 
         //Order very important
         this.InitializeSyntaxLibrary(Oberkommando.SAVE);
@@ -30,8 +32,6 @@ public class GameInitializationController : MonoBehaviour
 
         //Check if debug
         if (Oberkommando.DEBUG.IsDebugMode) { this.InitializeDebug(Oberkommando.SAVE); }
-
-        Oberkommando.PLAYER = Oberkommando.SAVE.Civilizations.Find(c=>c.GUID == Oberkommando.SAVE.PlayerGUID);
 
         Oberkommando.GAME_CONTROLLER.GameMode = GameMode.Selection;
         Oberkommando.GAME_CONTROLLER.CanCameraMove = true;
@@ -49,14 +49,14 @@ public class GameInitializationController : MonoBehaviour
     {
         foreach (Holding h in save.Holdings)
         {
-            Oberkommando.PREFAB_SERVICE.InstantiateHoldingModel(h,this.Gridmap);
+            Oberkommando.PREFAB_SERVICE.InstantiateHoldingModel(h,Oberkommando.UI_CONTROLLER.Gridmap);
             Oberkommando.PREFAB_SERVICE.InstantiateTerrainModel(h);
             h.UpdateVisibility();
         }
 
         foreach (Unit u in save.Units)
         {
-            Oberkommando.PREFAB_SERVICE.InstantiateUnitModel(u, this.Gridmap);
+            Oberkommando.PREFAB_SERVICE.InstantiateUnitModel(u, Oberkommando.UI_CONTROLLER.Gridmap);
         }
     }
 
@@ -78,6 +78,8 @@ public class GameInitializationController : MonoBehaviour
         this.UIController.OutgoingDispatchesManager.Show(false);
 
         this.UIController.DispatchesManager.Default();
+
+        Oberkommando.UI_CONTROLLER.CoinButton.Refresh(Oberkommando.PLAYER.Coins);
     }
 
     public void InitializeSyntaxLibrary(Save save)
@@ -96,6 +98,7 @@ public class GameInitializationController : MonoBehaviour
 
         List<Tuple<Regex, string[]>> validSyntax = new List<Tuple<Regex, string[]>>();
         validSyntax.Add(new Tuple<Regex, string[]>(new Regex(@"^MOVE TO [a-zA-Z0-9\W]+$"), new string[] { "MOVE","TO" }));
+        validSyntax.Add(new Tuple<Regex, string[]>(new Regex(@"^BUILD UNIT$"), new string[] { "BUILD", "UNIT" }));
 
         Oberkommando.SYNTAXLIBRARY = new SyntaxLibrary(validHoldings,validUnits,validSyntax);
     }
