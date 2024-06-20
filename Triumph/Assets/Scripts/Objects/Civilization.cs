@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Civilization
@@ -9,6 +10,7 @@ public class Civilization
     public Color Color { get; set; }
     public AIProfile AIProfile { get; set; }
     public int Coins { get; set; }
+    public List<UnitTemplate> UnitTemplates { get; set; }
 
     public Civilization(string guid, string displayName, Color color, int coins)
     {
@@ -17,5 +19,11 @@ public class Civilization
         this.Color = color;
         this.AIProfile = new AIProfile();
         this.Coins = coins;
+        this.UnitTemplates = new List<UnitTemplate>();
+    }
+
+    public UnitTemplate UnitTemplateByGUID(string guid)
+    {
+        return this.UnitTemplates.FirstOrDefault(ut=>ut.GUID == guid);
     }
 }

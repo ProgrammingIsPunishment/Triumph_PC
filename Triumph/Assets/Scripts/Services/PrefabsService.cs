@@ -34,7 +34,7 @@ public class PrefabsService : MonoBehaviour
         GameObject tempUnitObject = Instantiate(Resources.Load<GameObject>("Prefabs/Unit"), new Vector3((unit.XPosition * 10), 0f, (unit.ZPosition * 10)), Quaternion.identity);
         tempUnitObject.GetComponent<UnitManager>().Couple(unit);
         tempUnitObject.transform.SetParent(gridMap.transform);
-        GameObject tempModelObject = Instantiate(Resources.Load<GameObject>($"Models/Units/{unit.ModelName.ToString()}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        GameObject tempModelObject = Instantiate(Resources.Load<GameObject>($"Models/Units/{unit.UnitTemplate.ModelName}"), new Vector3(0f, 0f, 0f), Quaternion.identity);
         tempModelObject.transform.SetParent(tempUnitObject.transform);
         tempModelObject.transform.localPosition = new Vector3(0f, 0f, 0f);
         tempUnitObject.GetComponent<UnitManager>().AssignModel(tempModelObject);

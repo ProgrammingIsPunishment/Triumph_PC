@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class MapService
 
         result.Civilizations = this.ParseCivilizations(xmlDocument);
         result.Units = this.ParseUnits(xmlDocument, result);
-        result.Holdings = this.ParseHoldings(xmlDocument,result);
+        result.Holdings = this.ParseHoldings(xmlDocument, result);
 
         this.InitializeAIInterests(result.Civilizations, result.Holdings);
 
@@ -39,9 +40,31 @@ public class MapService
             string hexcolor = (string)c.Attribute("hexcolor").Value;
             int coins = int.Parse(c.Attribute("coins").Value);
 
+            List<UnitTemplate> unittemplates = this.ParseUnitTemplates(c.Element("unit-templates").Elements("template"));
+
             Color workingColor = Tools.ColorFromHex(hexcolor);
 
-            result.Add(new Civilization(guid, name, workingColor, coins));
+            Civilization workingCivilization = new Civilization(guid, name, workingColor, coins);
+            workingCivilization.UnitTemplates = unittemplates;
+            result.Add(workingCivilization);
+        }
+
+        return result;
+    }
+
+    public List<UnitTemplate> ParseUnitTemplates(IEnumerable<XElement> unitTemplateElements)
+    {
+        List<UnitTemplate> result = new List<UnitTemplate>();
+
+        foreach (var ut in unitTemplateElements)
+        {
+            string guid = (string)ut.Attribute("guid").Value.ToLower();
+            string name = (string)ut.Attribute("name").Value.ToLower();
+            string suffix = (string)ut.Attribute("suffix").Value.ToLower();
+            string iteration = (string)ut.Attribute("iteration").Value.ToLower();
+            string modelname = (string)ut.Attribute("modelname").Value.ToLower();
+
+            result.Add(new UnitTemplate(guid,name,suffix,iteration,modelname));
         }
 
         return result;
@@ -59,16 +82,16 @@ public class MapService
             string name = (string)u.Attribute("displayname").Value;
             int xPosition = int.Parse(u.Attribute("xposition").Value);
             int zPosition = int.Parse(u.Attribute("zposition").Value);
-            string modelName = (string)u.Attribute("modelname").Value;
+            //string modelName = (string)u.Attribute("modelname").Value;
+            string unittemplateguid = (string)u.Attribute("unit-template-guid").Value;
+            string ownerguid = (string)u.Attribute("ownerguid");
 
-            Unit workingUnit = new Unit(guid, name, xPosition, zPosition, modelName);
+            Civilization workingOwnerCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
+            UnitTemplate workingUnitTemplate = workingOwnerCivilization.UnitTemplateByGUID(unittemplateguid);
 
-            if (u.Attribute("ownerguid") != null)
-            {
-                string ownerguid = (string)u.Attribute("ownerguid").Value.ToLower();
-                Civilization workingCivilization = workingMap.Civilizations.Find(c => c.GUID == ownerguid);
-                workingUnit.Owner = workingCivilization;
-            }
+            Unit workingUnit = new Unit(guid, name, xPosition, zPosition);
+            workingUnit.Owner = workingOwnerCivilization;
+            workingUnit.UnitTemplate = workingUnitTemplate;
 
             result.Add(workingUnit);
         }

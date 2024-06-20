@@ -11,19 +11,20 @@ public class Unit
     [SerializeField] public string Name { get; set; }
     [SerializeField] public int XPosition { get; set; }
     [SerializeField] public int ZPosition { get; set; }
-    [SerializeField] public string ModelName { get; set; }
+    [SerializeField] public UnitTemplate UnitTemplate { get; set; }
+
+    //[SerializeField] public string ModelName { get; set; }
     [SerializeField] public Civilization Owner { get; set; }
     [SerializeField] public List<Dispatch> Dispatches { get; set; }
 
     [NonSerialized] public UnitManager CoupledUnitManager = null;
 
-    public Unit(string guid, string name, int xPosition, int zPosition, string modelName)
+    public Unit(string guid, string name, int xPosition, int zPosition)
     {
         this.GUID = guid;
         this.Name = name;
         this.XPosition = xPosition;
         this.ZPosition = zPosition;
-        this.ModelName = modelName;
         this.Dispatches = new List<Dispatch>();
     }
 
