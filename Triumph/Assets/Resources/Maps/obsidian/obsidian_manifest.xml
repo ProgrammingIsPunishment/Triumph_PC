@@ -4,21 +4,21 @@
 	<civilizations>
 		<civilization guid="rome" displayname="Rome" hexcolor="ff0000" coins="0">
 			<unit-templates>
-				<template guid="romeleadertemplate" name="Rome Leader" suffix="Leader" iteration="symbol" modelname="LeaderUnit_Red"></template>
+				<template guid="leadertemplate" name="Rome Leader" suffix="Leader" iteration="symbol" modelname="LeaderUnit_Red"></template>
 				<template guid="legiontemplate" name="Legion Template" suffix="Legion" iteration="symbol" modelname="BannerUnit_Red"></template>
 			</unit-templates>
 		</civilization>
 		<civilization guid="carthage" displayname="Carthage" hexcolor="97fc00" coins="0">
 			<unit-templates>
-				<template guid="carthageleadertemplate" name="Carthage Leader" suffix="Army" iteration="numeral" modelname="LeaderUnit_Green"></template>
+				<template guid="leadertemplate" name="Carthage Leader" suffix="Army" iteration="numeral" modelname="LeaderUnit_Green"></template>
 				<template guid="armytemplate" name="Army Template" suffix="Army" iteration="numeral" modelname="BannerUnit_Green"></template>
 			</unit-templates>
 		</civilization>
 	</civilizations>
 	<units>
-		<unit guid="romeleader" unit-template-guid="romeleadertemplate" displayname="Augustus" xposition="1" zposition="1" ownerguid="rome"></unit>
+		<unit guid="romeleader" unit-template-guid="leadertemplate" displayname="Augustus" xposition="1" zposition="1" ownerguid="rome"></unit>
 		<unit guid="legion1" unit-template-guid="legiontemplate" displayname="1 Legion" xposition="1" zposition="2" ownerguid="rome"></unit>
-		<unit guid="carthageleader" unit-template-guid="carthageleadertemplate" displayname="Hannibal" xposition="8" zposition="8" ownerguid="carthage"></unit>
+		<unit guid="carthageleader" unit-template-guid="leadertemplate" displayname="Hannibal" xposition="8" zposition="8" ownerguid="carthage"></unit>
 		<unit guid="army1" unit-template-guid="armytemplate" displayname="1 Army" xposition="8" zposition="7" ownerguid="carthage"></unit>
 	</units>
 	<holdings>

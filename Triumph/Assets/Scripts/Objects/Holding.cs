@@ -48,15 +48,20 @@ public class Holding
             switch (topTask.TaskType)
             {
                 case TaskType.BuildUnit:
-                    List<Unit> units = Oberkommando.SAVE.Units.Where(u=>u.Owner.GUID == this.Owner.GUID).OrderByDescending(u=>u.Name).ToList();
-                    //int unitInteration = int.Parse(units[0].Name.Split(" ")[0]);
-                    //string nameConvention = units[0].Name.Split(" ")[1];
-                    //Unit newUnit = new Unit($"{nameConvention}{unitInteration}",$"{unitInteration} {nameConvention}",this.XPosition,this.ZPosition,units[0].ModelName);
-                    Unit newUnit = new Unit($"legion2", $"2 Legion", this.XPosition, this.ZPosition);
-                    newUnit.UnitTemplate = units[0].UnitTemplate;
-                    Oberkommando.SAVE.Units.Add(newUnit);
-                    Oberkommando.PREFAB_SERVICE.InstantiateUnitModel(newUnit, Oberkommando.UI_CONTROLLER.Gridmap);
-                    mostRecentDispatch.Completed();
+                    if (this.Owner.Coins >= 10)
+                    {
+                        this.Owner.Coins -= 10;
+                        List<Unit> units = Oberkommando.SAVE.Units.Where(u => u.Owner.GUID == this.Owner.GUID && u.UnitTemplate.GUID != "leadertemplate").OrderByDescending(u => u.Name).ToList();
+                        int unitInteration = int.Parse(units[0].Name.Split(" ")[0]) + 1;
+                        string nameConvention = units[0].Name.Split(" ")[1];
+                        Unit newUnit = new Unit($"{nameConvention}{unitInteration}", $"{unitInteration} {nameConvention}", this.XPosition, this.ZPosition);
+                        newUnit.UnitTemplate = units[0].UnitTemplate;
+                        newUnit.Owner = this.Owner;
+                        Oberkommando.SAVE.Units.Add(newUnit);
+                        Oberkommando.SYNTAXLIBRARY.AddUnit(newUnit);
+                        Oberkommando.PREFAB_SERVICE.InstantiateUnitModel(newUnit, Oberkommando.UI_CONTROLLER.Gridmap);
+                        mostRecentDispatch.Completed();
+                    }
                     break;
             }
         }

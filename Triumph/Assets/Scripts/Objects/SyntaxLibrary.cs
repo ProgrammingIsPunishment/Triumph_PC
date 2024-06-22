@@ -17,6 +17,11 @@ public class SyntaxLibrary
         this.validSyntax = validSyntax;
     }
 
+    public void AddUnit(Unit unit)
+    {
+        this.validUnits.Add(unit.Name.ToUpper(), unit.GUID.ToUpper());
+    }
+
     public bool IsHoldingMatch(string text)
     {
         if (this.validHoldings.ContainsKey(text.ToUpper()))

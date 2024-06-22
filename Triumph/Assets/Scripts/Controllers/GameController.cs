@@ -160,11 +160,18 @@ public class GameController : MonoBehaviour
             {
                 if (u.Owner != null)
                 {
-                    if (u.Owner.GUID == c.GUID) { ownedUnits.Add(u); }
+                    if (u.Owner.GUID == c.GUID && u.UnitTemplate.GUID != "leadertemplate") { ownedUnits.Add(u); }
                 }
             }
 
             int expenses = ownedUnits.Count();
+
+            //int newAmount = c.Coins - expenses;
+            //if (newAmount < 0)
+            //{
+            //    ownedUnits.Shuffle();
+            //    for (int i = newAmount; i < 0; i++) { ownedUnits.RemoveAt(0); }
+            //}
 
             c.Coins -= expenses;
         }
