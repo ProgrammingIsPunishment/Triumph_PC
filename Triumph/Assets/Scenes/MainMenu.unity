@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDebugMode: 1
   ShowChokePoints: 0
-  ShowClusters: 0
+  ShowClusters: 1
 --- !u!4 &1155688340
 Transform:
   m_ObjectHideFlags: 0
