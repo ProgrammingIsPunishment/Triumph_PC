@@ -8,7 +8,7 @@ public class Civilization
     public string GUID { get; set; }
     public string DisplayName { get; set; }
     public Color Color { get; set; }
-    public AIProfile AIProfile { get; set; }
+    public CivilizationAI CivilizationAI { get; set; }
     public int Coins { get; set; }
     public List<UnitTemplate> UnitTemplates { get; set; }
 
@@ -17,7 +17,7 @@ public class Civilization
         this.GUID = guid;
         this.DisplayName = displayName;
         this.Color = color;
-        this.AIProfile = new AIProfile();
+        this.CivilizationAI = new CivilizationAI(this);
         this.Coins = coins;
         this.UnitTemplates = new List<UnitTemplate>();
     }

@@ -8,11 +8,11 @@ public class Interest
 {
     public Holding Holding { get; private set; }
 
-    public int MovementValue { get; set; }
+    public int TerritorialExpansionWeight { get; set; }
 
     public Interest(Holding holding)
     {
         this.Holding = holding;
-        this.MovementValue = 0;
+        this.TerritorialExpansionWeight = 0;
     }
 }

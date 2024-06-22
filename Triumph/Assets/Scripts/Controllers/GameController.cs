@@ -54,7 +54,13 @@ public class GameController : MonoBehaviour
     {
         foreach (Civilization c in Oberkommando.SAVE.Civilizations)
         {
-            if (c.GUID != Oberkommando.PLAYER.GUID) { Oberkommando.AI_SERVICE.TakeTurn(c); }
+            if (c.GUID != Oberkommando.PLAYER.GUID) 
+            {
+                c.CivilizationAI.CalculateDesires();
+                c.CivilizationAI.CalculateInterests();
+
+                Oberkommando.AI_SERVICE.TakeTurn(c); 
+            }
         }
 
         this.ProcessDispatches();

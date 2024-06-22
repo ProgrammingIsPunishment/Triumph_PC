@@ -53,7 +53,7 @@ public class AIService
     private void CalculateInterest(Civilization civilization)
     {
         //List<int> clustersOwned = Oberkommando.VALUELIBRARY.HoldingValueSets.Where(h=>h.).Distinct(v=>v.HoldingCluster);
-        foreach (Interest i in civilization.AIProfile.Interests)
+        foreach (Interest i in civilization.CivilizationAI.Interests)
         {
             HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs=>hvs.HoldingGUD == i.Holding.GUID);
 

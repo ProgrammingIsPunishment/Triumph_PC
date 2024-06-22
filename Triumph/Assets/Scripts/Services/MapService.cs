@@ -147,7 +147,7 @@ public class MapService
         {
             foreach (Holding h in holdings)
             {
-                c.AIProfile.Interests.Add(new Interest(h));
+                c.CivilizationAI.Interests.Add(new Interest(h));
             }
         }
     }
