@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HoldingManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HoldingManager : MonoBehaviour
 
     [SerializeField] private GameObject debug_ChokePointObject;
     [SerializeField] private GameObject debug_ClusterObject;
+    [SerializeField] private TextMeshProUGUI debug_WeightsObject;
 
     [NonSerialized] public GameObject terrainObject = null;
 
@@ -83,6 +85,14 @@ public class HoldingManager : MonoBehaviour
             HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
             this.debug_ClusterObject.SetActive(true);
             this.debug_ClusterObject.GetComponent<Image>().color = holdingValueSet.HoldingCluster.DebugColor;
+        }
+        if (Oberkommando.DEBUG.ShowWeights)
+        {
+            this.debug_WeightsObject.gameObject.SetActive(true);
+            Civilization tempCiv = Oberkommando.SAVE.Civilizations[1];
+            UnityEngine.Debug.Log(tempCiv.DisplayName);
+            Interest tempInterest = tempCiv.CivilizationAI.Interests.Find(i=>i.Holding.GUID == this.CoupledHolding.GUID);
+            this.debug_WeightsObject.text = $"{tempInterest.TerritorialExpansionWeight}";
         }
     }
 

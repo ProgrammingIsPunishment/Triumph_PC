@@ -15,4 +15,9 @@ public class Interest
         this.Holding = holding;
         this.TerritorialExpansionWeight = 0;
     }
+
+    public void Reset()
+    {
+        this.TerritorialExpansionWeight = 0;
+    }
 }

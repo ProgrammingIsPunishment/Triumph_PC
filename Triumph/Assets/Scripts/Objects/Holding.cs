@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Collections;
 using UnityEngine;
 
@@ -65,5 +66,20 @@ public class Holding
                     break;
             }
         }
+    }
+
+    public bool IsOwner(Civilization civilization)
+    {
+        bool result = false;
+
+        if (this.Owner != null) 
+        {
+            if (this.Owner.GUID == civilization.GUID)
+            {
+                result = true;
+            }
+        }
+
+        return result;
     }
 }

@@ -45,7 +45,6 @@ public class GameController : MonoBehaviour
             //foreach (Holding h in this.SelectableHoldings) { h.CoupledHoldingDisplay.ShowSelectable(true); }
         }
 
-
         Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Refresh(selectedHolding, selectedUnit);
         Oberkommando.UI_CONTROLLER.HoldingDetailsManager.Show(true);
     }
@@ -70,6 +69,8 @@ public class GameController : MonoBehaviour
         this.CalculateIncome();
         this.CalculateExpenses();
         this.ResetUI(Oberkommando.PLAYER);
+
+        this.RefreshDebug();
 
         Oberkommando.SAVE.Turn++;
         UnityEngine.Debug.Log(Oberkommando.SAVE.Turn);
@@ -180,6 +181,14 @@ public class GameController : MonoBehaviour
             //}
 
             c.Coins -= expenses;
+        }
+    }
+
+    public void RefreshDebug()
+    {
+        foreach (Holding h in Oberkommando.SAVE.Holdings)
+        {
+            h.CoupledHoldingDisplay.Degbug();
         }
     }
 }

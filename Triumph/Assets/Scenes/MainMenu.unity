@@ -1193,6 +1193,7 @@ MonoBehaviour:
   IsDebugMode: 1
   ShowChokePoints: 0
   ShowClusters: 1
+  ShowWeights: 1
 --- !u!4 &1155688340
 Transform:
   m_ObjectHideFlags: 0
