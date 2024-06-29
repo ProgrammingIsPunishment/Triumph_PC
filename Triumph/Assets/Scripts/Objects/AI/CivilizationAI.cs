@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 [Serializable]
 public class CivilizationAI
@@ -11,6 +12,7 @@ public class CivilizationAI
     public int TerritorialExpansionDesire { get; set; }
     public int BuildUnitDesire { get; set; }
     public List<Interest> Interests { get; set; }
+    public ObjectiveType ObjectiveType { get; set; }
 
     public CivilizationAI(Civilization civilization)
     {
@@ -95,6 +97,52 @@ public class CivilizationAI
                 if (unownedHoldingsInClustersWithPresence.Contains(i.Holding)) { i.TerritorialExpansionWeight+=2; }
                 if (adjacentHoldings.Contains(i.Holding)) { i.TerritorialExpansionWeight++; }
                 i.TerritorialExpansionWeight++;
+            }
+        }
+    }
+
+    public void DetermineObjective()
+    {
+        this.ObjectiveType = ObjectiveType.TerritorialExpansion;
+        //if (this.TerritorialExpansionDesire >= BuildUnitDesire) { this.ObjectiveType = ObjectiveType.TerritorialExpansion; }
+        //else { this.ObjectiveType = ObjectiveType.BuildUnit; }
+    }
+
+    public void SendUnitOrders()
+    {
+        List<Unit> civilizationsUnits = Oberkommando.SAVE.Units.Where(u => u.Owner.GUID == this.CoupledCivilization.GUID).ToList();
+        List<Interest> workingInterests = new List<Interest>();
+
+        List<Interest> interestAlreadyBeingAddressed = new List<Interest>();
+
+        foreach (Unit u in civilizationsUnits)
+        {
+            switch (this.ObjectiveType)
+            {
+                case ObjectiveType.TerritorialExpansion:
+                    int highestValue = this.Interests.Max(i => i.TerritorialExpansionWeight);
+                    workingInterests = this.Interests.Where(i => i.TerritorialExpansionWeight >= highestValue).ToList();
+
+                    Interest interestToAddress = null;
+                    for (var i = 0; i < workingInterests.Count; i++)
+                    {
+                        if (!interestAlreadyBeingAddressed.Contains(workingInterests[i]))
+                        {
+                            interestToAddress = workingInterests[i];
+                            interestAlreadyBeingAddressed.Add(interestToAddress);
+                            i = workingInterests.Count;
+                        }
+                    }
+
+                    if (interestToAddress != null)
+                    {
+                        Dispatch dispatch = new Dispatch(u.Name, $"MOVE TO {interestToAddress.Holding.Name}", u.Owner, RecipientType.Unit);
+                        Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
+                    }
+                    break;
+                default:
+                    //Do something eventually...
+                    break;
             }
         }
     }

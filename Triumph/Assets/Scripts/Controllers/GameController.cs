@@ -57,8 +57,8 @@ public class GameController : MonoBehaviour
             {
                 c.CivilizationAI.CalculateDesires();
                 c.CivilizationAI.CalculateInterests();
-
-                Oberkommando.AI_SERVICE.TakeTurn(c); 
+                c.CivilizationAI.DetermineObjective();
+                c.CivilizationAI.SendUnitOrders();
             }
         }
 
