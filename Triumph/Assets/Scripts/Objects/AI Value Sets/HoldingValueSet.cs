@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class HoldingValueSet
 {
-    public string HoldingGUD { get; set; }
     public int Terrain { get; set; }
     public bool IsChokePoint { get; set; }
     public HoldingCluster HoldingCluster { get; set; }
 
-    public HoldingValueSet(){}
+    public HoldingValueSet() {}
 }

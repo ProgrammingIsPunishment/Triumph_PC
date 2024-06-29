@@ -20,7 +20,7 @@ public class GameInitializationController : MonoBehaviour
         Oberkommando.UI_CONTROLLER = this.UIController;
         Oberkommando.DISPATCHES_CONTROLLER = this.DispatchesController;
 
-        Oberkommando.VALUELIBRARY = new ValueLibrary(Oberkommando.SAVE);
+        //Oberkommando.VALUELIBRARY = new ValueLibrary(Oberkommando.SAVE);
 
         Oberkommando.PLAYER = Oberkommando.SAVE.Civilizations.Find(c => c.GUID == Oberkommando.SAVE.PlayerGUID);
 

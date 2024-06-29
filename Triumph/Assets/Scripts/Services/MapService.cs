@@ -21,6 +21,8 @@ public class MapService
         result.Holdings = this.ParseHoldings(xmlDocument, result);
 
         this.InitializeAIInterests(result.Civilizations, result.Holdings);
+        this.InitializeHoldingValueSets(result.Holdings);
+        this.InitializeHoldingClusters(result.Holdings);
 
         this.AssignAdjacentHoldings(result.Holdings);
 
@@ -115,6 +117,8 @@ public class MapService
 
             Holding workingHolding = new Holding(guid, name, xPosition, zPosition, terrainType);
 
+            workingHolding.HoldingValueSet = new HoldingValueSet();
+
             if (h.Attribute("ownerguid") != null)
             {
                 string ownerguid = (string)h.Attribute("ownerguid").Value.ToLower();
@@ -150,6 +154,197 @@ public class MapService
                 c.CivilizationAI.Interests.Add(new Interest(h));
             }
         }
+    }
+
+    private void InitializeHoldingValueSets(List<Holding> allHoldings)
+    {
+        foreach (Holding h in allHoldings)
+        {
+            switch (h.TerrainType)
+            {
+                case TerrainType.Ocean:
+                    h.HoldingValueSet.Terrain = -999;
+                    break;
+                case TerrainType.Plains:
+                    h.HoldingValueSet.Terrain = 1;
+                    break;
+            }
+
+            if (h.TerrainType != TerrainType.Ocean)
+            {
+                h.HoldingValueSet.IsChokePoint = this.IsChokePoint(h, allHoldings);
+            }
+            else
+            {
+                h.HoldingValueSet.IsChokePoint = false;
+            }
+        }
+    }
+
+    private bool IsChokePoint(Holding holding, List<Holding> allHoldings)
+    {
+        bool result = false;
+
+        Holding[] holdingRow1 = new Holding[] {
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition-1 && h.ZPosition == holding.ZPosition+1),
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition && h.ZPosition == holding.ZPosition+1),
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition+1 && h.ZPosition == holding.ZPosition+1)
+        };
+
+        Holding[] holdingRow2 = new Holding[] {
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition-1 && h.ZPosition == holding.ZPosition),
+            holding,
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition+1 && h.ZPosition == holding.ZPosition),
+        };
+
+        Holding[] holdingRow3 = new Holding[] {
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition-1 && h.ZPosition == holding.ZPosition-1),
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition && h.ZPosition == holding.ZPosition-1),
+            allHoldings.FirstOrDefault(h => h.XPosition == holding.XPosition+1 && h.ZPosition == holding.ZPosition-1),
+        };
+
+        bool isChokePoint = false;
+        if ((
+            this.IsTerrainType(holdingRow1[0], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow1[1], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow1[2], TerrainType.Ocean)
+            ) && (
+            this.IsTerrainType(holdingRow3[0], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow3[1], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow3[2], TerrainType.Ocean)
+            ) && (
+            this.NotTerrainType(holdingRow2[0], TerrainType.Ocean) &&
+            this.NotTerrainType(holdingRow2[2], TerrainType.Ocean)
+            )
+        ) { isChokePoint = true; }
+        else if ((
+            this.IsTerrainType(holdingRow1[0], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow2[0], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow3[0], TerrainType.Ocean)
+            ) && (
+            this.IsTerrainType(holdingRow1[2], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow2[2], TerrainType.Ocean) ||
+            this.IsTerrainType(holdingRow3[2], TerrainType.Ocean)
+            ) && (
+            this.NotTerrainType(holdingRow1[1], TerrainType.Ocean) &&
+            this.NotTerrainType(holdingRow3[1], TerrainType.Ocean)
+            )
+        ) { isChokePoint = true; }
+
+        result = isChokePoint;
+
+        return result;
+    }
+
+    private bool IsTerrainType(Holding holding, TerrainType terrainType)
+    {
+        bool result = false;
+
+        if (holding != null)
+        {
+            result = holding.TerrainType == terrainType;
+        }
+
+        return result;
+    }
+
+    private bool NotTerrainType(Holding holding, TerrainType terrainType)
+    {
+        bool result = false;
+
+        if (holding != null)
+        {
+            result = holding.TerrainType != terrainType;
+        }
+
+        return result;
+    }
+
+    private void InitializeHoldingClusters(List<Holding> holdings)
+    {
+        //List<HoldingClusterSet> result = new List<HoldingClusterSet>();
+
+        int clusterSize = 11;
+        int cycleCount = 4;
+
+        int maxX = holdings.Max(h => h.XPosition);
+        int maxZ = holdings.Max(h => h.ZPosition);
+
+        int minX = holdings.Min(h => h.XPosition);
+        int minZ = holdings.Min(h => h.ZPosition);
+
+        int workingMaxX = maxX;
+        int workingMaxZ = maxZ;
+        int workingX = maxX;
+        int workingZ = maxZ;
+        int workingCycleCount = cycleCount;
+
+        bool isComplete = false;
+        //int testStop = 9;
+        UnityEngine.Debug.Log($"X:{maxX} Z:{maxZ}");
+
+        int workingClusterId = 0;
+
+        while (!isComplete)
+        {
+            //HoldingClusterSet workingHoldingClusterSet = new HoldingClusterSet();
+            //workingHoldingClusterSet.DebugColor = Tools.RandomColor();
+            //workingHoldingClusterSet.Holdings = new List<Holding>();
+            workingClusterId++;
+
+            HoldingCluster workingHoldingCluster = new HoldingCluster();
+            workingHoldingCluster.DebugColor = Tools.RandomColor();
+            workingHoldingCluster.Id = workingClusterId;
+
+            //X ---> Z ----> X ---> ...ETC.
+            for (int i = 0; i < clusterSize; i++)
+            {
+                Holding holding = holdings.Find(h => h.XPosition == workingX && h.ZPosition == workingZ);
+
+                if (holding == null)
+                {
+                    isComplete = true; break;
+                }
+                else
+                {
+                    //HoldingValueSet tempHoldingValueSet = holdingValueSets.Find(hvs => hvs.HoldingGUD == holding.GUID);
+                    //workingHoldingClusterSet.Holdings.Add(holding);
+                    //tempHoldingValueSet.ClusterId = workingClusterId;
+                    //tempHoldingValueSet.HoldingCluster = workingHoldingCluster;
+                    holding.HoldingValueSet.HoldingCluster = workingHoldingCluster;
+
+                    if (workingCycleCount > 1)
+                    {
+                        workingCycleCount--;
+                        workingX--;
+
+                        if (workingX < minX)
+                        {
+                            workingX = workingMaxX;
+                            workingZ--;
+                        }
+                    }
+                    else
+                    {
+                        workingX = workingMaxX;
+                        workingZ--;
+                        workingCycleCount = cycleCount;
+                        if (workingZ < minZ)
+                        {
+                            workingMaxX = workingMaxX - cycleCount;
+                            workingX = workingMaxX;
+                            workingZ = maxZ + minZ;
+                            UnityEngine.Debug.Log($"X:{workingX} Z:{workingZ} ----- {maxX}");
+                            i = clusterSize;
+                        }
+                    }
+                }
+            }
+            //result.Add(workingHoldingClusterSet);
+        }
+
+        //Oberkommando.DEBUG.GenerateClusterDebugColors(workingClusterId);
+        //return result;
     }
 
     private XDocument GetXMLFile(string filePath)

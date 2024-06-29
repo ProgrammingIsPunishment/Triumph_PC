@@ -17,6 +17,8 @@ public class Holding
     [SerializeField] public Civilization Owner { get; set; }
     [SerializeField] public List<Dispatch> Dispatches { get; set; }
     [SerializeField] public List<Holding> AdjacentHoldings { get; set; }
+    [SerializeField] public HoldingValueSet HoldingValueSet { get; set; }
+
 
     [NonSerialized] public HoldingManager CoupledHoldingDisplay = null;
 

@@ -51,22 +51,16 @@ public class CivilizationAI
 
         #region Clusters With Presence _______________________________________________________________________________________________________
         List<HoldingCluster> holdingClustersWithPresence = new List<HoldingCluster>();
-        foreach (HoldingValueSet hvs in Oberkommando.VALUELIBRARY.HoldingValueSets)
-        {
-            if (ownedHoldings.Any(oh => oh.GUID == hvs.HoldingGUD) == true) { holdingClustersWithPresence.Add(hvs.HoldingCluster); }
-        }
-        holdingClustersWithPresence = holdingClustersWithPresence.Distinct().ToList();
+        holdingClustersWithPresence = ownedHoldings.Select(oh => oh.HoldingValueSet.HoldingCluster).Distinct().ToList();
 
         List<Holding> unownedHoldingsInClustersWithPresence = new List<Holding>();
-        foreach (HoldingValueSet hvs in Oberkommando.VALUELIBRARY.HoldingValueSets)
+        foreach (Holding h in Oberkommando.SAVE.Holdings)
         {
-            //Is holding unowned by civilization
-            if (holdingClustersWithPresence.Any(hcwp => hcwp.Id == hvs.HoldingCluster.Id))
+            if (holdingClustersWithPresence.Any(hcwp => hcwp.Id == h.HoldingValueSet.HoldingCluster.Id))
             {
-                Holding holding = Oberkommando.SAVE.Holdings.Find(h => h.GUID == hvs.HoldingGUD);
-                if (holding.TerrainType != TerrainType.Ocean && !holding.IsOwner(this.CoupledCivilization))
+                if (h.TerrainType != TerrainType.Ocean && !h.IsOwner(this.CoupledCivilization))
                 {
-                    unownedHoldingsInClustersWithPresence.Add(holding);
+                    unownedHoldingsInClustersWithPresence.Add(h);
                 }
             }
         }

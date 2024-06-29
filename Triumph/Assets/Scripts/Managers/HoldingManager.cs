@@ -78,13 +78,13 @@ public class HoldingManager : MonoBehaviour
     public void Degbug()
     {
         if (Oberkommando.DEBUG.ShowChokePoints) {
-            HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
-            this.debug_ChokePointObject.SetActive(holdingValueSet.IsChokePoint);
+            //HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
+            this.debug_ChokePointObject.SetActive(this.CoupledHolding.HoldingValueSet.IsChokePoint);
         }
         if (Oberkommando.DEBUG.ShowClusters) {
-            HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
+            //HoldingValueSet holdingValueSet = Oberkommando.VALUELIBRARY.HoldingValueSets.Find(hvs => hvs.HoldingGUD == this.CoupledHolding.GUID);
             this.debug_ClusterObject.SetActive(true);
-            this.debug_ClusterObject.GetComponent<Image>().color = holdingValueSet.HoldingCluster.DebugColor;
+            this.debug_ClusterObject.GetComponent<Image>().color = this.CoupledHolding.HoldingValueSet.HoldingCluster.DebugColor;
         }
         if (Oberkommando.DEBUG.ShowWeights)
         {
