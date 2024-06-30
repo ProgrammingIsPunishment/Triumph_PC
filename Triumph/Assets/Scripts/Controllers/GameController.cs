@@ -93,7 +93,9 @@ public class GameController : MonoBehaviour
             switch (d.RecipientType)
             {
                 case RecipientType.Unit:
-                    Oberkommando.SAVE.Units.Find(u => u.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
+                    //Oberkommando.SAVE.Units.Find(u => u.Name.ToUpper() == d.Recipient.ToUpper()).Dispatch.Add(d);
+                    Unit workingUnit = Oberkommando.SAVE.Units.Find(u => u.Name.ToUpper() == d.Recipient.ToUpper());
+                    workingUnit.ProcessDispatch(d);
                     break;
                 case RecipientType.Holding:
                     Oberkommando.SAVE.Holdings.Find(h => h.Name.ToUpper() == d.Recipient.ToUpper()).Dispatches.Add(d);
@@ -113,7 +115,8 @@ public class GameController : MonoBehaviour
         //Process Dispatches to set tasks
         foreach (Unit u in Oberkommando.SAVE.Units)
         {
-            u.TakeAction();
+            //u.TakeAction();
+            u.UnitAI.TakeTurn();
         }
     }
 

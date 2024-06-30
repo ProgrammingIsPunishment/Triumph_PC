@@ -7,17 +7,16 @@ using UnityEngine.UIElements;
 
 public class Unit
 {
-    [SerializeField] public string GUID { get; set; }
-    [SerializeField] public string Name { get; set; }
-    [SerializeField] public int XPosition { get; set; }
-    [SerializeField] public int ZPosition { get; set; }
-    [SerializeField] public UnitTemplate UnitTemplate { get; set; }
+    public string GUID { get; set; }
+    public string Name { get; set; }
+    public int XPosition { get; set; }
+    public int ZPosition { get; set; }
+    public UnitTemplate UnitTemplate { get; set; }
+    public Civilization Owner { get; set; }
+    public UnitAI UnitAI { get; set; }
+    public Dispatch Dispatch { get; set; }
 
-    //[SerializeField] public string ModelName { get; set; }
-    [SerializeField] public Civilization Owner { get; set; }
-    [SerializeField] public List<Dispatch> Dispatches { get; set; }
-
-    [NonSerialized] public UnitManager CoupledUnitManager = null;
+    public UnitManager CoupledUnitManager = null;
 
     public Unit(string guid, string name, int xPosition, int zPosition)
     {
@@ -25,41 +24,74 @@ public class Unit
         this.Name = name;
         this.XPosition = xPosition;
         this.ZPosition = zPosition;
-        this.Dispatches = new List<Dispatch>();
+        this.UnitAI = new UnitAI(this);
+        //this.Dispatch = new List<Dispatch>();
     }
 
-    public void TakeAction()
+    public void ProcessDispatch(Dispatch dispatch)
     {
-        List<Dispatch> uncompletedDisbatches = this.Dispatches.Where(d=>!d.IsCompleted).ToList();
-
-        if (uncompletedDisbatches.Count >= 1)
+        this.Dispatch = dispatch;
+        foreach (Task t in dispatch.Tasks)
         {
-            Dispatch mostRecentDispatch = uncompletedDisbatches[0];
-
-            Task topTask = mostRecentDispatch.Tasks[0];
-
-            switch (topTask.TaskType)
+            switch (t.TaskType)
             {
                 case TaskType.Move:
-                    Holding destinationHolding = Oberkommando.UTILITIES_SERVICE.GetHoldingByGUID(topTask.Parameter);
-                    this.Move(destinationHolding);
-                    this.Claim(destinationHolding);
-                    mostRecentDispatch.Completed();
+                    Holding holdingAtPositon = Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(this.XPosition,this.ZPosition);
+                    Holding destinationHolding = Oberkommando.UTILITIES_SERVICE.GetHoldingByGUID(dispatch.Tasks[0].Parameter);
+                    this.UnitAI.DeterminePath(holdingAtPositon, destinationHolding);
+                    break;
+                default:
+                    //Should never be hit
                     break;
             }
         }
     }
 
-    private void Move(Holding holding)
-    {
-        this.XPosition = holding.XPosition;
-        this.ZPosition = holding.ZPosition;
+    //public void TakeAction()
+    //{
+    //    if (this.Dispatch != null)
+    //    {
+    //        switch (this.Dispatch.Tasks[0].TaskType)
+    //        {
+    //            case TaskType.Move:
+    //                Holding destinationHolding = Oberkommando.UTILITIES_SERVICE.GetHoldingByGUID(this.Dispatch.Tasks[0].Parameter);
+    //                this.Move(destinationHolding);
+    //                this.Claim(destinationHolding);
+    //                this.Dispatch.Completed();
+    //                break;
+    //        }
+    //    }
 
-        this.CoupledUnitManager.transform.localPosition = new Vector3(this.XPosition*10,0f,this.ZPosition*10);
-    }
+    //    //List<Dispatch> uncompletedDisbatches = this.Dispatch.Where(d=>!d.IsCompleted).ToList();
 
-    private void Claim(Holding holding)
-    {
-        holding.Owner = this.Owner;
-    }
+    //    //if (uncompletedDisbatches.Count >= 1)
+    //    //{
+    //    //    Dispatch mostRecentDispatch = uncompletedDisbatches[0];
+
+    //    //    Task topTask = mostRecentDispatch.Tasks[0];
+
+    //    //    switch (topTask.TaskType)
+    //    //    {
+    //    //        case TaskType.Move:
+    //    //            Holding destinationHolding = Oberkommando.UTILITIES_SERVICE.GetHoldingByGUID(topTask.Parameter);
+    //    //            this.Move(destinationHolding);
+    //    //            this.Claim(destinationHolding);
+    //    //            mostRecentDispatch.Completed();
+    //    //            break;
+    //    //    }
+    //    //}
+    //}
+
+    //private void Move(Holding holding)
+    //{
+    //    this.XPosition = holding.XPosition;
+    //    this.ZPosition = holding.ZPosition;
+
+    //    this.CoupledUnitManager.transform.localPosition = new Vector3(this.XPosition*10,0f,this.ZPosition*10);
+    //}
+
+    //private void Claim(Holding holding)
+    //{
+    //    holding.Owner = this.Owner;
+    //}
 }

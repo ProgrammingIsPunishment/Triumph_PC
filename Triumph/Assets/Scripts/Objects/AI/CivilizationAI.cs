@@ -91,6 +91,22 @@ public class CivilizationAI
                 if (unownedHoldingsInClustersWithPresence.Contains(i.Holding)) { i.TerritorialExpansionWeight+=2; }
                 if (adjacentHoldings.Contains(i.Holding)) { i.TerritorialExpansionWeight++; }
                 i.TerritorialExpansionWeight++;
+
+                int workingUnitProximity = 0;
+                foreach (Unit u in Oberkommando.SAVE.Units)
+                {
+                    Holding holdingAtPosition = Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(u.XPosition,u.ZPosition);
+                    int distance = Oberkommando.UTILITIES_SERVICE.DistanceBetweenHoldings(holdingAtPosition,i.Holding);
+
+                    if (i.UnitProximityWeight == 0)
+                    {
+                        i.UnitProximityWeight = distance;
+                    }
+                    else if(i.UnitProximityWeight > distance)
+                    {
+                        i.UnitProximityWeight = distance;
+                    }
+                }
             }
         }
     }
@@ -108,36 +124,60 @@ public class CivilizationAI
         List<Interest> workingInterests = new List<Interest>();
 
         List<Interest> interestAlreadyBeingAddressed = new List<Interest>();
+        List<Unit> unitsBeingSentOrders = new List<Unit>();
 
-        foreach (Unit u in civilizationsUnits)
+        switch (this.ObjectiveType)
         {
-            switch (this.ObjectiveType)
-            {
-                case ObjectiveType.TerritorialExpansion:
-                    int highestValue = this.Interests.Max(i => i.TerritorialExpansionWeight);
-                    workingInterests = this.Interests.Where(i => i.TerritorialExpansionWeight >= highestValue).ToList();
+            case ObjectiveType.TerritorialExpansion:
+                int highestValue = this.Interests.Max(i => i.TerritorialExpansionWeight);
+                //workingInterests = this.Interests.Where(i => i.TerritorialExpansionWeight >= highestValue).ToList();
+                workingInterests = this.Interests.Where(i => i.TerritorialExpansionWeight > 1).ToList();
+                workingInterests = workingInterests.OrderBy(wi => wi.UnitProximityWeight).ToList();
 
-                    Interest interestToAddress = null;
-                    for (var i = 0; i < workingInterests.Count; i++)
+                foreach (Interest i in workingInterests)
+                {
+                    Unit unitRecipient = null;
+                    int tempLowestUnitDistance = 0;
+                    foreach (Unit u in civilizationsUnits)
                     {
-                        if (!interestAlreadyBeingAddressed.Contains(workingInterests[i]))
+                        Holding holdingAtPosition = Oberkommando.UTILITIES_SERVICE.GetHoldingAtPosition(u.XPosition, u.ZPosition);
+                        Holding destinationHolding = Oberkommando.UTILITIES_SERVICE.GetHoldingByName(i.Holding.Name);
+                        int distance = Oberkommando.UTILITIES_SERVICE.DistanceBetweenHoldings(holdingAtPosition, destinationHolding);
+
+                        if (!unitsBeingSentOrders.Contains(u)) 
                         {
-                            interestToAddress = workingInterests[i];
-                            interestAlreadyBeingAddressed.Add(interestToAddress);
-                            i = workingInterests.Count;
+                            if (unitRecipient != null)
+                            {
+                                if (distance < tempLowestUnitDistance)
+                                {
+                                    unitRecipient = u;
+                                    tempLowestUnitDistance = distance;
+                                }
+                            }
+                            else
+                            {
+                                unitRecipient = u;
+                                tempLowestUnitDistance = distance;
+                                //if (distance <= i.UnitProximityWeight)
+                                //{
+                                //    unitRecipient = u;
+                                //    tempLowestUnitDistance = distance;
+                                //}
+                            }
                         }
                     }
 
-                    if (interestToAddress != null)
+                    if (unitRecipient != null)
                     {
-                        Dispatch dispatch = new Dispatch(u.Name, $"MOVE TO {interestToAddress.Holding.Name}", u.Owner, RecipientType.Unit);
+                        unitsBeingSentOrders.Add(unitRecipient);
+                        Dispatch dispatch = new Dispatch(unitRecipient.Name, $"MOVE TO {i.Holding.Name}", unitRecipient.Owner, RecipientType.Unit);
                         Oberkommando.GAME_CONTROLLER.PendingDispatches.Add(dispatch);
                     }
-                    break;
-                default:
-                    //Do something eventually...
-                    break;
-            }
+                }
+                break;
+            default:
+                //Do something eventually...
+                break;
         }
     }
 }

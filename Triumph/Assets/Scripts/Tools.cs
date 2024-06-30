@@ -36,4 +36,15 @@ public static class Tools
 
         return randomColor;
     }
+
+    public static int SubtractToPostive(int valueOne, int valueTwo)
+    {
+        int result = 0;
+
+        result = valueOne - valueTwo;
+
+        if (result < 0) { result = result - (result * 2); }
+
+        return result;
+    }
 }

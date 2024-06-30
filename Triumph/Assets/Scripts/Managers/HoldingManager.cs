@@ -92,7 +92,9 @@ public class HoldingManager : MonoBehaviour
             Civilization tempCiv = Oberkommando.SAVE.Civilizations[1];
             UnityEngine.Debug.Log(tempCiv.DisplayName);
             Interest tempInterest = tempCiv.CivilizationAI.Interests.Find(i=>i.Holding.GUID == this.CoupledHolding.GUID);
-            this.debug_WeightsObject.text = $"{tempInterest.TerritorialExpansionWeight}";
+            this.debug_WeightsObject.text = "";
+            this.debug_WeightsObject.text += $"{tempInterest.TerritorialExpansionWeight}";
+            this.debug_WeightsObject.text += $"   {tempInterest.UnitProximityWeight}";
         }
     }
 

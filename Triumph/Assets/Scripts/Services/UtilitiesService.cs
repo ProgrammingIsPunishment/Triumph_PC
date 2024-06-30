@@ -24,4 +24,14 @@ public class UtilitiesService : MonoBehaviour
     {
         return Oberkommando.SAVE.Holdings.FirstOrDefault(h => h.GUID.ToUpper() == guid.ToUpper());
     }
+
+    public int DistanceBetweenHoldings(Holding holdingOne, Holding holdingTwo)
+    {
+        int result = 0;
+
+        result += Tools.SubtractToPostive(holdingOne.XPosition, holdingTwo.XPosition);
+        result += Tools.SubtractToPostive(holdingOne.ZPosition, holdingTwo.ZPosition);
+
+        return result;
+    }
 }
