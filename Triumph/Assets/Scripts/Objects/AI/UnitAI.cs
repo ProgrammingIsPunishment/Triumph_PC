@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitAI : MonoBehaviour
@@ -40,6 +41,29 @@ public class UnitAI : MonoBehaviour
         this.NavigationPath.Clear();
 
         int lowestTurnCount = Oberkommando.UTILITIES_SERVICE.DistanceBetweenHoldings(currentHolding,destinationHolding);
+
+        if (lowestTurnCount == 1)
+        {
+            this.NavigationPath.Add(destinationHolding);
+        }
+        else
+        {
+            List<int> xValues = new List<int>() { currentHolding.XPosition, destinationHolding.XPosition };
+            List<int> zValues = new List<int>() { currentHolding.ZPosition, destinationHolding.ZPosition };
+
+            int maximumX = xValues.Max();
+            int minimumX = xValues.Min();
+            int maximumZ = zValues.Max();
+            int minimumZ = zValues.Min();
+
+            List<Holding> holdingsToFindPathIn = Oberkommando.SAVE.Holdings.Where(h =>
+                (h.XPosition >= minimumX && h.XPosition <= maximumX)
+                && (h.ZPosition >= minimumZ && h.ZPosition <= maximumZ)
+                && h.TerrainType != TerrainType.Ocean).ToList();
+
+            List<List<Holding>> pathOptions = new List<List<Holding>>();
+        }
+        
 
         this.NavigationPath.Add(destinationHolding);
 
