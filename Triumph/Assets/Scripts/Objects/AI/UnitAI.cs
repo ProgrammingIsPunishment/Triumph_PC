@@ -61,7 +61,29 @@ public class UnitAI : MonoBehaviour
                 && (h.ZPosition >= minimumZ && h.ZPosition <= maximumZ)
                 && h.TerrainType != TerrainType.Ocean).ToList();
 
-            List<List<Holding>> pathOptions = new List<List<Holding>>();
+            List<Tuple<Holding,int>> holdingsWithWeights = new List<Tuple<Holding, int>>();
+            foreach (Holding h in holdingsToFindPathIn)
+            {
+                if (h.GUID == currentHolding.GUID) 
+                { 
+                    break; 
+                }
+                else 
+                {
+                    int unownedProximityWeight = 0;
+                    foreach (Holding ah in h.AdjacentHoldings)
+                    {
+                        if (holdingsToFindPathIn.Contains(ah) && !ah.IsOwner(this.CoupledUnit.Owner))
+                        {
+                            unownedProximityWeight++;
+                        }
+                    }
+
+                    holdingsWithWeights.Add(new Tuple<Holding, int>(h, unownedProximityWeight));
+                }
+            }
+
+            //List<List<Holding>> pathOptions = new List<List<Holding>>();
         }
         
 
